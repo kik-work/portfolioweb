@@ -25,8 +25,7 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
-hello rabid      </p>
+      <p className='text-green-500'>Testing tailwind</p>
     </>
   )
 }
