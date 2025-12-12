@@ -1,1 +1,0 @@
-export const TabContainers = ["Home", "Experience", "Projects", "Skills", "Education", "About"];
