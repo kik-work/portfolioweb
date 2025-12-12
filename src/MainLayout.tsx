@@ -18,8 +18,8 @@ function MainLayoutPage({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
         <div className="flex flex-col items-center gap-4">
           <SpinnerCustom />
-          <span className="text-lg font-light">Loading Portfolio...</span>
-          <span className="text-xl italic font-bold text-primary">KIK</span>
+          <span className="text-lg text-muted-foreground font-light">Loading KIK Portfolio...</span>
+          <img src="/src/assets/logo.png" alt="Logo" className="h-16 w-24 rounded-md mt-24" />
         </div>
       </div>
     );
@@ -36,8 +36,7 @@ function MainLayoutPage({ children }: { children: React.ReactNode }) {
       flex-1 
       mx-auto 
       w-full
-      px-4 
-      py-6
+     
       h-full
       max-h-screen
 

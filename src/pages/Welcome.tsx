@@ -1,7 +1,7 @@
 
 const Welcome = () => {
     return (
-        <div className="w-full"></div>
+        <div className="w-full max-h-auto">Welcome</div>
     )
 }
 

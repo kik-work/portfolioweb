@@ -12,7 +12,7 @@ export function TopNavbar() {
     <>
       {/* Navbar */}
       <header className="w-full bg-background/60 backdrop-blur-md sticky top-0 z-50">
-        <nav className="mx-auto w-full flex justify-center px-4 py-3 gap-3 max-w-7xl">
+        <nav className="mx-auto w-full flex justify-center py-2 gap-3 max-w-7xl">
           <Tabs value={active} onValueChange={setActive}>
             <TabsList className="flex justify-center mx-auto">
               {TabContainers.map((tab, idx) => (
@@ -25,10 +25,10 @@ export function TopNavbar() {
                   )}
                 >
                   {/* Mobile & Tablet: icon only */}
-                  <span className="lg:hidden">{TabIcons[idx]}</span>
+                  <span className="md:hidden">{TabIcons[idx]}</span>
 
                   {/* Desktop: icon + text */}
-                  <span className="hidden lg:flex items-center gap-2">
+                  <span className="hidden md:flex items-center gap-2">
                     {TabIcons[idx]}
                     {tab}
                   </span>
