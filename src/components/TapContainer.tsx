@@ -8,14 +8,20 @@ import {
   Info,
   Target,
 } from "lucide-react";
-// Dummy components for each tab (replace with your real components)
+import HomePage from "@/pages/Homepage";
+import ExperiencePage from "@/pages/Experience";
+import ProjectsPage from "@/pages/Projects";
+import SkillsPage from "@/pages/Skills";
+import EducaitonPage from "@/pages/Educaiton";
+import AboutPage from "@/pages/About";
+// Page components for each tab
 export const TabPages: Record<string, React.JSX.Element> = {
-  Home: <div>Home Page Content</div>,
-  Experience: <div>Experience Page Content</div>,
-  Projects: <div>Projects Page Content</div>,
-  Skills: <div>Skills Page Content</div>,
-  Education: <div>Education Page Content</div>,
-  About: <div>About Page Content</div>,
+  Home: <HomePage/>,
+  Experience: <ExperiencePage/>,
+  Projects: <ProjectsPage/>,
+  Skills: <SkillsPage/>,
+  Education: <EducaitonPage/>,
+  About: <AboutPage/>,
 };
 // Titles of tabs
 export const TabContainers = [
