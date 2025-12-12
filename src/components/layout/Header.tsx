@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
 import { ThemeContext } from "../../context/ThemeContext";
-import {  MessageCircleMore, Send } from "lucide-react";
+import {  MailQuestionMark, MessageCircleMore } from "lucide-react";
 import { toast } from "sonner";
 
 export function Header() {
@@ -33,7 +33,7 @@ const handleMail = () => {
         <h1 className="text-xl font-semibold tracking-tight">KIK Logo</h1>
 
         <div className="flex items-center gap-4">
-          <Button variant="default" onClick={handleMail}><Send className="h-4 w-4"/> </Button>
+          <Button variant="default" onClick={handleMail}><MailQuestionMark className="h-4 w-4"/> </Button>
           <Button variant="outline" onClick={handleMessage}><MessageCircleMore className="text-primary h-4 w-4"/> </Button>
           <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme} className="h-4 w-4" />
         </div>

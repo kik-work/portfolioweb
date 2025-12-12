@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Header } from "./components/layout/Header";
 import { Toaster } from "sonner";
 import { SpinnerCustom } from "./components/ui/spinner";
+import { TopNavbar } from "./components/layout/TopNavbar";
 
 function MainLayoutPage({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -25,30 +26,33 @@ function MainLayoutPage({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <Header />
+<div className="min-h-screen flex flex-col bg-background text-foreground">
+  <Header />
+  <TopNavbar />
 
-      {/* Layout width control for 4 screen categories */}
-      <main
-        className="
-          flex-1 
-          mx-auto 
-          w-full
-          px-4 
-          py-6
+  {/* Layout width control for 4 screen categories */}
+  <main
+    className="
+      flex-1 
+      mx-auto 
+      w-full
+      px-4 
+      py-6
 
-          max-w-sm      /* mobile (up to ~640px) */
-          sm:max-w-md   /* tablet (640–768px) */
-          md:max-w-2xl  /* laptop/small desktop */
-          lg:max-w-4xl  /* medium desktop */
-          xl:max-w-6xl  /* large screens */
-          2xl:max-w-8xl /* very large screens */
-        "
-      >
-        {children}
-      </main>
-      <Toaster richColors position="top-center" />
-    </div>
+      max-w-sm      
+      sm:max-w-md   
+      md:max-w-2xl  
+      lg:max-w-4xl  
+      xl:max-w-6xl  
+      2xl:max-w-7xl 
+    "
+  >
+    {children}
+  </main>
+
+  <Toaster richColors position="top-center" />
+</div>
+
   );
 }
 
