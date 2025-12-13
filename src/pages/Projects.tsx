@@ -15,9 +15,7 @@ import { NextArrow, PrevArrow } from "@/components/interface/Arrow";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 /* -------------------- DATA -------------------- */
-
 const projects = [
   {
     id: 1,
@@ -56,54 +54,62 @@ const projects = [
   },
 ];
 
-/* -------------------- SLIDER ARROWS -------------------- */
-
-
-
-
 /* -------------------- PAGE -------------------- */
-
 const ProjectPage = () => {
   const [openVideo, setOpenVideo] = useState<string | null>(null);
-
-  // When videos are allowed to load
   const [startVideos, setStartVideos] = useState(false);
-
-  // Skeleton visibility (true = show skeleton)
   const [loadingVideos, setLoadingVideos] = useState<Record<number, boolean>>(
     () => projects.reduce((acc, p) => ({ ...acc, [p.id]: true }), {})
   );
 
-  /* ⏱ Show skeleton immediately, start videos after 3s */
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setStartVideos(true);
-    }, 3000);
+  // Track window width for responsive slides
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
 
-    return () => clearTimeout(timer);
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setStartVideos(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
-  const settings = {
+  // Determine slidesToShow based on window width
+  let slidesToShow = 3;
+  let centerMode = true;
+
+  if (windowWidth < 768) {
+    slidesToShow = 1;
+    centerMode = false;
+  } else if (windowWidth >= 768 && windowWidth < 1024) {
+    slidesToShow = 2;
+    centerMode = true;
+  } else {
+    slidesToShow = 3;
+    centerMode = true;
+  }
+
+  const sliderSettings = {
     dots: true,
     infinite: true,
     speed: 600,
-    slidesToShow: 3,
+    slidesToShow,
     slidesToScroll: 1,
-    centerMode: true,
+    centerMode,
     centerPadding: "0px",
     lazyLoad: "ondemand",
     swipeToSlide: true,
     adaptiveHeight: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    responsive: [
-      { breakpoint: 1280, settings: { slidesToShow: 2 } },
-      { breakpoint: 768, settings: { slidesToShow: 1 } },
-    ],
   };
 
   return (
@@ -124,8 +130,8 @@ const ProjectPage = () => {
       </section>
 
       {/* SLIDER */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 my-8">
-        <Slider {...settings}>
+      <section className="w-full mx-auto px-4 sm:px-6 lg:px-8 my-8">
+        <Slider {...sliderSettings}>
           {projects.map((project) => (
             <motion.div
               key={project.id}
@@ -134,7 +140,7 @@ const ProjectPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
-              <Card className="rounded-2xl shadow-xl hover:shadow-primary hover:shadow-xl/50 overflow-hidden group flex flex-col h-full  mb-12">
+              <Card className="rounded-2xl shadow-xl hover:shadow-primary hover:shadow-xl/50 overflow-hidden group flex flex-col h-full mb-12">
                 <CardContent className="p-0 flex flex-col h-full">
                   {/* VIDEO / SKELETON */}
                   <div className="relative w-full aspect-video bg-muted overflow-hidden rounded-t-2xl">
@@ -160,6 +166,7 @@ const ProjectPage = () => {
                     {loadingVideos[project.id] && (
                       <Skeleton className="absolute inset-0 bg-primary" />
                     )}
+
                     {/* Overlay Button */}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <Button
@@ -178,11 +185,9 @@ const ProjectPage = () => {
                     <CardTitle className="text-lg sm:text-xl font-semibold mb-2 line-clamp-1">
                       {project.name}
                     </CardTitle>
-
                     <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
                       {project.description}
                     </p>
-
                     <div className="mt-auto">
                       <Button
                         variant="outline"
@@ -201,7 +206,6 @@ const ProjectPage = () => {
         </Slider>
       </section>
 
-
       {/* MODAL */}
       <Dialog open={!!openVideo} onOpenChange={() => setOpenVideo(null)}>
         <DialogContent className="max-w-3xl w-full p-0 bg-black rounded-2xl">
@@ -215,7 +219,6 @@ const ProjectPage = () => {
             >
               KIK
             </DialogTitle>
-
           </DialogHeader>
 
           {openVideo && (
