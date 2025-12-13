@@ -58,10 +58,10 @@ function MainLayoutPage() {
       "
       >
         {/* Render page corresponding to active tab */}
-        {TabPages[activeTab]}
+        {TabPages[activeTab]} <Footer />
       </main>
 
-      <Footer />
+     
       <Toaster richColors position="top-center" />
     </div>
   );
