@@ -118,3 +118,45 @@
     @apply bg-background text-foreground;
   }
 }
+/* ===== Scrollbar Styling ===== */
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary); /* ✅ FIX */
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary);
+  opacity: 0.8;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+/* Dark mode */
+.dark ::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+}
+
+/* Custom scroll container */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 999px;
+}
