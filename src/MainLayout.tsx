@@ -16,7 +16,7 @@ function MainLayoutPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground scrollbar-custom">
         <div className="flex flex-col items-center gap-4">
           <SpinnerCustom />
           <span className="text-lg text-muted-foreground font-light">
