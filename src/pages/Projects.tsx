@@ -130,7 +130,7 @@ const ProjectPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
-             <Card className="rounded-2xl shadow-xl hover:shadow-primary hover:shadow-xl/50 overflow-hidden group flex flex-col h-full  mb-12">
+              <Card className="rounded-2xl shadow-xl hover:shadow-primary hover:shadow-xl/50 overflow-hidden group flex flex-col h-full  mb-12">
                 <CardContent className="p-0 flex flex-col h-full">
                   {/* VIDEO / SKELETON */}
                   <div className="relative w-full aspect-video bg-muted overflow-hidden rounded-t-2xl">
@@ -143,27 +143,19 @@ const ProjectPage = () => {
                         preload="auto"
                         className="absolute inset-0 w-full h-full object-cover"
                         onLoadedData={() =>
-                          setLoadingVideos((prev) => ({
-                            ...prev,
-                            [project.id]: false,
-                          }))
+                          setLoadingVideos((prev) => ({ ...prev, [project.id]: false }))
                         }
                         onError={() =>
-                          setLoadingVideos((prev) => ({
-                            ...prev,
-                            [project.id]: false,
-                          }))
+                          setLoadingVideos((prev) => ({ ...prev, [project.id]: false }))
                         }
                       >
                         <source src={project.video} type="video/mp4" />
                       </video>
                     )}
 
-                    {/* Skeleton */}
                     {loadingVideos[project.id] && (
-                      <Skeleton className="absolute inset-0" />
+                      <Skeleton className="absolute inset-0 bg-primary" />
                     )}
-
                     {/* Overlay Button */}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <Button
