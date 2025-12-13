@@ -17,7 +17,7 @@ import AboutPage from "@/pages/About";
 // Page components for each tab
 export const TabPages: Record<string, React.JSX.Element> = {
   Home: <HomePage/>,
-  Experience: <ExperiencePage/>,
+  Experience: <ExperiencePage goToProjects={() => {}} />,
   Projects: <ProjectsPage/>,
   Skills: <SkillsPage/>,
   Education: <EducaitonPage/>,

@@ -3,17 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
 import Slider from "react-slick";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { NextArrow, PrevArrow } from "@/components/interface/Arrow";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import type { HTMLAttributes } from "react";
+
+
+/* -------------------- DATA -------------------- */
+
 const projects = [
   {
     id: 1,
@@ -52,39 +56,32 @@ const projects = [
   },
 ];
 
+/* -------------------- SLIDER ARROWS -------------------- */
 
 
-interface ArrowProps extends HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  style?: React.CSSProperties;
-  onClick?: () => void;
-}
 
-const NextArrow = ({ className, style, onClick }: ArrowProps) => (
-  <div
-    className={`${className} flex items-center justify-center rounded-full bg-primary text-white w-10 h-10 shadow-lg z-50`}
-    style={{ ...style, display: "flex" }}
-    onClick={onClick}
-  >
-    <ChevronRight size={20} />
-  </div>
-);
 
-const PrevArrow = ({ className, style, onClick }: ArrowProps) => (
-  <div
-    className={`${className} flex items-center justify-center rounded-full bg-primary text-white w-10 h-10 shadow-lg z-50`}
-    style={{ ...style, display: "flex" }}
-    onClick={onClick}
-  >
-    <ChevronLeft size={20} />
-  </div>
-);
+/* -------------------- PAGE -------------------- */
 
 const ProjectPage = () => {
   const [openVideo, setOpenVideo] = useState<string | null>(null);
+
+  // When videos are allowed to load
+  const [startVideos, setStartVideos] = useState(false);
+
+  // Skeleton visibility (true = show skeleton)
   const [loadingVideos, setLoadingVideos] = useState<Record<number, boolean>>(
     () => projects.reduce((acc, p) => ({ ...acc, [p.id]: true }), {})
   );
+
+  /* ⏱ Show skeleton immediately, start videos after 3s */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setStartVideos(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const settings = {
     dots: true,
@@ -94,6 +91,9 @@ const ProjectPage = () => {
     slidesToScroll: 1,
     centerMode: true,
     centerPadding: "0px",
+    lazyLoad: "ondemand",
+    swipeToSlide: true,
+    adaptiveHeight: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
@@ -103,8 +103,8 @@ const ProjectPage = () => {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground py-20">
-      {/* Page Header */}
+    <main className="min-h-screen bg-background text-foreground py-16">
+      {/* HEADER */}
       <section className="text-center mb-16">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -115,47 +115,61 @@ const ProjectPage = () => {
           My <span className="text-primary">Projects</span>
         </motion.h1>
         <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-          Some of my recent work including personal and client projects. Only
-          live demo navigation is allowed.
+          Some of my recent work including personal and client projects.
         </p>
       </section>
 
-      {/* Projects Slider */}
-      <section className="max-w-[1440px] mx-auto px-6">
+      {/* SLIDER */}
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 my-8">
         <Slider {...settings}>
           {projects.map((project) => (
-            <motion.div key={project.id} className="px-3">
-              <Card className="rounded-2xl shadow-lg overflow-hidden relative group">
-                <CardContent className="p-0">
-                  {/* Video Container */}
-                  <div className="relative w-full h-[250px] overflow-hidden">
-                    <video
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      onLoadedData={() =>
-                        setLoadingVideos((prev) => ({
-                          ...prev,
-                          [project.id]: false,
-                        }))
-                      }
-                    >
-                      <source src={project.video} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-
-                    {/* Skeleton Overlay */}
-                    {loadingVideos[project.id] && (
-                      <Skeleton className="absolute inset-0 w-full h-full bg-primary/30" />
+            <motion.div
+              key={project.id}
+              className="px-2 sm:px-4 lg:px-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+             <Card className="rounded-2xl shadow-xl hover:shadow-primary hover:shadow-xl/50 overflow-hidden group flex flex-col h-full  mb-12">
+                <CardContent className="p-0 flex flex-col h-full">
+                  {/* VIDEO / SKELETON */}
+                  <div className="relative w-full aspect-video bg-muted overflow-hidden rounded-t-2xl">
+                    {startVideos && (
+                      <video
+                        muted
+                        autoPlay
+                        loop
+                        playsInline
+                        preload="auto"
+                        className="absolute inset-0 w-full h-full object-cover"
+                        onLoadedData={() =>
+                          setLoadingVideos((prev) => ({
+                            ...prev,
+                            [project.id]: false,
+                          }))
+                        }
+                        onError={() =>
+                          setLoadingVideos((prev) => ({
+                            ...prev,
+                            [project.id]: false,
+                          }))
+                        }
+                      >
+                        <source src={project.video} type="video/mp4" />
+                      </video>
                     )}
 
-                    {/* Hover Overlay Button */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                    {/* Skeleton */}
+                    {loadingVideos[project.id] && (
+                      <Skeleton className="absolute inset-0" />
+                    )}
+
+                    {/* Overlay Button */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <Button
                         size="sm"
                         variant="secondary"
-                        className="cursor-pointer hover:bg-primary hover:text-white! "
+                        className="backdrop-blur-sm"
                         onClick={() => setOpenVideo(project.video)}
                       >
                         View Video
@@ -163,22 +177,26 @@ const ProjectPage = () => {
                     </div>
                   </div>
 
-                  {/* Card Content */}
-                  <div className="p-4">
-                    <CardTitle className="text-xl font-bold mb-2">
+                  {/* CONTENT */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <CardTitle className="text-lg sm:text-xl font-semibold mb-2 line-clamp-1">
                       {project.name}
                     </CardTitle>
-                    <p className="text-muted-foreground text-sm mb-4">
+
+                    <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
                       {project.description}
                     </p>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => window.open(project.demo, "_blank")}
-                      className="hover:bg-primary hover:text-white! dark:hover:bg-primary transition-all cursor-pointer"
-                    >
-                      Open
-                    </Button>
+
+                    <div className="mt-auto">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full sm:w-auto"
+                        onClick={() => window.open(project.demo, "_blank")}
+                      >
+                        Open
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -187,19 +205,26 @@ const ProjectPage = () => {
         </Slider>
       </section>
 
-      {/* Video Modal */}
+
+      {/* MODAL */}
       <Dialog open={!!openVideo} onOpenChange={() => setOpenVideo(null)}>
         <DialogContent className="max-w-3xl w-full p-0 bg-black rounded-2xl">
           <DialogHeader>
+            <DialogClose className="absolute top-2 right-2 text-white dark:text-white hover:text-red-500">
+              ×
+            </DialogClose>
             <DialogTitle
-              className="text-red-300 m-2 cursor-pointer"
+              className="m-2 cursor-pointer text-white dark:text-white hover:text-red-500 transition-colors"
               onClick={() => setOpenVideo(null)}
             >
               KIK
             </DialogTitle>
+
           </DialogHeader>
+
           {openVideo && (
             <video
+              key={openVideo}
               src={openVideo}
               controls
               autoPlay

@@ -160,3 +160,19 @@
   background-color: var(--primary);
   border-radius: 999px;
 }
+/* Light mode dots */
+.slick-dots li button:before {
+  color: var(--muted-foreground); /* visible on light background */
+  opacity: 0.5; /* optional, for subtle effect */
+}
+
+/* Dark mode dots */
+.dark .slick-dots li button:before {
+  color: var(--foreground); /* visible on dark background */
+  opacity: 0.5;
+}
+
+/* Optional: hover effect */
+.slick-dots li.slick-active button:before {
+  opacity: 1;
+}
