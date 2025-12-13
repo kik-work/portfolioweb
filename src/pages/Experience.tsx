@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { TypographyH1, TypographyH2, TypographyP } from "@/components/ui/typography";
+import { useEffect } from "react";
 
 interface ExperiencePageProps {
   goToProjects: () => void;
@@ -43,6 +44,10 @@ const experiences = [
 ];
 
 export default function ExperiencePage({ goToProjects }: ExperiencePageProps) {
+   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <main className="min-h-screen bg-background text-foreground py-16">
       {/* HEADER */}

@@ -82,6 +82,10 @@ const ProjectPage = () => {
 
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
 
   const settings = {
     dots: true,
