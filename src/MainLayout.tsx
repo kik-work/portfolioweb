@@ -5,6 +5,7 @@ import { SpinnerCustom } from "./components/ui/spinner";
 import { TopNavbar } from "./components/layout/TopNavbar";
 import Footer from "./components/layout/Footer";
 import { TabContainers, TabPages } from "./components/TapContainer";
+
 function MainLayoutPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(TabContainers[0]); // Default to first tab
