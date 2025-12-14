@@ -64,7 +64,7 @@ export function Header() {
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-2 mr-5">
+          <div className="flex items-center gap-2 ">
             {/* Mail Tooltip */}
             <Tooltip>
               <TooltipTrigger asChild>
@@ -91,7 +91,7 @@ export function Header() {
             <Switch
               checked={theme === "dark"}
               onCheckedChange={toggleTheme}
-              className="h-4 w-10 mr-6"
+              className="h-4 w-10 mr-2"
             />
           </div>
         </div>
