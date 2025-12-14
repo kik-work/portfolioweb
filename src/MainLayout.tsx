@@ -50,7 +50,7 @@ function MainLayoutPage() {
             Loading KIK Portfolio...
           </span>
           <img
-            src="/src/assets/logo.png"
+            src="/kik-logo.png"
             alt="Logo"
             className="h-16 w-24 rounded-md mt-24"
           />

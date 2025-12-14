@@ -6,10 +6,10 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 
 export default function HomePage() {
-   useEffect(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, []);
-  
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* HERO SECTION */}
@@ -55,13 +55,14 @@ export default function HomePage() {
         >
           <Card className="rounded-2xl shadow-lg">
             <CardContent className="p-6 flex flex-col items-center text-center gap-4">
-              <div className="w-40 h-40 rounded-full bg-muted ">
+              <div className="w-40 h-40 rounded-full overflow-hidden bg-muted shadow-md">
                 <img
                   src="/minet.jpg"
                   alt="Kakon"
-                  className="w-full h-full object-cover rounded-xl "
+                  className="w-full h-full object-cover object-top"
                 />
               </div>
+
               <h3 className="text-xl font-semibold">Frontend Developer</h3>
               <p className="text-sm text-muted-foreground">
                 Passionate about clean UI, smooth UX, and scalable frontend
@@ -76,8 +77,6 @@ export default function HomePage() {
           </Card>
         </motion.div>
       </section>
-
-   
     </main>
   );
 }
