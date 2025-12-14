@@ -1,11 +1,11 @@
-import { BriefcaseBusiness, FolderCode, GalleryVertical, GraduationCap, House, Info, Target } from "lucide-react";
+import { BriefcaseBusiness, FolderCode,  GraduationCap,  House,  Info, Target } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 
 
 
 // Lazy load all pages
 const Welcome = lazy(() => import("@/pages/Welcome"));
-const HomePage = lazy(() => import("@/pages/Homepage"));
+//const HomePage = lazy(() => import("@/pages/Homepage"));
 const ExperiencePage = lazy(() => import("@/pages/Experience"));
 const ProjectPage = lazy(() => import("@/pages/Projects"));
 const SkillsPage = lazy(() => import("@/pages/Skills"));
@@ -15,7 +15,7 @@ const AboutPage = lazy(() => import("@/pages/About"));
 // Tab titles
 export const TabContainers = [
   "",
-  "Home",
+  // "Home",
   "Experience",
   "Projects",
   "Skills",
@@ -25,8 +25,8 @@ export const TabContainers = [
 
 // Tab icons
 export const TabIcons = [
-  <GalleryVertical className="h-4 w-4" />,
   <House className="h-4 w-4" />,
+  //<House className="h-4 w-4" />,
   <BriefcaseBusiness className="h-4 w-4" />,
   <FolderCode className="h-4 w-4" />,
   <Target className="h-4 w-4" />,
@@ -41,14 +41,14 @@ export const TabPages: Record<string, React.JSX.Element> = {
       <Welcome />
     </Suspense>
   ),
-  Home: (
-    <Suspense fallback={<div className="text-center py-10"></div>}>
-      <HomePage />
-    </Suspense>
-  ),
+  // Home: (
+  //   <Suspense fallback={<div className="text-center py-10"></div>}>
+  //     <HomePage />
+  //   </Suspense>
+  // ),
   Experience: (
     <Suspense fallback={<div className="text-center py-10"></div>}>
-      <ExperiencePage goToProjects={() => {}} />
+      <ExperiencePage />
     </Suspense>
   ),
   Projects: (

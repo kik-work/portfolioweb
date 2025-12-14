@@ -1,14 +1,11 @@
 // src/pages/Experience.tsx
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { TypographyH1, TypographyH2, TypographyP } from "@/components/ui/typography";
 import { useEffect } from "react";
 
-interface ExperiencePageProps {
-  goToProjects: () => void;
-}
 
 const experiences = [
   {
@@ -43,8 +40,8 @@ const experiences = [
   },
 ];
 
-export default function ExperiencePage({ goToProjects }: ExperiencePageProps) {
-   useEffect(() => {
+export default function ExperiencePage() {
+  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
@@ -84,7 +81,7 @@ export default function ExperiencePage({ goToProjects }: ExperiencePageProps) {
                     {exp.company} • {exp.period}
                   </TypographyP>
                 </div>
-                <Badge variant="secondary" className="w-fit px-3 py-1 text-sm md:text-base">
+                <Badge variant="outline" className="w-fit px-3 py-1 text-sm md:text-base">
                   {exp.type}
                 </Badge>
               </CardHeader>
@@ -100,13 +97,13 @@ export default function ExperiencePage({ goToProjects }: ExperiencePageProps) {
                     alt={exp.company}
                     className="h-20 w-20 md:h-24 md:w-24 object-contain rounded-lg border border-border p-2 bg-background"
                   />
-                  <Button
+                  {/* <Button
                     variant="outline"
                     onClick={goToProjects}
                     className="hover:bg-primary/10 transition-all"
                   >
                     View Projects
-                  </Button>
+                  </Button> */}
                 </div>
               </CardContent>
             </Card>
