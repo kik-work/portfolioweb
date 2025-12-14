@@ -9,7 +9,7 @@ import { TabContainers, TabPages } from "./components/TapContainer";
 
 function MainLayoutPage() {
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState(TabContainers[0]);
+  const [activeTab, setActiveTab] = useState(TabContainers[1]);
   const [showHeader, setShowHeader] = useState(true);
   const lastScrollY = useRef(0);
 

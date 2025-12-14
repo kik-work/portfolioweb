@@ -95,7 +95,7 @@ const SkillSection = ({ title, description, skills }: SkillSectionProps) => (
   </motion.div>
 );
 
-export default function Skills() {
+export default function SkillsPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
