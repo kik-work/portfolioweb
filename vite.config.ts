@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
-import path from 'path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,18 +12,14 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'esnext',          // modern JS
-    sourcemap: false,          // remove source maps in prod
-    chunkSizeWarningLimit: 500, // warn if chunk > 500kb
+    target: "esnext",          // modern JS
+    sourcemap: false,          // no source maps in production
+    chunkSizeWarningLimit: 500, 
+    outDir: "dist",            // Netlify publish folder
     rollupOptions: {
       output: {
-        // Split chunks intelligently
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'react-vendor';
-            return 'vendor';
-          }
-        },
+        // Let Vite handle chunking automatically
+        // Removed manualChunks to prevent "Cannot access 'C'" runtime error
       },
     },
   },
