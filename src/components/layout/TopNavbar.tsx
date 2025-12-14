@@ -23,7 +23,7 @@ export function TopNavbar({ activeTab, setActiveTab }: TopNavbarProps) {
     <header
       className={cn(
         "w-full sticky top-0 z-50 transition-all duration-300 backdrop-blur-md",
-        scrolled ? "bg-background shadow-md" : "bg-background/60"
+        scrolled ? " shadow-md" : ""
       )}
     >
       <nav className="mx-auto w-full flex justify-center py-2 gap-3 max-w-7xl">
