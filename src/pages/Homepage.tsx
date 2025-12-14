@@ -35,7 +35,7 @@ export default function HomePage() {
 
           <div className="flex gap-4">
             <Button size="lg">View Projects</Button>
-            <Button size="lg" variant="outline">
+            <Button size="lg" variant="secondary">
               Download CV
             </Button>
           </div>

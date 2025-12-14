@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { ThemeContext } from "../../context/ThemeContext";
-import { MailQuestionMark, MessageCircleMore } from "lucide-react";
+import { Mail, MessageCircleMore } from "lucide-react";
 import { toast } from "sonner";
 
 
@@ -23,13 +23,22 @@ export function Header() {
 
                 {/* Action buttons */}
                 <div className="flex items-center gap-2 mr-5">
-                    <Button variant="default" onClick={handleMail}>
-                        <MailQuestionMark className="h-3 w-3" />
+                    <Button variant="outline" onClick={handleMail}>
+                        <Mail className="h-3 w-3 text-primary" />
                     </Button>
                     <Button variant="outline" onClick={handleMessage}>
                         <MessageCircleMore className="text-primary h-3 w-3" />
                     </Button>
-                    <Switch checked={theme === "dark"} onCheckedChange={toggleTheme} className="h-4 w-4" />
+                    <Switch
+                        checked={theme === "dark"}
+                        onCheckedChange={toggleTheme}
+                        className="h-4 w-10 mr-6"
+                        // onClick={() => {
+                        //     window.location.reload();
+                        // }}
+                    />
+
+
                 </div>
             </div>
         </header>
