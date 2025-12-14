@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import type { SkillSectionProps } from "@/components/interface/skillInterface";
 import AdditionalSkillPage from "@/components/AdditionalSkill";
 import { TypographyH1, TypographyP } from "@/components/ui/typography";
+import { useEffect } from "react";
 
 const container = {
   hidden: { opacity: 0 },
@@ -95,6 +96,9 @@ const SkillSection = ({ title, description, skills }: SkillSectionProps) => (
 );
 
 export default function Skills() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <section className="max-w-7xl mx-auto px-6 py-16">
       <motion.div

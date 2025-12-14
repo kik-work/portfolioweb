@@ -12,7 +12,7 @@ import HomePage from "@/pages/Homepage";
 import ExperiencePage from "@/pages/Experience";
 import ProjectsPage from "@/pages/Projects";
 import SkillsPage from "@/pages/Skills";
-import EducaitonPage from "@/pages/Educaiton";
+import EducationPage from "@/pages/Education";
 import AboutPage from "@/pages/About";
 // Page components for each tab
 export const TabPages: Record<string, React.JSX.Element> = {
@@ -20,7 +20,7 @@ export const TabPages: Record<string, React.JSX.Element> = {
   Experience: <ExperiencePage goToProjects={() => {}} />,
   Projects: <ProjectsPage/>,
   Skills: <SkillsPage/>,
-  Education: <EducaitonPage/>,
+  Education: <EducationPage/>,
   About: <AboutPage/>,
 };
 // Titles of tabs
