@@ -4,16 +4,47 @@ import { useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { ThemeContext } from "../../context/ThemeContext";
-import { Mail } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { MessageDialog } from "../Message";
+import { Mail, PhoneCall } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
-
   const handleMail = () => {
-    window.location.href =
-      "mailto:kakon.aiubcse@gmail.com?subject=Contact from Portfolio&body=Hi Kakon,%0D%0A%0D%0A";
+    const email = "kakon.aiubcse@gmail.com";
+    const subject = "Contact from Portfolio";
+    const body = "Hi Kakon,\n\nI found your portfolio and want to contact you.";
+
+    const mailtoURL = `mailto:${email}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    // Try native app first
+    window.location.href = mailtoURL;
+
+    // Fallback to Gmail web
+    setTimeout(() => {
+      window.open(gmailURL, "_blank");
+    }, 600);
+  };
+
+  const handleCall = () => {
+    const phoneNumber = "8801923089370"; // country code + number (no +, no spaces)
+    const message = "Hi Kakon, I found your portfolio and want to contact you.";
+
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(whatsappURL, "_blank");
   };
 
   return (
@@ -41,19 +72,18 @@ export function Header() {
                   <Mail className="h-4 w-4 text-primary" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="top">
-                Send Email
-              </TooltipContent>
+              <TooltipContent side="top">Send Email</TooltipContent>
             </Tooltip>
 
             {/* Message Tooltip */}
             <Tooltip>
               <TooltipTrigger asChild>
-                {/* MessageDialog internally renders a single button trigger */}
-                <MessageDialog />
+                <Button variant="outline" onClick={handleCall}>
+                  <PhoneCall className="h-4 w-4 text-teal-600" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent side="top">
-                Write Message
+                Call between 4PM to 11PM
               </TooltipContent>
             </Tooltip>
 

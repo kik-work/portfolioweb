@@ -203,16 +203,16 @@ const AboutPage = () => {
             direction="right"
             className="order-first md:order-last"
           >
-            <Card className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition">
+            <Card className="w-full h-fit flex items-center  overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition m-4 p-4">
               <img
                 src="/mine4.jpg"
                 alt="Kakon"
-                className="w-full h-auto object-cover"
+                className="  object-cover hover:border hover:border-primary rounded-xl "
               />
             </Card>
             <Card className="hover:shadow-xl transition-shadow border border-border rounded-lg mt-6 p-4">
-              <CardHeader className="flex flex-col items-start gap-3">
-                <div className="flex flex-wrap gap-2">
+              <CardHeader className="flex flex-col md:flex-row items-center gap-3">
+                <div className="flex flex-col lg:flex-row items-center sm:items-start gap-2">
                   {infores.map((info) => (
                     <Tooltip key={info.label}>
                       <TooltipTrigger asChild>

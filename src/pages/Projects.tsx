@@ -147,7 +147,7 @@ const ProjectPage = () => {
                     {startVideos && (
                       <video
                         muted
-                        autoPlay
+                        // autoPlay
                         loop
                         playsInline
                         preload="auto"
