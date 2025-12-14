@@ -54,7 +54,7 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <img
-              src="/logo.png"
+              src="/kik-logo.png"
               alt="Logo"
               className="h-10 w-16 rounded-md"
             />

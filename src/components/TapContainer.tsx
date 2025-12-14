@@ -37,37 +37,37 @@ export const TabIcons = [
 // Pages map with Suspense wrapper for lazy loading
 export const TabPages: Record<string, React.JSX.Element> = {
   "": (
-    <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
+    <Suspense fallback={<div className="text-center py-10"></div>}>
       <Welcome />
     </Suspense>
   ),
   Home: (
-    <Suspense fallback={<div className="text-center py-10">Loading Home...</div>}>
+    <Suspense fallback={<div className="text-center py-10"></div>}>
       <HomePage />
     </Suspense>
   ),
   Experience: (
-    <Suspense fallback={<div className="text-center py-10">Loading Experience...</div>}>
+    <Suspense fallback={<div className="text-center py-10"></div>}>
       <ExperiencePage goToProjects={() => {}} />
     </Suspense>
   ),
   Projects: (
-    <Suspense fallback={<div className="text-center py-10">Loading Projects...</div>}>
+    <Suspense fallback={<div className="text-center py-10"></div>}>
       <ProjectPage />
     </Suspense>
   ),
   Skills: (
-    <Suspense fallback={<div className="text-center py-10">Loading Skills...</div>}>
+    <Suspense fallback={<div className="text-center py-10"></div>}>
       <SkillsPage />
     </Suspense>
   ),
   Education: (
-    <Suspense fallback={<div className="text-center py-10">Loading Education...</div>}>
+    <Suspense fallback={<div className="text-center py-10"></div>}>
       <EducationPage />
     </Suspense>
   ),
   About: (
-    <Suspense fallback={<div className="text-center py-10">Loading About...</div>}>
+    <Suspense fallback={<div className="text-center py-10"></div>}>
       <AboutPage />
     </Suspense>
   ),
