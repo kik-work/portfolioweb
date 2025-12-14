@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+// MainLayout.tsx
+import { useEffect, useState, useRef } from "react";
 import { Header } from "./components/layout/Header";
 import { Toaster } from "sonner";
 import { SpinnerCustom } from "./components/ui/spinner";
@@ -8,13 +9,37 @@ import { TabContainers, TabPages } from "./components/TapContainer";
 
 function MainLayoutPage() {
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState(TabContainers[0]); // Default to first tab
+  const [activeTab, setActiveTab] = useState(TabContainers[0]);
+  const [showHeader, setShowHeader] = useState(true);
+  const lastScrollY = useRef(0);
 
+  // Loading spinner
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
-  
+
+  // Scroll handler for header
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY <= 0) {
+        setShowHeader(true); // At top, show header
+      } else if (currentScrollY > lastScrollY.current) {
+        // Scrolling down
+        setShowHeader(false); // Hide header
+      } else {
+        // Scrolling up
+        setShowHeader(true); // Show header
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   if (loading) {
     return (
@@ -35,35 +60,27 @@ function MainLayoutPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground ">
-      <Header />
-
-      {/* Navbar */}
-      <TopNavbar activeTab={activeTab} setActiveTab={setActiveTab} />
-
-      {/* Main content area */}
-      <main
-        className="
-        flex-1 
-        mx-auto 
-        mt-2
-        px-2
-        w-full
-        h-full
-        max-h-screen
-        max-w-sm      
-        sm:max-w-md   
-        md:max-w-2xl  
-        lg:max-w-4xl  
-        xl:max-w-6xl  
-        2xl:max-w-7xl 
-      "
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
+      {/* Header: slides away */}
+      <div
+        className={`transition-transform duration-300 ${
+          showHeader ? "translate-y-0" : "-translate-y-full"
+        }`}
       >
-        {/* Render page corresponding to active tab */}
-        {TabPages[activeTab]} <Footer />
+        <Header />
+      </div>
+
+      {/* TopNavbar: sticky at top, independent of header */}
+      <div className="sticky top-0 z-50">
+        <TopNavbar activeTab={activeTab} setActiveTab={setActiveTab} />
+      </div>
+
+      {/* Main content */}
+      <main className="flex-1 mx-auto mt-2 px-2 w-full max-w-7xl">
+        {TabPages[activeTab]}
       </main>
 
-     
+      <Footer />
       <Toaster richColors position="top-center" />
     </div>
   );

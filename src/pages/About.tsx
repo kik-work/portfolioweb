@@ -1,4 +1,4 @@
-"use client";
+  "use client";
 
 import React, { useEffect } from "react";
 import Flag from "react-world-flags";
@@ -166,6 +166,8 @@ const AboutPage = () => {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
   };
+  
+
   return (
     <>
       <section className="max-w-7xl mx-auto px-6 py-16 space-y-16">
@@ -196,8 +198,41 @@ const AboutPage = () => {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          {/* Image Card - displayed first on small screens */}
+          
+ <ScrollSlideIn
+            direction="right"
+            className="order-first md:order-last"
+          >
+            <Card className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition">
+              <img
+                src="/mine4.jpg"
+                alt="Kakon"
+                className="w-full h-auto object-cover"
+              />
+            </Card>
+            <Card className="hover:shadow-xl transition-shadow border border-border rounded-lg mt-6 p-4">
+              <CardHeader className="flex flex-col items-start gap-3">
+                <div className="flex flex-wrap gap-2">
+                  {infores.map((info) => (
+                    <Tooltip key={info.label}>
+                      <TooltipTrigger asChild>
+                        <span>
+                          {info.value}
+                        </span>
+                      </TooltipTrigger>
+                      {info.tooltip && (
+                        <TooltipContent>
+                          {info.tooltip}
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
+                  ))}
+                </div>
+              </CardHeader>
+            </Card>
 
+
+          </ScrollSlideIn>
           {/* Info Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {info.map((item) => (
@@ -233,47 +268,7 @@ const AboutPage = () => {
               </Card>
             ))}
           </div>
-          <ScrollSlideIn
-            direction="right"
-            className="order-first md:order-last"
-          >
-            <Card className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition">
-              <img
-                src="/mine4.jpg"
-                alt="Kakon"
-                className="w-full h-auto object-cover"
-              />
-            </Card>
-            {infores.map((item) => (
-              <Card
-                key={item.label}
-                className="hover:shadow-xl transition-shadow border border-border rounded-lg  mt-6"
-              >
-                <CardHeader className="flex flex-col justify-between items-start">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <span className="font-semibold text-gray-600 cursor-default">
-                        {item.label}
-                      </span>
-                    </TooltipTrigger>
-                    {item.tooltip && (
-                      <TooltipContent>{item.tooltip}</TooltipContent>
-                    )}
-                  </Tooltip>
-                  {typeof item.value === "string" ? (
-                    <Badge variant="secondary">{item.value}</Badge>
-                  ) : (
-                    <span>{item.value}</span>
-                  )}
-                </CardHeader>
-                {item.level && (
-                  <CardContent>
-                    <Progress value={item.level} className="h-2 rounded-full" />
-                  </CardContent>
-                )}
-              </Card>
-            ))}
-          </ScrollSlideIn>
+         
         </motion.div>
 
         {/* Extracurricular Activities */}
