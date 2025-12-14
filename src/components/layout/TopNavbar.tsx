@@ -1,4 +1,3 @@
-// TopNavbar.tsx
 import { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -23,7 +22,7 @@ export function TopNavbar({ activeTab, setActiveTab }: TopNavbarProps) {
     <header
       className={cn(
         "w-full sticky top-0 z-50 transition-all duration-300 backdrop-blur-md",
-        scrolled ? " shadow-md" : ""
+        scrolled ? "shadow-md" : ""
       )}
     >
       <nav className="mx-auto w-full flex justify-center py-2 gap-3 max-w-7xl">
@@ -35,7 +34,9 @@ export function TopNavbar({ activeTab, setActiveTab }: TopNavbarProps) {
                 value={tab}
                 className={cn(
                   "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-full transition-all",
-                  activeTab === tab ? "text-primary dark:border-primary! rounded-md" : ""
+                  activeTab === tab
+                    ? "text-primary dark:border-primary! rounded-md"
+                    : ""
                 )}
               >
                 {/* Mobile & Tablet: icon only */}
