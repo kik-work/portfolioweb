@@ -48,41 +48,95 @@ const AboutPage = () => {
   }, []);
 
   const info: InfoItem[] = [
-    { label: "Name", value: "Khairul Islam Kakon" },
-    { label: "Father's Name", value: "Md. Shahjahan Ali Farazi" },
-    { label: "Mother's Name", value: "Mrs. Kolpona Begum" },
-    { label: "Date of Birth", value: "19 Feb, 2001" },
-    { label: "Nationality", value: "Bangladeshi" },
-    { label: "Religion", value: "Muslim" },
     {
-      label: "Hometown",
+      label: "Name",
+      value: "Khairul Islam Kakon",
+      tooltip: "Full Name",
+      level: 12.5,
+    },
+    {
+      label: "Father's Name",
+      value: "Md. Shahjahan Ali Farazi",
+      tooltip: "Father's Full Name",
+      level: 25,
+    },
+    {
+      label: "Mother's Name",
+      value: "Mrs. Kolpona Begum",
+      tooltip: "Mother's Full Name",
+      level: 37.5,
+    },
+    {
+      label: "Date of Birth",
+      value: "19 Feb, 2001",
+      tooltip: "DOB",
+      level: 50,
+    },
+    {
+      label: "Nationality",
+      value: "Bangladeshi",
+      tooltip: "Country of Citizenship",
+      level: 62.5,
+    },
+    { label: "Religion", value: "Muslim", tooltip: "Religion", level: 75 },
+    {
+      label: "Permanent Address",
       value: (
         <>
-          Sherpur, Mymensingh{" "}
-          <Flag code="BD" style={{ width: 16, height: 16, marginLeft: 4 }} />
+          <span className="flex items-center">
+            Sherpur, Mymensingh{" "}
+            <Flag code="BD" style={{ width: 18, height: 20, marginLeft: 4 }} />
+          </span>
         </>
       ),
+      tooltip: "Place of Birth",
+      level: 87.5,
     },
     {
       label: "Present Address",
       value: (
         <>
-          Nikunjo-2, Dhaka{" "}
-          <Flag code="BD" style={{ width: 16, height: 16, marginLeft: 4 }} />
+          <span className="flex items-center">
+            {" "}
+            Nikunjo-2, Khilkhet, Dhaka{" "}
+            <Flag code="BD" style={{ width: 18, height: 18, marginLeft: 4 }} />
+          </span>
         </>
       ),
+      tooltip: "Present Address",
+      level: 100,
     },
   ];
+
   const infores: InfoItemres[] = [
-    { label: "Email", value: "kakon.aiubcse@gmail.com" },
-    { label: "Number", value: "01923089370" },
+    {
+      label: "Email",
+      value: (
+        <a
+          href="mailto:kakon.aiubcse@gmail.com"
+          className="text-primary hover:underline"
+        >
+          <Badge variant="default">kakon.aiubcse@gmail.com</Badge>
+        </a>
+      ),
+      tooltip: "Send me an email",
+    },
+    {
+      label: "Number",
+      value: <Badge variant="default">01923089370</Badge>,
+      tooltip: "Call me directly",
+    },
     {
       label: "Blood Group",
       value: (
         <>
-          B <span className="text-red-500 font-bold">-</span>(Neg)
+          <Badge variant="default">
+            {" "}
+            B <span className="text-red-500 font-bold">-</span>(Neg)
+          </Badge>
         </>
       ),
+      tooltip: "My blood group",
     },
   ];
 
@@ -145,16 +199,16 @@ const AboutPage = () => {
           {/* Image Card - displayed first on small screens */}
 
           {/* Info Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {info.map((item) => (
               <Card
                 key={item.label}
                 className="hover:shadow-xl transition-shadow border border-border rounded-lg"
               >
-                <CardHeader className="flex justify-between items-center">
+                <CardHeader className="flex flex-col justify-between items-start">
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span className="font-semibold text-gray-600 cursor-default">
+                      <span className="font-semibold text-muted-foreground cursor-default">
                         {item.label}
                       </span>
                     </TooltipTrigger>
@@ -163,14 +217,17 @@ const AboutPage = () => {
                     )}
                   </Tooltip>
                   {typeof item.value === "string" ? (
-                    <Badge variant="secondary">{item.value}</Badge>
+                    <Badge variant="outline">{item.value}</Badge>
                   ) : (
-                    <span>{item.value}</span>
+                    <Badge variant="outline">{item.value}</Badge>
                   )}
                 </CardHeader>
                 {item.level && (
                   <CardContent>
-                    <Progress value={item.level} className="h-2 rounded-full" />
+                    <Progress
+                      value={item.level}
+                      className="h-2 rounded-full bg-violet-800"
+                    />
                   </CardContent>
                 )}
               </Card>
@@ -190,7 +247,7 @@ const AboutPage = () => {
             {infores.map((item) => (
               <Card
                 key={item.label}
-                className="hover:shadow-xl transition-shadow border border-border rounded-lg"
+                className="hover:shadow-xl transition-shadow border border-border rounded-lg  mt-6"
               >
                 <CardHeader className="flex flex-col justify-between items-start">
                   <Tooltip>
