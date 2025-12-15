@@ -113,7 +113,7 @@ const ProjectPage = () => {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground py-16">
+    <main id="projects" className="min-h-screen bg-background text-foreground py-16">
       {/* HEADER */}
       <section className="text-center mb-16">
         <motion.h1

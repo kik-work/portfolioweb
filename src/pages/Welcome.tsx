@@ -1,38 +1,41 @@
-import  { lazy, Suspense } from "react";
+import type { FC } from "react";
+import { lazy, Suspense } from "react";
+import type { TabPageProps } from "@/components/TapContainer";
 
-// Lazy load all pages
-const HomePage = lazy(() => import("./Homepage"));
-const ExperiencePage = lazy(() => import("./Experience"));
-const ProjectPage = lazy(() => import("./Projects"));
-const EducationPage = lazy(() => import("./Education"));
-const AboutPage = lazy(() => import("./About"));
-const SkillsPage = lazy(() => import("./Skills"));
+// Lazy load all pages with proper props type
+const HomePage = lazy(() => import("./Homepage")) as FC<TabPageProps>;
+const ExperiencePage = lazy(() => import("./Experience")) as FC<TabPageProps>;
+const ProjectPage = lazy(() => import("./Projects")) as FC<TabPageProps>;
+const SkillsPage = lazy(() => import("./Skills")) as FC<TabPageProps>;
+const EducationPage = lazy(() => import("./Education")) as FC<TabPageProps>;
+const AboutPage = lazy(() => import("./About")) as FC<TabPageProps>;
 
-const Welcome = () => {
+// Optional default wrapper component
+const Welcome: FC<TabPageProps> = ({ setActiveTab }) => {
   return (
-    <section className="max-w-7xl mx-auto px-2 rounded-2xl py-1 bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200/10">
-      <Suspense fallback={<div className="text-center py-10"></div>}>
-        <HomePage />
+    <section className="max-w-7xl mx-auto px-2 rounded-2xl py-1 bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200/10 space-y-8">
+      <Suspense fallback={<div className="text-center py-10">Loading Home...</div>}>
+        <HomePage setActiveTab={setActiveTab} />
       </Suspense>
 
-      <Suspense fallback={<div className="text-center py-10"></div>}>
-        <ExperiencePage  />
+      <Suspense fallback={<div className="text-center py-10">Loading Experience...</div>}>
+        <ExperiencePage setActiveTab={setActiveTab} />
       </Suspense>
 
-      <Suspense fallback={<div className="text-center py-10">=</div>}>
-        <ProjectPage />
+      <Suspense fallback={<div className="text-center py-10">Loading Projects...</div>}>
+        <ProjectPage setActiveTab={setActiveTab} />
       </Suspense>
 
-      <Suspense fallback={<div className="text-center py-10"></div>}>
-        <SkillsPage />
+      <Suspense fallback={<div className="text-center py-10">Loading Skills...</div>}>
+        <SkillsPage setActiveTab={setActiveTab} />
       </Suspense>
 
-      <Suspense fallback={<div className="text-center py-10"></div>}>
-        <EducationPage />
+      <Suspense fallback={<div className="text-center py-10">Loading Education...</div>}>
+        <EducationPage setActiveTab={setActiveTab} />
       </Suspense>
 
-      <Suspense fallback={<div className="text-center py-10"></div>}>
-        <AboutPage />
+      <Suspense fallback={<div className="text-center py-10">Loading About...</div>}>
+        <AboutPage setActiveTab={setActiveTab} />
       </Suspense>
     </section>
   );

@@ -1,4 +1,3 @@
-// MainLayout.tsx
 import { useEffect, useState, useRef } from "react";
 import { Header } from "./components/layout/Header";
 import { Toaster } from "sonner";
@@ -24,15 +23,9 @@ function MainLayoutPage() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY <= 0) {
-        setShowHeader(true); // At top, show header
-      } else if (currentScrollY > lastScrollY.current) {
-        // Scrolling down
-        setShowHeader(false); // Hide header
-      } else {
-        // Scrolling up
-        setShowHeader(true); // Show header
-      }
+      if (currentScrollY <= 0) setShowHeader(true);
+      else if (currentScrollY > lastScrollY.current) setShowHeader(false);
+      else setShowHeader(true);
 
       lastScrollY.current = currentScrollY;
     };
@@ -49,35 +42,31 @@ function MainLayoutPage() {
           <span className="text-lg text-muted-foreground font-light">
             Loading KIK Portfolio...
           </span>
-          <img
-            src="/kik-logo.png"
-            alt="Logo"
-            className="h-16 w-24 rounded-md mt-24"
-          />
+          <img src="/kik-logo.png" alt="Logo" className="h-16 w-24 rounded-md mt-24" />
         </div>
       </div>
     );
   }
 
+  const ActiveTabComponent = TabPages[activeTab];
+
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* Header: slides away */}
       <div
-        className={`transition-transform duration-300 ${
-          showHeader ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
       >
         <Header />
       </div>
 
-      {/* TopNavbar: sticky at top, independent of header */}
+      {/* TopNavbar: sticky at top */}
       <div className="sticky top-0 z-50">
         <TopNavbar activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
 
       {/* Main content */}
       <main className="flex-1 mx-auto mt-2 px-2 w-full max-w-7xl">
-        {TabPages[activeTab]}
+        <ActiveTabComponent setActiveTab={setActiveTab} />
       </main>
 
       <Footer />
