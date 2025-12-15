@@ -26,7 +26,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
             Hi, I’m <span className="text-primary">Khairul Islam</span>
           </TypographyH1>
           <TypographyP className="text-muted-foreground">
-            A tech enthusiast with practical experience across multiple roles...
+        Tech enthusiast with hands-on experience across multiple roles, driven to contribute meaningfully to the tech industry while excelling in communication and teamwork.
           </TypographyP>
 
           {/* CTA BUTTONS */}
