@@ -4,9 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { ChartLineInteractive } from "@/components/chart/ChartLineInteractive";
 import { ChartRadialSimple } from "@/components/chart/radial-chart";
 import CareerChart from "@/components/chart/Career-chart";
+import { GitHubContributionChart } from "@/components/chart/Git-clone-chart";
 
 
 
@@ -102,10 +102,14 @@ export default function HomePage() {
           <ChartRadialSimple />
         </Card>
       </section>
-      <Card className="rounded-2xl shadow-lg p-6">
-        
-        <ChartLineInteractive />
+      {/* GITHUB CONTRIBUTION */}
+      <section className="">
+       <Card className="rounded-2xl shadow-lg p-6">
+
+       <GitHubContributionChart />
       </Card>
+      </section>
+       
     </main>
   );
 }

@@ -20,7 +20,7 @@ import {
 export const description = "A radial chart displaying skill ratings"
 
 const chartData = [
-  { skill: "Skills", rating: 10, fill: "var(--card-foreground)" },
+  { skill: "", rating: 10, fill: "var(--card-foreground)" },
   { skill: "JavaScript", rating: 9, fill: "var(--chart-1)" },
   { skill: "PHP", rating: 8, fill: "var(--chart-2)" },
   { skill: "C++", rating: 8, fill: "var(--chart-3)" },
@@ -29,7 +29,7 @@ const chartData = [
 ]
 
 const chartConfig: ChartConfig = {
-  Skills: { label: "Skills", color: "var(--card-foreground)" },
+  Skills: { label: "", color: "var(--card-foreground)" },
   JavaScript: { label: "JavaScript", color: "var(--chart-1)" },
   PHP: { label: "PHP", color: "var(--chart-2)" },
   "C++": { label: "C++", color: "var(--chart-3)" },
