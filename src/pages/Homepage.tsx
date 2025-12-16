@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import AnalyticsAreaChart from "@/components/chart/Analytics-area-chart";
+import { ChartLineInteractive } from "@/components/chart/ChartLineInteractive";
 import { ChartRadialSimple } from "@/components/chart/radial-chart";
 import CareerChart from "@/components/chart/Career-chart";
 
@@ -103,8 +103,8 @@ export default function HomePage() {
         </Card>
       </section>
       <Card className="rounded-2xl shadow-lg p-6">
-        <h2 className="text-2xl font-semibold mb-4">Website Analytics</h2>
-        <AnalyticsAreaChart />
+        
+        <ChartLineInteractive />
       </Card>
     </main>
   );
