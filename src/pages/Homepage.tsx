@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TypographyH1, TypographyP } from "@/components/ui/typography";
+import { TypographyH1, TypographyH3, TypographyP } from "@/components/ui/typography";
 import { ChartRadialSimple } from "@/components/chart/radial-chart";
 import CareerChart from "@/components/chart/Career-chart";
 import { GitHubContributionChart } from "@/components/chart/Git-clone-chart";
@@ -27,9 +27,9 @@ const roles = [
       "Quick Learner",
       "leadership",
       "Teamwork",
-     "Communication",
-      "Adaptability",
-      
+      "Communication",
+
+
     ],
   },
   {
@@ -39,12 +39,11 @@ const roles = [
     description:
       "Building efficient and scalable software solutions by applying engineering principles and best practices.",
     skills: [
-      "JavaScript",
-      "TypeScript",
-      "OOP",
-      "Data Structures",
+      "C++",
+      "Firebase",
+      "Visual Studio",
       "System Design",
-
+      "Github",
       "Problem Solving",
     ],
   },
@@ -53,14 +52,15 @@ const roles = [
     subhero: " a Full Stack Developer",
     title: "Full Stack Developer",
     description:
-      "Developing end-to-end web applications by combining modern frontend frameworks with robust backend systems and databases.",
+      "Modern web applications using both front-end and back-end technologies to deliver seamless user experiences.",
     skills: [
       "React",
       "Next.js",
+      "Laravel",
       "Node.js",
-      "Express.js",
+      "TypeScript",
+      "Redux",
       "PostgreSQL",
-      "Prisma",
     ],
   },
 ];
@@ -74,7 +74,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
 
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % roles.length);
-    }, 20000);
+    }, 9000);
 
     return () => clearInterval(interval);
   }, []);
@@ -90,7 +90,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <section className="container mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <section className="container mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* LEFT CONTENT */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -112,16 +112,16 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4 }}
               >
-                <TypographyH1 className="text-start text-xl md:text-2xl font-bold tracking-tight">
-                  {activeRole.hero} <span className="text-primary">{activeRole.subhero}</span>
+                <TypographyH1 className="text-start text-2xl md:text-2xl font-bold tracking-tight">
+                  {/* {activeRole.hero} <span className="text-primary">{activeRole.subhero}</span> */}
+                  Hi! I’m <span className="text-primary">Khairul Islam</span>
                 </TypographyH1>
               </motion.div>
             </AnimatePresence>
           </div>
 
           <TypographyP className="text-muted-foreground">
-            Tech enthusiast with hands-on experience across multiple roles,
-            driven to contribute meaningfully to the tech industry.
+            Software Engineer with practical experience across multiple roles, committed to continuous learning and impactful development.
           </TypographyP>
 
           {/* CTA BUTTONS */}
@@ -158,16 +158,17 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
+          className="order-first md:order-last"
         >
-          <Card className="rounded-2xl shadow-lg">
+          <Card className="rounded-2xl shadow-lg shadow-primary/20">
             <CardHeader className="flex justify-end items-center pb-0">
-              <Badge variant="default" className="text-xs px-3 py-1">
+              <Badge variant="default" className="text-xs px-3 ">
                 1+ Year Experience
               </Badge>
             </CardHeader>
 
-            <CardContent className="p-6 flex flex-col items-center text-center gap-4">
-              <div className="w-40 h-40 rounded-full overflow-hidden bg-muted shadow-md">
+            <CardContent className="p-4 flex flex-col items-center text-center gap-4">
+              <div className="w-32 h-36 rounded-full overflow-hidden bg-muted shadow-md">
                 <img
                   src="/minet.jpg"
                   alt="Khairul Islam"
@@ -183,14 +184,13 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.35 }}
-                  className="space-y-2"
+                  className=""
                 >
-                  <h3 className="text-xl font-semibold">
-                    {activeRole.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <TypographyH3>  {activeRole.title} </TypographyH3>
+
+                  <TypographyP className="text-sm text-muted-foreground">
                     {activeRole.description}
-                  </p>
+                  </TypographyP>
 
                   <div className="flex gap-2 flex-wrap justify-center pt-2">
                     {activeRole.skills.map((skill) => (
@@ -208,18 +208,18 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
 
       {/* ANALYTICS & SKILLS */}
       <section className="container mx-auto px-6 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <Card className="px-6 justify-center">
+        <Card className="p-6  shadow-primary/20 rounded-2xl shadow-lg">
           <CareerChart />
         </Card>
 
-        <Card className="rounded-2xl shadow-lg p-6">
+        <Card className="rounded-2xl shadow-lg p-6 shadow-primary/20">
           <ChartRadialSimple />
         </Card>
       </section>
 
       {/* GITHUB CONTRIBUTION */}
-      <section className="mb-4 pb-4 my-12 container mx-auto px-6">
-        <Card className="rounded-2xl shadow-lg p-6">
+      <section className="mb-4 pb-4 my-12 container mx-auto px-6 shadow-primary/20 rounded-2xl">
+        <Card className="rounded-2xl shadow-lg p-6 shadow-primary/20 " >
           <GitHubContributionChart />
         </Card>
       </section>
