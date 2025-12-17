@@ -140,9 +140,15 @@ export function GitHubContributionChart() {
                     </CardDescription>
                     <div className="mb-1">
                         <span className="text-xs text-muted-foreground">github username:</span>
-                        <Badge variant={"outline"}>
+                        <Badge
+                            variant="outline"
+                            className="cursor-pointer"
+                            onClick={() => window.open("https://github.com/kik-work", "_blank")}
+                        >
                             kik-work
-                        </Badge>      </div>
+                        </Badge>
+                    </div>
+
                 </div>
 
                 <div className="flex">
@@ -151,7 +157,7 @@ export function GitHubContributionChart() {
                             Total Commits
                         </span>
                         <span className="text-lg leading-none font-bold sm:text-3xl">
-                           <TypographyH1 className="text-primary">{totalCommits.toLocaleString()}</TypographyH1>
+                            <TypographyH1 className="text-primary">{totalCommits.toLocaleString()}</TypographyH1>
                         </span>
                     </div>
                 </div>

@@ -72,7 +72,7 @@ export function Header() {
                   <Mail className="h-4 w-4 text-primary" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="top">Send Email</TooltipContent>
+              <TooltipContent side="top">kakon.aiubcse@gmail.com</TooltipContent>
             </Tooltip>
 
             {/* Message Tooltip */}
@@ -83,7 +83,8 @@ export function Header() {
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="top">
-                Call between 4PM to 11PM
+                01923089370 (4PM to 11PM)
+               
               </TooltipContent>
             </Tooltip>
 

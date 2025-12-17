@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { CheckCircle } from "lucide-react"
 
 const careerTimeline = [
-  { role: "Web Development", duration: "2023-2024" },
+  { role: "Software Development", duration: "2023-2024" },
   { role: "Backend Web Development", duration: "2024-2025" },
   { role: "Full Stack Development", duration: "2025-present" },
 ]
@@ -13,8 +13,8 @@ export default function CareerTimelineChart() {
   return (
     <Card >
       <CardHeader>
-        <CardTitle>Learning Progression Timeline</CardTitle>
-        <CardDescription>Journey to Full Stack Developer </CardDescription>
+        <CardTitle>Career Progression Timeline</CardTitle>
+        <CardDescription>Journey to Full Stack Development </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="relative border-l-2 border-primary ml-4 pl-6 space-y-8">

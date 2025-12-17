@@ -21,11 +21,11 @@ export const description = "A radial chart displaying skill ratings"
 
 const chartData = [
   { skill: "", rating: 10, fill: "var(--card-foreground)" },
-  { skill: "JavaScript", rating: 9, fill: "var(--chart-1)" },
-  { skill: "PHP", rating: 8, fill: "var(--chart-2)" },
-  { skill: "C++", rating: 8, fill: "var(--chart-3)" },
-  { skill: "Python", rating: 7.5, fill: "var(--chart-4)" },
-  { skill: "Java", rating: 7, fill: "var(--chart-5)" },
+  { skill: "JavaScript", rating: 8.7, fill: "var(--chart-1)" },
+  { skill: "PHP", rating: 8, fill: "var(--chart-2-github)" },
+  { skill: "C++", rating: 7, fill: "var(--chart-3-github)" },
+  { skill: "Python", rating: 7, fill: "var(--chart-4-github)" },
+  { skill: "Java/C#", rating: 6, fill: "var(--chart-5-github)" },
 ]
 
 const chartConfig: ChartConfig = {
@@ -34,7 +34,7 @@ const chartConfig: ChartConfig = {
   PHP: { label: "PHP", color: "var(--chart-2)" },
   "C++": { label: "C++", color: "var(--chart-3)" },
   Python: { label: "Python", color: "var(--chart-4)" },
-  Java: { label: "Java", color: "var(--chart-5)" },
+  "Java/C#": { label: "Java/C#", color: "var(--chart-5)" },
 }
 
 export function ChartRadialSimple() {
@@ -42,7 +42,7 @@ export function ChartRadialSimple() {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Programming Language Rating</CardTitle>
-        <CardDescription>Basic predictions on skills</CardDescription>
+        <CardDescription>Self predictions on programming language skills</CardDescription>
       </CardHeader>
 
       <CardContent className="flex-1 pb-0">

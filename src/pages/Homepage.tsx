@@ -7,11 +7,9 @@ import { Github, Linkedin, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { TypographyH1 } from "@/components/ui/typography";
 import { TypographyP } from "@/components/ui/typography";
-
 import { ChartRadialSimple } from "@/components/chart/radial-chart";
 import CareerChart from "@/components/chart/Career-chart";
 import { GitHubContributionChart } from "@/components/chart/Git-clone-chart";
-
 import { TabContainers } from "@/components/TapContainer";
 
 interface HomePageProps {
@@ -23,18 +21,26 @@ interface HomePageProps {
 export default function HomePage({ setActiveTab }: HomePageProps) {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+ 
   }, []);
+  const handleDownload = () => {
+    // Open CV in new tab and trigger download
+    const link = document.createElement("a");
+    link.href = "/CvKhairulIslamKakon.pdf"; // path to your CV in public folder
+    link.download = "Kik_Kakon_CV.pdf";
+    link.click();
+  };
 
   return (
     <main className="min-h-screen bg-background text-foreground">
       <section className="container mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="space-y-6">
-          <Badge variant="secondary" className="w-fit">Personal Portfolio</Badge>
+          <Badge variant="secondary" className="w-fit">786</Badge>
           <TypographyH1 className="text-start text-4xl md:text-5xl font-bold tracking-tight">
             Hi, I’m <span className="text-primary">Khairul Islam</span>
           </TypographyH1>
           <TypographyP className="text-muted-foreground">
-        Tech enthusiast with hands-on experience across multiple roles, driven to contribute meaningfully to the tech industry while excelling in communication and teamwork.
+            Tech enthusiast with hands-on experience across multiple roles, driven to contribute meaningfully to the tech industry while excelling in communication and teamwork.
           </TypographyP>
 
           {/* CTA BUTTONS */}
@@ -51,7 +57,13 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
               View Projects
             </Button>
 
-            <Button size="lg" variant="secondary">Download CV</Button>
+            <Button
+              size="lg"
+              variant="secondary"
+              onClick={handleDownload}
+              >
+              Download CV
+            </Button>
           </div>
 
           {/* SOCIAL ICONS */}
@@ -99,13 +111,13 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
         </Card>
       </section>
       {/* GITHUB CONTRIBUTION */}
-      <section className="">
-       <Card className="rounded-2xl shadow-lg p-6">
+      <section className="mb-4 pb-4">
+        <Card className="rounded-2xl shadow-lg p-6 ">
 
-       <GitHubContributionChart />
-      </Card>
+          <GitHubContributionChart />
+        </Card>
       </section>
-       
+
     </main>
   );
 }
