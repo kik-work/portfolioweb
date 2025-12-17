@@ -218,7 +218,23 @@ export function GitHubContributionChart() {
                         ))}
                     </div>
                 </div>
+                {/* Legend */}
+<div className="flex items-center justify-end gap-1 mt-4 text-xs">
+  <span className="text-muted-foreground">Less</span>
+  <div className="flex gap-0.5">
+    {chartColors.map((color, i) => (
+      <div
+        key={i}
+        className="w-4 h-4 rounded-xs"
+        style={{ backgroundColor: color }}
+      />
+    ))}
+  </div>
+  <span className="text-muted-foreground">More</span>
+</div>
+
             </CardContent>
+
         </Card>
 
     )
