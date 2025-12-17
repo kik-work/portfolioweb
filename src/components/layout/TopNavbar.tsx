@@ -11,17 +11,16 @@ interface TopNavbarProps {
 export function TopNavbar({ activeTab, setActiveTab }: TopNavbarProps) {
   const [scrolled, setScrolled] = useState(false);
 
-  // Add shadow when page is scrolled
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header
       className={cn(
-        "w-full sticky top-0 z-50 transition-all duration-300 backdrop-blur-md",
+       "w-full sticky top-0 z-50 transition-all duration-300 backdrop-blur-md",
         scrolled ? "shadow-md" : ""
       )}
     >
@@ -33,16 +32,13 @@ export function TopNavbar({ activeTab, setActiveTab }: TopNavbarProps) {
                 key={tab}
                 value={tab}
                 className={cn(
-                  "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-full transition-all",
+                  "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-full transition-all duration-200",
                   activeTab === tab
-                    ? "text-primary dark:border-primary! rounded-md"
-                    : ""
+                    ? "text-primary bg-primary/10 rounded-md"
+                    : "text-muted-foreground hover:text-primary"
                 )}
               >
-                {/* Mobile & Tablet: icon only */}
                 <span className="md:hidden">{TabIcons[idx]}</span>
-
-                {/* Desktop: icon + text */}
                 <span className="hidden md:flex items-center gap-2">
                   {TabIcons[idx]}
                   {tab}
