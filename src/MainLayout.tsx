@@ -58,8 +58,9 @@ useEffect(() => {
   const ActiveTabComponent = TabPages[activeTab];
 
   return (
+    <> 
     
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
+     <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* Header: slides away */}
       <ScrollProgress />
       <div
@@ -81,6 +82,8 @@ useEffect(() => {
       <Footer />
       <Toaster richColors position="top-center" />
     </div>
+    </>
+  
   );
 }
 
