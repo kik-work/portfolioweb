@@ -5,12 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { TypographyH1 } from "@/components/ui/typography";
+import { TypographyP } from "@/components/ui/typography";
+
 import { ChartRadialSimple } from "@/components/chart/radial-chart";
 import CareerChart from "@/components/chart/Career-chart";
 import { GitHubContributionChart } from "@/components/chart/Git-clone-chart";
 
+import { TabContainers } from "@/components/TapContainer";
 
+interface HomePageProps {
+  setActiveTab: (tab: string) => void;
+}
 
 
 
