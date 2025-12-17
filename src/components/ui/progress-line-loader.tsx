@@ -17,7 +17,7 @@ interface ProgressLineLoaderProps {
 
 export function ProgressLineLoader({
   height = 2,
-  duration = 3000,
+  duration = 1800,
   showTrack = true,
   showLabel = true,
   className,
