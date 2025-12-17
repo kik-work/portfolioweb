@@ -7,6 +7,7 @@ import Footer from "./components/layout/Footer";
 import { TabContainers, TabPages } from "./components/TapContainer";
 
 import { ProgressLineLoader } from "./components/ui/progress-line-loader";
+import { ScrollProgress } from "./components/ui/scroll-progress";
 
 function MainLayoutPage() {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,9 @@ function MainLayoutPage() {
     const timer = setTimeout(() => setLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
+useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, [activeTab]);
 
   // Scroll handler for header
   useEffect(() => {
@@ -54,8 +58,10 @@ function MainLayoutPage() {
   const ActiveTabComponent = TabPages[activeTab];
 
   return (
+    
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* Header: slides away */}
+      <ScrollProgress />
       <div
         className={`transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
       >
