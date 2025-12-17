@@ -193,7 +193,7 @@ export function GitHubContributionChart() {
                     </div>
 
                     {/* Weeks container with horizontal scroll on mobile */}
-                    <div className="flex space-x-1 overflow-x-auto min-w-max pb-4">
+                    <div className="flex space-x-1 overflow-x-auto min-w-max pb-8">
                         {weeks.map((week, i) => (
                             <div key={i} className="flex flex-col space-y-1 shrink-0">
                                 {week.map((day, j) => (
@@ -217,21 +217,22 @@ export function GitHubContributionChart() {
                             </div>
                         ))}
                     </div>
+                    
                 </div>
                 {/* Legend */}
-<div className="flex items-center justify-end gap-1 mt-4 text-xs">
-  <span className="text-muted-foreground">Less</span>
-  <div className="flex gap-0.5">
-    {chartColors.map((color, i) => (
-      <div
-        key={i}
-        className="w-4 h-4 rounded-xs"
-        style={{ backgroundColor: color }}
-      />
-    ))}
-  </div>
-  <span className="text-muted-foreground">More</span>
-</div>
+                <div className="flex overflow-hidden items-center justify-end gap-1 mt-4 text-xs mb-5">
+                <span className="text-muted-foreground">Less</span>
+                <div className="flex gap-0.5">
+                    {chartColors.map((color, i) => (
+                    <div
+                        key={i}
+                        className="w-4 h-4 rounded-xs"
+                        style={{ backgroundColor: color }}
+                    />
+                    ))}
+                </div>
+                <span className="text-muted-foreground">More</span>
+                </div>
 
             </CardContent>
 
