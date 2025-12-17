@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, CircleStar, Facebook, FolderCode, Github, Globe, Linkedin, Presentation, Signature } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TypographyH1, TypographyH3, TypographyP } from "@/components/ui/typography";
 import { ChartRadialSimple } from "@/components/chart/radial-chart";
@@ -20,6 +20,7 @@ const roles = [
   {
     hero: "Hi! I’m ",
     subhero: " Khairul Islam",
+    icon: <Signature className="h-4 w-4 text-primary" />,
     title: "Tech Enthusiast",
     description:
       "passionate about exploring and contributing to the tech industry through continuous learning and hands-on experience.",
@@ -35,6 +36,7 @@ const roles = [
   {
     hero: "Hi! I’m ",
     subhero: " a Software Engineer",
+    icon: <FolderCode className="h-4 w-4 text-primary" />,
     title: "Software Engineer",
     description:
       "Building efficient and scalable software solutions by applying engineering principles and best practices.",
@@ -50,6 +52,7 @@ const roles = [
   {
     hero: "Hi! I’m ",
     subhero: " a Full Stack Developer",
+    icon: <Globe className="h-4 w-4 text-primary" />,
     title: "Full Stack Developer",
     description:
       "Modern web applications using both front-end and back-end technologies to deliver seamless user experiences.",
@@ -98,7 +101,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >
-          <Badge variant="secondary" className="w-fit">
+          <Badge variant="secondary" className="w-fits">
             786
           </Badge>
 
@@ -112,9 +115,18 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4 }}
               >
-                <TypographyH1 className="text-start text-2xl md:text-2xl font-bold tracking-tight">
+                <TypographyH1 className="flex items-center gap-2 text-start text-2xl md:text-2xl font-bold tracking-tight">
                   {/* {activeRole.hero} <span className="text-primary">{activeRole.subhero}</span> */}
-                  Hi! I’m <span className="text-primary">Khairul Islam</span>
+                  Hi! I’m <motion.span
+                    className="text-primary inline-block"
+                    initial={{ width: 0 }}
+                    animate={{ width: "auto" }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                    style={{ overflow: "hidden", whiteSpace: "nowrap" }}
+                  >
+                    Khairul Islam
+                  </motion.span>
+
                 </TypographyH1>
               </motion.div>
             </AnimatePresence>
@@ -137,19 +149,25 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
                 }, 100);
               }}
             >
-              View Projects
+              View Projects <Presentation />
             </Button>
 
             <Button size="lg" variant="secondary" onClick={handleDownload}>
-              Download CV
+              Download CV <ArrowDown />
             </Button>
           </div>
 
           {/* SOCIAL ICONS */}
           <div className="flex gap-4 pt-4">
-            <Github className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-            <Linkedin className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-            <Mail className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+            <a href="https://github.com/kik-work" target="_blank" rel="noopener noreferrer" >
+              <Github className="w-5 h-5 text-muted-foreground hover:text-primary hover:scale-110 cursor-pointer transition-colors" />
+            </a>
+            <a href="https://www.linkedin.com/in/khairul-islam-kakon-12618222a/" target="_blank" rel="noopener noreferrer" >
+              <Linkedin className="w-5 h-5 text-muted-foreground hover:text-primary hover:scale-110 cursor-pointer transition-colors" />
+            </a>
+            <a href="https://www.facebook.com/share/17XSYL6Q7R/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" >
+              <Facebook className="w-5 h-5 text-muted-foreground hover:text-primary hover:scale-110 cursor-pointer transition-colors" />
+            </a>
           </div>
         </motion.div>
 
@@ -163,7 +181,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
           <Card className="rounded-2xl shadow-lg shadow-primary/20">
             <CardHeader className="flex justify-end items-center pb-0">
               <Badge variant="default" className="text-xs px-3 ">
-                1+ Year Experience
+                <CircleStar /> 1+ Year Experience
               </Badge>
             </CardHeader>
 
@@ -186,7 +204,10 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
                   transition={{ duration: 0.35 }}
                   className=""
                 >
-                  <TypographyH3>  {activeRole.title} </TypographyH3>
+                  <div className=" flex items-center justify-center gap-2">
+                    <TypographyH3 className="">  {activeRole.title} </TypographyH3>
+                    {activeRole.icon}
+                  </div>
 
                   <TypographyP className="text-sm text-muted-foreground">
                     {activeRole.description}

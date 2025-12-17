@@ -11,6 +11,7 @@ import {
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { Badge } from "../ui/badge"
 import { TypographyH1 } from "../ui/typography"
+import { GitBranch, GitCommitHorizontal } from "lucide-react"
 
 type Day = {
     date: string
@@ -126,14 +127,14 @@ export function GitHubContributionChart() {
         }
     })
 
-    const dayLabels = [ "Mon",  "Wed", "Fri"]
+    const dayLabels = ["Mon", "Wed", "Fri"]
 
     return (
-        <Card>
+        <>    <Card>
             <CardHeader className="flex flex-col items-stretch border-b p-0! sm:flex-row">
                 <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-3 sm:pb-0">
-                    <CardTitle>
-                        GitHub Commits Contribution.
+                    <CardTitle className="flex items-center gap-1">
+                        GitHub Commits Contribution. <GitBranch className="h-4 w-4 text-primary"/>
                     </CardTitle>
                     <CardDescription>
                         Live data from GitHub GraphQL API
@@ -153,12 +154,13 @@ export function GitHubContributionChart() {
 
                 <div className="flex">
                     <div className="flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-t-0 sm:border-l sm:px-8 sm:py-6">
-                        <span className="text-muted-foreground text-xs">
-                            Total Commits
+                        <span className="text-muted-foreground text-xs flex items-center gap-1">
+                            Total Commits <GitCommitHorizontal className="h-4 w-4 text-primary"/>
                         </span>
                         <span className="text-lg leading-none font-bold sm:text-3xl">
                             <TypographyH1 className="text-primary">{totalCommits.toLocaleString()}</TypographyH1>
                         </span>
+                        <span className="text-xs text-muted-foreground">in the last year</span>
                     </div>
                 </div>
             </CardHeader>
@@ -217,26 +219,27 @@ export function GitHubContributionChart() {
                             </div>
                         ))}
                     </div>
-                    
+
                 </div>
-                {/* Legend */}
-                <div className="flex overflow-hidden items-center justify-end gap-1 mt-4 text-xs mb-5">
-                <span className="text-muted-foreground">Less</span>
-                <div className="flex gap-0.5">
-                    {chartColors.map((color, i) => (
-                    <div
-                        key={i}
-                        className="w-4 h-4 rounded-xs"
-                        style={{ backgroundColor: color }}
-                    />
-                    ))}
-                </div>
-                <span className="text-muted-foreground">More</span>
-                </div>
+
 
             </CardContent>
 
-        </Card>
+        </Card> 
+        {/* Legend */}
+            <div className="flex overflow-hidden items-center justify-end gap-1 mt-4 text-xs mb-5">
+                <span className="text-muted-foreground">Less</span>
+                <div className="flex gap-0.5">
+                    {chartColors.map((color, i) => (
+                        <div
+                            key={i}
+                            className="w-4 h-4 rounded-xs"
+                            style={{ backgroundColor: color }}
+                        />
+                    ))}
+                </div>
+                <span className="text-muted-foreground">More</span>
+            </div></>
 
     )
 }

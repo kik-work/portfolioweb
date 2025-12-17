@@ -16,6 +16,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
+import { CodeXml } from "lucide-react"
 
 export const description = "A radial chart displaying skill ratings"
 
@@ -41,7 +42,7 @@ export function ChartRadialSimple() {
   return (
    <Card className="flex flex-col">
   <CardHeader className="items-center pb-0">
-    <CardTitle>Programming Language Rating</CardTitle>
+    <CardTitle>Programming Language Rating <CodeXml className="inline-block h-4 w-4 ml-2 text-primary" /></CardTitle>
     <CardDescription>Self predictions on programming language skills</CardDescription>
   </CardHeader>
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle } from "lucide-react"
+import { CheckCircle, Cpu } from "lucide-react"
 
 const careerTimeline = [
   { role: "Software Development", duration: "2023-2024" },
@@ -13,7 +13,7 @@ export default function CareerTimelineChart() {
   return (
     <Card >
       <CardHeader>
-        <CardTitle>Career Progression Timeline</CardTitle>
+        <CardTitle>Career Progression Timeline <Cpu className="inline-block h-4 w-4 ml-2 text-primary" /></CardTitle>
         <CardDescription>Journey to Full Stack Development </CardDescription>
       </CardHeader>
       <CardContent>
