@@ -23,18 +23,18 @@ const chartData = [
   { skill: "", rating: 10, fill: "var(--card-foreground)" },
   { skill: "JavaScript", rating: 8.7, fill: "var(--chart-1-github)" },
   { skill: "PHP", rating: 8, fill: "var(--chart-2-github)" },
-  { skill: "C++", rating: 7, fill: "var(--chart-3-github)" },
+  { skill: "C++", rating: 7.5, fill: "var(--chart-3-github)" },
   { skill: "Python", rating: 7, fill: "var(--chart-4-github)" },
   { skill: "Java/C#", rating: 6, fill: "var(--chart-5-github)" },
 ]
 
 const chartConfig: ChartConfig = {
   Skills: { label: "", color: "var(--card-foreground)" },
-  JavaScript: { label: "JavaScript", color: "var(--chart-1)" },
-  PHP: { label: "PHP", color: "var(--chart-2)" },
-  "C++": { label: "C++", color: "var(--chart-3)" },
-  Python: { label: "Python", color: "var(--chart-4)" },
-  "Java/C#": { label: "Java/C#", color: "var(--chart-5)" },
+  JavaScript: { label: "JavaScript", color: "var(--chart-1-global)" },
+  PHP: { label: "PHP", color: "var(--chart-2-global)" },
+  "C++": { label: "C++", color: "var(--chart-3-global)" },
+  Python: { label: "Python", color: "var(--chart-4-global)" },
+  "Java/C#": { label: "Java/C#", color: "var(--chart-5-global)" },
 }
 
 export function ChartRadialSimple() {

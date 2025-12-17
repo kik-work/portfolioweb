@@ -1,12 +1,11 @@
 // src/pages/Homepage.tsx
-import { useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Github, Linkedin, Mail } from "lucide-react";
-import { motion } from "framer-motion";
-import { TypographyH1 } from "@/components/ui/typography";
-import { TypographyP } from "@/components/ui/typography";
+import { motion, AnimatePresence } from "framer-motion";
+import { TypographyH1, TypographyP } from "@/components/ui/typography";
 import { ChartRadialSimple } from "@/components/chart/radial-chart";
 import CareerChart from "@/components/chart/Career-chart";
 import { GitHubContributionChart } from "@/components/chart/Git-clone-chart";
@@ -16,31 +15,113 @@ interface HomePageProps {
   setActiveTab: (tab: string) => void;
 }
 
+/* 🔁 ROTATING CONTENT */
+const roles = [
+  {
+    hero: "Hi! I’m ",
+    subhero: " Khairul Islam",
+    title: "Tech Enthusiast",
+    description:
+      "passionate about exploring and contributing to the tech industry through continuous learning and hands-on experience.",
+    skills: [
+      "Quick Learner",
+      "leadership",
+      "Teamwork",
+     "Communication",
+      "Adaptability",
+      
+    ],
+  },
+  {
+    hero: "Hi! I’m ",
+    subhero: " a Software Engineer",
+    title: "Software Engineer",
+    description:
+      "Building efficient and scalable software solutions by applying engineering principles and best practices.",
+    skills: [
+      "JavaScript",
+      "TypeScript",
+      "OOP",
+      "Data Structures",
+      "System Design",
+
+      "Problem Solving",
+    ],
+  },
+  {
+    hero: "Hi! I’m ",
+    subhero: " a Full Stack Developer",
+    title: "Full Stack Developer",
+    description:
+      "Developing end-to-end web applications by combining modern frontend frameworks with robust backend systems and databases.",
+    skills: [
+      "React",
+      "Next.js",
+      "Node.js",
+      "Express.js",
+      "PostgreSQL",
+      "Prisma",
+    ],
+  },
+];
 
 
 export default function HomePage({ setActiveTab }: HomePageProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
- 
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % roles.length);
+    }, 20000);
+
+    return () => clearInterval(interval);
   }, []);
+
   const handleDownload = () => {
-    // Open CV in new tab and trigger download
     const link = document.createElement("a");
-    link.href = "/CvKhairulIslamKakon.pdf"; // path to your CV in public folder
+    link.href = "/CvKhairulIslamKakon.pdf";
     link.download = "Kik_Kakon_CV.pdf";
     link.click();
   };
 
+  const activeRole = roles[activeIndex];
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <section className="container mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="space-y-6">
-          <Badge variant="secondary" className="w-fit">786</Badge>
-          <TypographyH1 className="text-start text-4xl md:text-5xl font-bold tracking-tight">
-            Hi, I’m <span className="text-primary">Khairul Islam</span>
-          </TypographyH1>
+        {/* LEFT CONTENT */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="space-y-6"
+        >
+          <Badge variant="secondary" className="w-fit">
+            786
+          </Badge>
+
+          {/* 🔁 HERO TOGGLE */}
+          <div className="min-h-14">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeRole.hero}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4 }}
+              >
+                <TypographyH1 className="text-start text-xl md:text-2xl font-bold tracking-tight">
+                  {activeRole.hero} <span className="text-primary">{activeRole.subhero}</span>
+                </TypographyH1>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
           <TypographyP className="text-muted-foreground">
-            Tech enthusiast with hands-on experience across multiple roles, driven to contribute meaningfully to the tech industry while excelling in communication and teamwork.
+            Tech enthusiast with hands-on experience across multiple roles,
+            driven to contribute meaningfully to the tech industry.
           </TypographyP>
 
           {/* CTA BUTTONS */}
@@ -48,20 +129,18 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
             <Button
               size="lg"
               onClick={() => {
-                setActiveTab(TabContainers[2]); // Projects tab
+                setActiveTab(TabContainers[2]);
                 setTimeout(() => {
-                  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                  document
+                    .getElementById("projects")
+                    ?.scrollIntoView({ behavior: "smooth" });
                 }, 100);
               }}
             >
               View Projects
             </Button>
 
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={handleDownload}
-              >
+            <Button size="lg" variant="secondary" onClick={handleDownload}>
               Download CV
             </Button>
           </div>
@@ -75,49 +154,75 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
         </motion.div>
 
         {/* PROFILE CARD */}
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.2 }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <Card className="rounded-2xl shadow-lg">
+            <CardHeader className="flex justify-end items-center pb-0">
+              <Badge variant="default" className="text-xs px-3 py-1">
+                1+ Year Experience
+              </Badge>
+            </CardHeader>
+
             <CardContent className="p-6 flex flex-col items-center text-center gap-4">
               <div className="w-40 h-40 rounded-full overflow-hidden bg-muted shadow-md">
-                <img src="/minet.jpg" alt="Khairul Islam" className="w-full h-full object-cover object-top" />
+                <img
+                  src="/minet.jpg"
+                  alt="Khairul Islam"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
-              <h3 className="text-xl font-semibold">Frontend Developer</h3>
-              <p className="text-sm text-muted-foreground">Passionate about clean UI, smooth UX, and scalable frontend architecture.</p>
-              <div className="flex gap-2 flex-wrap justify-center">
-                <Badge>React</Badge>
-                <Badge>Tailwind</Badge>
-                <Badge>shadcn/ui</Badge>
-              </div>
+
+              {/* 🔁 ROLE CARD TOGGLE */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeRole.title}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.35 }}
+                  className="space-y-2"
+                >
+                  <h3 className="text-xl font-semibold">
+                    {activeRole.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {activeRole.description}
+                  </p>
+
+                  <div className="flex gap-2 flex-wrap justify-center pt-2">
+                    {activeRole.skills.map((skill) => (
+                      <Badge key={skill} variant="outline">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </CardContent>
           </Card>
-
-
         </motion.div>
-
       </section>
+
       {/* ANALYTICS & SKILLS */}
       <section className="container mx-auto px-6 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
-
-
-        <Card className="px-6  justify-center">
-
+        <Card className="px-6 justify-center">
           <CareerChart />
         </Card>
 
-
         <Card className="rounded-2xl shadow-lg p-6">
-
           <ChartRadialSimple />
         </Card>
       </section>
+
       {/* GITHUB CONTRIBUTION */}
       <section className="mb-4 pb-4 my-12 container mx-auto px-6">
-        <Card className="rounded-2xl shadow-lg p-6 ">
-
+        <Card className="rounded-2xl shadow-lg p-6">
           <GitHubContributionChart />
         </Card>
       </section>
-
     </main>
   );
 }
