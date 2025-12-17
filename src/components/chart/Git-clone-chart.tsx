@@ -126,7 +126,7 @@ export function GitHubContributionChart() {
         }
     })
 
-    const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    const dayLabels = [ "Mon",  "Wed", "Fri"]
 
     return (
         <Card>
@@ -186,7 +186,7 @@ export function GitHubContributionChart() {
                 {/* Contribution squares */}
                 <div className="flex">
                     {/* Day labels */}
-                    <div className="flex flex-col justify-between mr-2 text-xs text-muted-foreground h-36 shrink-0">
+                    <div className="flex flex-col justify-between mr-2 mt-2 text-xs text-muted-foreground h-28 shrink-0">
                         {dayLabels.map((day, i) => (
                             <span key={i}>{day}</span>
                         ))}

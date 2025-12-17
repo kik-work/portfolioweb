@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { Header } from "./components/layout/Header";
 import { Toaster } from "sonner";
-import { SpinnerCustom } from "./components/ui/spinner";
+// import { SpinnerCustom } from "./components/ui/spinner";
 import { TopNavbar } from "./components/layout/TopNavbar";
 import Footer from "./components/layout/Footer";
 import { TabContainers, TabPages } from "./components/TapContainer";
+
+import { ProgressLineLoader } from "./components/ui/progress-line-loader";
 
 function MainLayoutPage() {
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,7 @@ function MainLayoutPage() {
 
   // Loading spinner
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500);
+    const timer = setTimeout(() => setLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -38,11 +40,12 @@ function MainLayoutPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background text-foreground scrollbar-custom">
         <div className="flex flex-col items-center gap-4">
-          <SpinnerCustom />
-          <span className="text-lg text-muted-foreground font-light">
-            Loading KIK Portfolio...
-          </span>
-          <img src="/kik-logo.png" alt="Logo" className="h-16 w-24 rounded-md mt-24" />
+
+
+          <img src="/kik-logo.png" alt="Logo" className="h-14 w-36 rounded-md mt-10" />
+          <ProgressLineLoader />
+
+
         </div>
       </div>
     );

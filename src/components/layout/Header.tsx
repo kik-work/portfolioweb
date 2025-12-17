@@ -52,11 +52,11 @@ export function Header() {
       <TooltipProvider delayDuration={200}>
         <div className="mx-auto w-full flex items-center justify-between p-2 max-w-7xl">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-end gap-2">
             <img
               src="/kik-logo.png"
               alt="Logo"
-              className="h-10 w-16 rounded-md"
+              className="h-6 w-16"
             />
             <h1 className="text-sm font-normal text-muted-foreground">
               Khairul Islam Kakon

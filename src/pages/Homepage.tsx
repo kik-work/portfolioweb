@@ -96,7 +96,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
 
       </section>
       {/* ANALYTICS & SKILLS */}
-      <section className="container mx-auto px-6 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <section className="container mx-auto px-6 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
 
 
         <Card className="px-6  justify-center">
@@ -111,7 +111,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
         </Card>
       </section>
       {/* GITHUB CONTRIBUTION */}
-      <section className="mb-4 pb-4">
+      <section className="mb-4 pb-4 my-12 container mx-auto px-6">
         <Card className="rounded-2xl shadow-lg p-6 ">
 
           <GitHubContributionChart />

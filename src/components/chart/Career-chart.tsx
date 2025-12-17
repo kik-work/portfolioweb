@@ -17,18 +17,24 @@ export default function CareerTimelineChart() {
         <CardDescription>Journey to Full Stack Development </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="relative border-l-2 border-primary ml-4 pl-6 space-y-8">
+        <div className="relative border-l-2 border-primary ml-4 pl-4 space-y-8">
           {careerTimeline.map((item, index) => (
-            <div key={index} className="relative flex items-center">
-              <span className="absolute -left-5 bg-primary rounded-full w-4 h-4 flex items-center justify-center text-white">
-                <CheckCircle className="w-4 h-4" />
+            <div key={index} className="flex items-start gap-2">
+              <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+                <CheckCircle className="h-4 w-4" />
               </span>
+
               <div>
-                <h3 className="font-semibold">{item.role}</h3>
-                <p className="text-sm text-gray-500">{item.duration}</p>
+                <h3 className="font-semibold leading-tight">
+                  {item.role}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {item.duration}
+                </p>
               </div>
             </div>
           ))}
+
         </div>
         <CardFooter className=" gap-2 my-5 p-3 text-sm">
 
