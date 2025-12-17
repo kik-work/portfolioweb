@@ -21,7 +21,7 @@ export const description = "A radial chart displaying skill ratings"
 
 const chartData = [
   { skill: "", rating: 10, fill: "var(--card-foreground)" },
-  { skill: "JavaScript", rating: 8.7, fill: "var(--chart-1)" },
+  { skill: "JavaScript", rating: 8.7, fill: "var(--chart-1-github)" },
   { skill: "PHP", rating: 8, fill: "var(--chart-2-github)" },
   { skill: "C++", rating: 7, fill: "var(--chart-3-github)" },
   { skill: "Python", rating: 7, fill: "var(--chart-4-github)" },
@@ -39,46 +39,46 @@ const chartConfig: ChartConfig = {
 
 export function ChartRadialSimple() {
   return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Programming Language Rating</CardTitle>
-        <CardDescription>Self predictions on programming language skills</CardDescription>
-      </CardHeader>
+   <Card className="flex flex-col">
+  <CardHeader className="items-center pb-0">
+    <CardTitle>Programming Language Rating</CardTitle>
+    <CardDescription>Self predictions on programming language skills</CardDescription>
+  </CardHeader>
 
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <RadialBarChart
-            data={chartData}
-            startAngle={0}
-            endAngle={360}
-            innerRadius={20}
-            outerRadius={135}
-          >
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel nameKey="skill" />}
-            />
-            <RadialBar dataKey="rating" background>
-              <LabelList
-                position="insideStart"
-                dataKey="skill"
-                className="fill-white capitalize mix-blend-luminosity"
-                fontSize={11}
-              />
-            </RadialBar>
-          </RadialBarChart>
-        </ChartContainer>
-      </CardContent>
+  <CardContent className="flex-1 pb-0">
+    <ChartContainer
+      config={chartConfig}
+      className="w-full max-w-[300px] mx-auto aspect-square"
+    >
+      <RadialBarChart
+        data={chartData}
+        startAngle={0}
+        endAngle={360}
+        innerRadius="20%"
+        outerRadius="90%" // Use % for responsive scaling
+      >
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent hideLabel nameKey="skill" />}
+        />
+        <RadialBar dataKey="rating" background>
+          <LabelList
+            position="insideStart"
+            dataKey="skill"
+            className="fill-white capitalize mix-blend-luminosity"
+            fontSize={11}
+          />
+        </RadialBar>
+      </RadialBarChart>
+    </ChartContainer>
+  </CardContent>
 
-      <CardFooter className="flex-col gap-2 text-sm">
-       
-        <div className="text-muted-foreground leading-none">
-          Showing skill ratings out of 10
-        </div>
-      </CardFooter>
-    </Card>
+  <CardFooter className="flex-col gap-2 text-sm">
+    <div className="text-muted-foreground leading-none">
+      Showing skill ratings out of 10
+    </div>
+  </CardFooter>
+</Card>
+
   )
 }
