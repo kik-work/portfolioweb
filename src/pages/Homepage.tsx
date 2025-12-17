@@ -115,7 +115,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4 }}
               >
-                <TypographyH1 className="flex items-center gap-2 text-start text-2xl md:text-2xl font-bold tracking-tight">
+                <TypographyH1 className="flex flex-col lg:flex-row items-center gap-2 text-start text-2xl md:text-2xl font-bold tracking-tight">
                   {/* {activeRole.hero} <span className="text-primary">{activeRole.subhero}</span> */}
                   Hi! I’m <motion.span
                     className="text-primary inline-block"
