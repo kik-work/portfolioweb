@@ -40,8 +40,8 @@ export function TopNavbar({ activeTab, setActiveTab }: TopNavbarProps) {
               >
                 <span className="md:hidden">{TabIcons[idx]}</span>
                 <span className="hidden md:flex items-center gap-2">
-                  {TabIcons[idx]}
-                  {tab}
+                 
+                  {tab} {TabIcons[idx]}
                 </span>
               </TabsTrigger>
             ))}

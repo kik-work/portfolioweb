@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { lazy, Suspense } from "react";
-import { BriefcaseBusiness, FolderCode, GraduationCap, House, Info, Target } from "lucide-react";
+import { BriefcaseBusiness,  GraduationCap, House, Info, Presentation, Target } from "lucide-react";
 
 // Lazy-loaded pages
 const HomeLazy = lazy(() => import("@/pages/Welcome"));
@@ -24,7 +24,7 @@ export const TabContainers = [
 export const TabIcons = [
   <House className="h-4 w-4" />,
   <BriefcaseBusiness className="h-4 w-4" />,
-  <FolderCode className="h-4 w-4" />,
+  <Presentation className="h-4 w-4" />,
   <Target className="h-4 w-4" />,
   <GraduationCap className="h-4 w-4" />,
   <Info className="h-4 w-4" />,
