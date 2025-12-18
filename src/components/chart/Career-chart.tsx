@@ -13,7 +13,7 @@ export default function CareerTimelineChart() {
   return (
     <Card >
       <CardHeader>
-        <CardTitle>Career Progression Timeline <Cpu className="inline-block h-4 w-4 ml-2 text-primary" /></CardTitle>
+        <CardTitle className="flex items-center">Career Progression Timeline <Cpu className="inline-block h-4 w-4 ml-2 text-primary" /></CardTitle>
         <CardDescription>Journey to Full Stack Development </CardDescription>
       </CardHeader>
       <CardContent>

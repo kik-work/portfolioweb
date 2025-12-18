@@ -52,7 +52,7 @@ export function Header() {
       <TooltipProvider delayDuration={200}>
         <div className="mx-auto w-full flex items-center justify-between p-2 max-w-7xl">
           {/* Logo */}
-          <div className="flex items-end gap-2">
+          <div className="flex items-end gap-2 cursor-pointer" onClick={()=>window.location.reload()}>
             <img
               src="/kik-logo.png"
               alt="Logo"
