@@ -10,10 +10,11 @@ import {
   TypographyH2,
   TypographyP,
 } from "@/components/ui/typography";
+import { BriefcaseBusiness, Building2, Clock6, NotepadText, TrendingUp } from "lucide-react";
 
 const experiences = [
   {
-    role: "Junior Software Developer",
+    role: "Jr. Software Developer",
     company: "Alor Feri Limited",
     period: "Aug 2024 – Present",
     description:
@@ -54,7 +55,7 @@ export default function ExperiencePage() {
   const activeExp = experiences[activeIndex];
 
   return (
-    <main className="min-h-screen bg-background text-foreground py-16">
+    <main className="min-h-screen bg-background text-foreground py-8">
       {/* HEADER */}
       <section className="container mx-auto px-6 text-center">
         <motion.div
@@ -77,47 +78,47 @@ export default function ExperiencePage() {
         <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-10">
           {/* LEFT TABS */}
           <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible">
-  {experiences.map((exp, index) => {
-    const isActive = index === activeIndex;
+            {experiences.map((exp, index) => {
+              const isActive = index === activeIndex;
 
-    return (
-      <button
-        key={exp.role}
-        onClick={() => setActiveIndex(index)}
-        className={`
+              return (
+                <button
+                  key={exp.role}
+                  onClick={() => setActiveIndex(index)}
+                  className={`
           text-left rounded-xl border transition-all duration-300
           px-4 py-3
           min-w-[220px] md:min-w-0
           ${isActive
-            ? "bg-primary text-primary-foreground border-primary shadow-md"
-            : "bg-background border-border hover:bg-muted"
-          }
+                      ? "bg-primary text-primary-foreground border-primary shadow-md"
+                      : "bg-background border-border hover:bg-muted"
+                    }
         `}
-      >
-        {/* ROLE (always visible) */}
-        <p className="font-semibold text-sm md:text-base">
-          {exp.role}
-        </p>
+                >
+                  {/* ROLE (always visible) */}
+                  <p className="font-semibold text-sm md:text-base">
+                    {exp.role} <BriefcaseBusiness className={'inline-block ml-1 h-4 w-4 ${isActive ? "text-primary-foreground" : "text-primary"}'} />
+                  </p>
 
-        {/* COMPANY (always on desktop, conditional on mobile) */}
-        <p
-          className={`
+                  {/* COMPANY (always on desktop, conditional on mobile) */}
+                  <p
+                    className={`
             text-xs mt-1
             md:block
             ${isActive ? "block" : "hidden"}
             ${isActive
-              ? "text-primary-foreground/80"
-              : "text-muted-foreground"
-            }
+                        ? "text-primary-foreground/80"
+                        : "text-muted-foreground"
+                      }
           `}
-        >
-          {exp.company}
-        </p>
+                  >
+                    {exp.company}
+                  </p>
 
-      </button>
-    );
-  })}
-</div>
+                </button>
+              );
+            })}
+          </div>
 
           {/* RIGHT CONTENT */}
           <div>
@@ -135,13 +136,14 @@ export default function ExperiencePage() {
                       <TypographyH2 className="text-xl md:text-2xl">
                         {activeExp.role}
                       </TypographyH2>
-                      <TypographyP className="text-muted-foreground mt-1">
-                        {activeExp.company} • {activeExp.period}
+                      <TypographyP className="text-muted-foreground mt-1 flex flex-col items-start gap-2 ">
+                        <div><Building2 className="inline-block  h-5 w-5 text-primary" />   {activeExp.company} </div> 
+                        <div><Clock6 className="inline-block  h-5 w-5 text-primary" /> {activeExp.period}</div>
                       </TypographyP>
                     </div>
 
-                    <Badge variant="default" className="w-fit">
-                      {activeExp.type}
+                    <Badge variant="outline" className="w-fit  text-primary dark:text-primary-foreground">
+                      {activeExp.type} <TrendingUp className="inline-block  h-4 w-4" />
                     </Badge>
                   </CardHeader>
 
@@ -156,8 +158,8 @@ export default function ExperiencePage() {
                   >
                     {/* DESCRIPTION */}
                     <div className="flex items-center">
-                      <TypographyP className="text-muted-foreground leading-relaxed">
-                        {activeExp.description}
+                      <TypographyP className="text-muted-foreground leading-relaxed  gap-2">
+                      <NotepadText className="inline-block mr-2 h-5 w-5 text-primary" /> {activeExp.description}
                       </TypographyP>
                     </div>
 

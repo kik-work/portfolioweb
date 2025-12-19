@@ -54,7 +54,7 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-end gap-2 cursor-pointer" onClick={()=>window.location.reload()}>
             <img
-              src="/kik-logo.png"
+              src="/kikLogoRH.png"
               alt="Logo"
               className="h-6 w-16"
             />

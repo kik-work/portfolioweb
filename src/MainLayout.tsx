@@ -46,7 +46,7 @@ useEffect(() => {
         <div className="flex flex-col items-center gap-4">
 
 
-          <img src="/kik-logo.png" alt="Logo" className="h-14 w-36 rounded-md mt-10" />
+          <img src="/kikLogoRH.png" alt="Logo" className="h-24 w-56 rounded-md mt-10" />
           <ProgressLineLoader />
 
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowDown, CircleStar, Facebook, FolderCode, Github, Globe, Linkedin, Presentation, Signature } from "lucide-react";
+import { ArrowDown, CircleStar, Facebook, FolderCode, Github, Globe, Linkedin,  Presentation, Signature } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TypographyH1, TypographyH3, TypographyP } from "@/components/ui/typography";
 import { ChartRadialSimple } from "@/components/chart/radial-chart";
@@ -93,7 +93,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <section className="container mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <section className="container mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* LEFT CONTENT */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -149,11 +149,11 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
                 }, 100);
               }}
             >
-              View Projects <Presentation />
+              <Presentation />  View Projects
             </Button>
 
             <Button size="lg" variant="secondary" onClick={handleDownload}>
-              Download CV <ArrowDown />
+              <ArrowDown />  Download CV
             </Button>
           </div>
 
@@ -204,13 +204,13 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
                   transition={{ duration: 0.35 }}
                   className=""
                 >
-                  <div className=" flex items-center justify-center gap-2">
+                  <div className=" flex items-center mt-2 justify-center gap-2">
                     <TypographyH3 className="">  {activeRole.title} </TypographyH3>
                     {activeRole.icon}
                   </div>
 
-                  <TypographyP className="text-sm text-muted-foreground">
-                    {activeRole.description}
+                  <TypographyP className="text-sm text-muted-foreground mb-2 ">
+                   {activeRole.description}
                   </TypographyP>
 
                   <div className="flex gap-2 flex-wrap justify-center pt-2">
