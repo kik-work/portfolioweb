@@ -178,7 +178,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="order-first md:order-last"
         >
-          <Card className="rounded-2xl shadow-lg shadow-primary/20">
+          <Card className="rounded-2xl shadow-lg ">
             <CardHeader className="flex justify-end items-center pb-0">
               <Badge variant="default" className="text-xs px-3 ">
                 <CircleStar /> 1+ Year Experience
@@ -229,18 +229,18 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
 
       {/* ANALYTICS & SKILLS */}
       <section className="container mx-auto px-6 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <Card className="p-6  shadow-primary/20 rounded-2xl shadow-lg">
+        <Card className="p-6   rounded-2xl shadow-lg">
           <CareerChart />
         </Card>
 
-        <Card className="rounded-2xl shadow-lg p-6 shadow-primary/20">
+        <Card className="rounded-2xl shadow-lg p-6 ">
           <ChartRadialSimple />
         </Card>
       </section>
 
       {/* GITHUB CONTRIBUTION */}
-      <section className="mb-4 pb-4 my-12 container mx-auto px-6 shadow-primary/20 rounded-2xl">
-        <Card className="rounded-2xl shadow-lg p-6 shadow-primary/20 " >
+      <section className="mb-4 pb-4 my-12 container mx-auto px-6  rounded-2xl">
+        <Card className="rounded-2xl shadow-lg p-6  " >
           <GitHubContributionChart />
         </Card>
       </section>

@@ -1,11 +1,15 @@
 // src/pages/Experience.tsx
+"use client";
+
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-// import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import { TypographyH1, TypographyH2, TypographyP } from "@/components/ui/typography";
-import { useEffect } from "react";
-
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  TypographyH1,
+  TypographyH2,
+  TypographyP,
+} from "@/components/ui/typography";
 
 const experiences = [
   {
@@ -41,9 +45,13 @@ const experiences = [
 ];
 
 export default function ExperiencePage() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  const activeExp = experiences[activeIndex];
 
   return (
     <main className="min-h-screen bg-background text-foreground py-16">
@@ -58,57 +66,133 @@ export default function ExperiencePage() {
             My <span className="text-primary">Experience</span>
           </TypographyH1>
           <TypographyP className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            A snapshot of my professional journey, internships, and hands-on experience in software development.
+            A snapshot of my professional journey and hands-on experience in
+            software development.
           </TypographyP>
         </motion.div>
       </section>
 
-      {/* EXPERIENCE LIST */}
-      <section className="container mx-auto px-6 pb-24 space-y-12 mt-16">
-        {experiences.map((exp, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: i * 0.15 }}
-          >
-            <Card className="hover:shadow-2xl transition-shadow duration-300 rounded-2xl border border-border">
-              <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                  <TypographyH2>{exp.role}</TypographyH2>
-                  <TypographyP className="text-muted-foreground mt-1 md:mt-2 text-base md:text-lg">
-                    {exp.company} • {exp.period}
-                  </TypographyP>
-                </div>
-                <Badge variant="outline" className="w-fit px-3 py-1 text-sm md:text-base">
-                  {exp.type}
-                </Badge>
-              </CardHeader>
+      {/* TABS LAYOUT */}
+      <section className="container mx-auto px-6 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-10">
+          {/* LEFT TABS */}
+          <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible">
+  {experiences.map((exp, index) => {
+    const isActive = index === activeIndex;
 
-              <CardContent className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-center mt-4">
-                <TypographyP className="text-muted-foreground text-base md:text-lg leading-relaxed">
-                  {exp.description}
-                </TypographyP>
+    return (
+      <button
+        key={exp.role}
+        onClick={() => setActiveIndex(index)}
+        className={`
+          text-left rounded-xl border transition-all duration-300
+          px-4 py-3
+          min-w-[220px] md:min-w-0
+          ${isActive
+            ? "bg-primary text-primary-foreground border-primary shadow-md"
+            : "bg-background border-border hover:bg-muted"
+          }
+        `}
+      >
+        {/* ROLE (always visible) */}
+        <p className="font-semibold text-sm md:text-base">
+          {exp.role}
+        </p>
 
-                <div className="flex flex-col items-center gap-4">
-                  <img
-                    src={exp.logo}
-                    alt={exp.company}
-                    className="h-20 w-20 md:h-24 md:w-24 object-contain rounded-lg border border-border p-2 bg-background"
-                  />
-                  {/* <Button
-                    variant="outline"
-                    onClick={goToProjects}
-                    className="hover:bg-primary/10 transition-all"
+        {/* COMPANY (always on desktop, conditional on mobile) */}
+        <p
+          className={`
+            text-xs mt-1
+            md:block
+            ${isActive ? "block" : "hidden"}
+            ${isActive
+              ? "text-primary-foreground/80"
+              : "text-muted-foreground"
+            }
+          `}
+        >
+          {exp.company}
+        </p>
+
+      </button>
+    );
+  })}
+</div>
+
+          {/* RIGHT CONTENT */}
+          <div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35 }}
+              >
+                <Card className="rounded-2xl border border-border shadow-lg">
+                  <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                      <TypographyH2 className="text-xl md:text-2xl">
+                        {activeExp.role}
+                      </TypographyH2>
+                      <TypographyP className="text-muted-foreground mt-1">
+                        {activeExp.company} • {activeExp.period}
+                      </TypographyP>
+                    </div>
+
+                    <Badge variant="default" className="w-fit">
+                      {activeExp.type}
+                    </Badge>
+                  </CardHeader>
+
+                  {/* CONTENT */}
+                  <CardContent
+                    className="
+      grid grid-cols-1
+      md:grid-cols-2
+      gap-8
+      items-center
+    "
                   >
-                    View Projects
-                  </Button> */}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+                    {/* DESCRIPTION */}
+                    <div className="flex items-center">
+                      <TypographyP className="text-muted-foreground leading-relaxed">
+                        {activeExp.description}
+                      </TypographyP>
+                    </div>
+
+                    {/* LOGO */}
+                    <div className="flex justify-center md:justify-end items-center">
+                      <a
+                        href={activeExp.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex justify-center"
+                      >
+                        <img
+                          src={activeExp.logo}
+                          alt={activeExp.company}
+                          className="
+            h-42 w-42
+            object-contain
+            rounded-xl
+            border border-border
+            p-3
+            bg-background
+            transition-transform
+            hover:scale-105
+            hover:shadow-md
+          "
+                        />
+                      </a>
+                    </div>
+                  </CardContent>
+                </Card>
+
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </section>
     </main>
   );

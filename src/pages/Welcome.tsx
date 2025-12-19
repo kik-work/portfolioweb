@@ -22,7 +22,7 @@ const Welcome: FC<TabPageProps> = ({ setActiveTab }) => {
   }, []);
 
   return (
-    <section className="max-w-7xl mx-auto px-2 rounded-2xl py-1  backdrop-blur-md border border-slate-200/10 space-y-8">
+    <section className="max-w-7xl mx-auto px-2 rounded-2xl py-1 overflow-x-hidden backdrop-blur-md border border-slate-200/10 space-y-8">
       {showSpinner ? (
         <div className="flex justify-center py-20">
           <SpinnerCustom />
