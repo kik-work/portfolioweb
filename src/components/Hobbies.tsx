@@ -1,9 +1,8 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import { TypographyH3, TypographyP } from "./ui/typography";
 
 interface HobbyItem {
   title: string;
@@ -15,93 +14,76 @@ const hobbies: HobbyItem[] = [
   { title: "Football", category: "Sports", image: "/football.png" },
   { title: "Cricket", category: "Sports", image: "/cricket.png" },
   { title: "Badminton", category: "Sports", image: "/badminton.png" },
-  { title: "Carrom", category: "Games", image: "/carrom.png" },
-  { title: "Chess", category: "Games", image: "/chess.png" },
-  {
-    title: "Global Dynamics",
-    category: "International Affairs",
-    image: "/globalaffair.png",
-  },
-  {
-    title: "International Politics",
-    category: "Politics",
-    image: "/international-politics.svg",
-  },
-  {
-    title: "Blockchain",
-    category: "Trade Enthusiast",
-    image: "/blockchain.png",
-  },
+  { title: "Carrom", category: "Indoor Games", image: "/carrom.png" },
+  { title: "Chess", category: "Indoor Games", image: "/chess.png" },
+ 
+  { title: "National & International Politics", category: "Politics", image: "/international-politics.svg" },
+  { title: "Blockchain", category: "Trade Enthusiast", image: "/blockchain.png" },
   { title: "NFT", category: "Trade Enthusiast", image: "/nft.png" },
-  {
-    title: "Digital Currency",
-    category: "Trade Enthusiast",
-    image: "/digitalcurrency.png",
-  },
+  { title: "Digital Currency", category: "Trade Enthusiast", image: "/digitalcurrency.png" },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.15 } },
-};
+// group by category
+const grouped = hobbies.reduce<Record<string, HobbyItem[]>>((acc, item) => {
+  acc[item.category] = acc[item.category] || [];
+  acc[item.category].push(item);
+  return acc;
+}, {});
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-const Hobby: React.FC = () => {
+const Hobby = () => {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-        className="space-y-12"
-      >
+    <section className="w-full pb-20 bg-background">
+      <div className="w-full max-w-6xl mx-auto px-4 space-y-14">
         {/* Header */}
-        <motion.div variants={itemVariants} className="text-center space-y-3">
-          <h1 className="text-4xl font-bold">Hobbies & Interests</h1>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            A collection of my hobbies, interests, and activities I enjoy in my
-            free time.
-          </p>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center space-y-3"
+        >
+          <TypographyH3 className="text-3xl font-semibold">Hobbies & Interests</TypographyH3>
+          <TypographyP className="text-muted-foreground max-w-2xl mx-auto">
+            Interests that shape my personality beyond technology.
+          </TypographyP>
         </motion.div>
 
-        {/* Hobby Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {hobbies.map((hobby) => (
-            <motion.div key={hobby.title} variants={itemVariants}>
-              <Card className="hover:shadow-xl transition-shadow rounded-2xl border bg-muted/50">
-                <CardContent className="flex flex-col items-center gap-4 p-6">
-                  <img
-                    src={hobby.image}
-                    alt={hobby.title}
-                    className="w-48 h-36 rounded-xl object-cover shadow-sm"
-                  />
-                  <div className="flex flex-col items-center text-center">
-                    <h2 className="text-xl font-bold">{hobby.title}</h2>
-                    <Badge variant="secondary" className="mt-1">
-                      {hobby.category}
-                    </Badge>
+        {/* Categories */}
+        <div className="space-y-12">
+          {Object.entries(grouped).map(([category, items], idx) => (
+            <motion.div
+              key={category}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.05 }}
+              className="rounded-2xl border bg-muted/30"
+            >
+              {/* Category Header */}
+              <div className="flex items-center justify-between px-6 py-4 border-b bg-muted/40 rounded-t-2xl">
+                <h3 className="text-lg font-semibold">{category}</h3>
+                <Badge variant="outline">{items.length}</Badge>
+              </div>
+
+              {/* Items */}
+              <div className="divide-y">
+                {items.map((item) => (
+                  <div
+                    key={item.title}
+                    className="flex items-center gap-4 px-6 py-4 hover:bg-muted/50 transition"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-10 h-10 object-contain"
+                    />
+                    <span className="font-medium">{item.title}</span>
                   </div>
-                </CardContent>
-              </Card>
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>
-
-        {/* CTA Button */}
-        <motion.div
-          variants={itemVariants}
-          className="flex justify-center mt-10"
-        >
-          <Button asChild size="lg">
-            <a href="mailto:kakon.aiubcse@gmail.com">Hire Me</a>
-          </Button>
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 };

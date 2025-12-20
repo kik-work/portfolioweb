@@ -26,7 +26,7 @@ const levelStyles: Record<"Basic" | "Intermediate" | "Advanced", string> = {
 };
 
 export default function SkillsPage() {
-  const [activeTab, setActiveTab] = useState(SKILL_TABS[0].id);
+  const [activeTab, setActiveTab] = useState(SKILL_TABS[1].id);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });

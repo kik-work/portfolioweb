@@ -24,7 +24,7 @@ const projects = [
     name: "KIK QR Card",
     video: "/videos/kikqrcard.mp4",
     description: "“A modern QR scan–based web application for customizing, previewing, and purchasing cards.",
-    demo: "https://ecommerceproject-kikservercoder.netlify.app/",
+    demo: "https://kikqrcard.netlify.app/",
   },
     {
     id: 2,
@@ -41,13 +41,14 @@ const projects = [
     description: "Tracking and managing buy/sell of products with Express.js and Next.js",
     demo: "https://github.com/kakon-aiubcse/Eshopmanagementweb",
   },
-   {
+  {
     id: 4,
-    name: "Info Strainer",
-    video: "/videos/infostrainervid.mp4",
-    description: "Created on VS Code with C# for information validation",
-    demo: "https://github.com/kakon-aiubcse/info-strainer",
+    name: "Project E-Commerce",
+    video: "/videos/ecom.mp4",
+    description: "Created to establish payment from Stripe and manage products",
+    demo: "https://ecommerceproject-kikservercoder.netlify.app/",
   },
+  
    {
     id: 5,
     name: "Postiz Design",
@@ -57,11 +58,12 @@ const projects = [
   },
    {
     id: 6,
-    name: "Project E-Commerce",
-    video: "/videos/ecom.mp4",
-    description: "Created to establish payment from Stripe and manage products",
-    demo: "https://ecommerceproject-kikservercoder.netlify.app/",
+    name: "Info Strainer",
+    video: "/videos/infostrainervid.mp4",
+    description: "Created on VS Code with C# for information validation",
+    demo: "https://github.com/kakon-aiubcse/info-strainer",
   },
+   
 
  
  
