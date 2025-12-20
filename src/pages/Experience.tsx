@@ -17,8 +17,13 @@ const experiences = [
     role: "Jr. Software Developer",
     company: "Alor Feri Limited",
     period: "Aug 2024 – Present",
-    description:
-      "System analysis, design, development, integration, testing, bug fixing, documentation, and team collaboration.",
+    highlights: [
+      "System analysis & architecture planning",
+      "Full-stack feature development",
+      "API integration & optimization",
+      "Bug fixing & performance improvements",
+      "Team collaboration & documentation",
+    ],
     logo: "/alorferi.png",
     link: "https://www.alorferi.com/",
     type: "Full Time",
@@ -27,8 +32,12 @@ const experiences = [
     role: "Backend Intern",
     company: "Pressply LLC",
     period: "Jan 2024 – May 2024",
-    description:
-      "Built scalable e-commerce backend with Express, PostgreSQL, Prisma, and Stripe integration.",
+    highlights: [
+      "REST API development with Express",
+      "PostgreSQL & Prisma ORM",
+      "Stripe payment integration",
+      "Scalable e-commerce backend",
+    ],
     logo: "/pressply.png",
     link: "https://pressply.com/",
     type: "Internship",
@@ -37,13 +46,18 @@ const experiences = [
     role: "Backend Development Intern",
     company: "Taskirsview",
     period: "Jan 2025 – Feb 2025",
-    description:
-      "Designed and maintained server-side logic, databases, and collaborated on high-quality solutions.",
+    highlights: [
+      "Server-side logic implementation",
+      "Database design & optimization",
+      "Backend performance tuning",
+      "Cross-team collaboration",
+    ],
     logo: "/taskirsview.png",
     link: "https://t.ly/gup-v/",
     type: "Internship",
   },
 ];
+
 
 export default function ExperiencePage() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -137,7 +151,7 @@ export default function ExperiencePage() {
                         {activeExp.role}
                       </TypographyH2>
                       <TypographyP className="text-muted-foreground mt-1 flex flex-col items-start gap-2 ">
-                        <div><Building2 className="inline-block  h-5 w-5 text-primary" />   {activeExp.company} </div> 
+                        <div><Building2 className="inline-block  h-5 w-5 text-primary" />   {activeExp.company} </div>
                         <div><Clock6 className="inline-block  h-5 w-5 text-primary" /> {activeExp.period}</div>
                       </TypographyP>
                     </div>
@@ -157,11 +171,26 @@ export default function ExperiencePage() {
     "
                   >
                     {/* DESCRIPTION */}
-                    <div className="flex items-center">
-                      <TypographyP className="text-muted-foreground leading-relaxed  gap-2">
-                      <NotepadText className="inline-block mr-2 h-5 w-5 text-primary" /> {activeExp.description}
+                    <div>
+                      <TypographyP className="mb-3 flex items-center gap-2 font-medium">
+                        <NotepadText className="h-5 w-5 text-primary" />
+                        Key Responsibilities
                       </TypographyP>
+
+                    <ul className="space-y-2 ml-3">
+  {activeExp.highlights.map((item, i) => (
+    <li
+      key={i}
+      className="grid grid-cols-[10px_1fr] gap-3 text-sm text-muted-foreground"
+    >
+      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary" />
+      <span className="leading-relaxed">{item}</span>
+    </li>
+  ))}
+</ul>
+
                     </div>
+
 
                     {/* LOGO */}
                     <div className="flex justify-center md:justify-end items-center">

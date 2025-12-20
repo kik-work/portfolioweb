@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { TypographyH3, TypographyP } from "./ui/typography";
 
 interface HobbyItem {
   title: string;
@@ -35,17 +34,7 @@ const Hobby = () => {
     <section className="w-full pb-20 bg-background">
       <div className="w-full max-w-6xl mx-auto px-4 space-y-14">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center space-y-3"
-        >
-          <TypographyH3 className="text-3xl font-semibold">Hobbies & Interests</TypographyH3>
-          <TypographyP className="text-muted-foreground max-w-2xl mx-auto">
-            Interests that shape my personality beyond technology.
-          </TypographyP>
-        </motion.div>
+      
 
         {/* Categories */}
         <div className="space-y-12">

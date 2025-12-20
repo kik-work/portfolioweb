@@ -121,7 +121,7 @@ export default function SkillsPage() {
                             </Badge>
                           </div>
 
-                          <div className="space-y-1">
+                          {/* <div className="space-y-1">
                             <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
                               <div
                                 className="h-full rounded-full bg-primary"
@@ -131,7 +131,7 @@ export default function SkillsPage() {
                             <span className="text-xs text-muted-foreground">
                               {skill.rating}/10
                             </span>
-                          </div>
+                          </div> */}
                         </div>
                       </CardContent>
                     </Card2>

@@ -83,10 +83,9 @@ function EducationCards({ level }: { level: string }) {
         <motion.div key={edu.degree} variants={item} className=" w-full">
           <Card className="h-full rounded-2xl shadow-md hover:shadow-xl transition-shadow">
             <CardHeader className="">
-              <div className="flex items-center justify-between">
-               
+              <div className="flex items-center justify-between">               
                 <CardTitle >
-               <TypographyH1 className="text-xl ">{edu.degree}</TypographyH1>
+               <TypographyH3 >{edu.degree}</TypographyH3>
               </CardTitle>
               </div>
               
@@ -171,42 +170,76 @@ export default function EducationPage() {
         </motion.div>
 
         {/* Tabs */}
-        <Tabs value={tab} onValueChange={setTab} className="w-full">
-          <div className="flex justify-start px-1 border-b border-muted/50  pb-2 ">
-            <TabsList className="rounded-2xl px-2 w-full">
-  <TabsTrigger
-    value="University"
-className="data-[state=active]:text-white data-[state=active]:bg-primary rounded-md px-3 "
-  >
-    University <University className="inline-block ml-2" />
-  </TabsTrigger>
-  <TabsTrigger
-    value="College"
-    className="data-[state=active]:text-white data-[state=active]:bg-primary rounded-md px-3 "
-  >
-    College <BookText className="inline-block ml-2" />
-  </TabsTrigger>
-  <TabsTrigger
-    value="School"
-    className="data-[state=active]:text-white data-[state=active]:bg-primary rounded-md px-3 "
-  >
-    School <BookOpen className="inline-block ml-2" />
-  </TabsTrigger>
-</TabsList>
-          </div>
+     <Tabs value={tab} onValueChange={setTab} className="w-full">
+  <div className="flex justify-start px-1 border-b border-muted/50 dark:border-muted/30 pb-2">
+    <TabsList
+      className="
+        w-full rounded-2xl px-2
+        bg-muted/40 dark:bg-muted/20
+      "
+    >
+      <TabsTrigger
+        value="University"
+        className="
+          rounded-md px-3 py-1.5
+          text-muted-foreground dark:text-muted-foreground
+          hover:text-foreground dark:hover:text-foreground
+          data-[state=active]:bg-primary
+          data-[state=active]:text-white
+          data-[state=active]:dark:bg-primary
+        "
+      >
+        University
+        <University className="inline-block ml-2 h-4 w-4" />
+      </TabsTrigger>
 
-          <div className="mt-2  w-full ">
-            <TabsContent value="University" >
-              <EducationCards level="University" />
-            </TabsContent>
-            <TabsContent value="College">
-              <EducationCards level="College" />
-            </TabsContent>
-            <TabsContent value="School">
-              <EducationCards level="School" />
-            </TabsContent>
-          </div>
-        </Tabs>
+      <TabsTrigger
+        value="College"
+        className="
+          rounded-md px-3 py-1.5
+          text-muted-foreground dark:text-muted-foreground
+          hover:text-foreground dark:hover:text-foreground
+          data-[state=active]:bg-primary
+          data-[state=active]:text-white
+          data-[state=active]:dark:bg-primary
+        "
+      >
+        College
+        <BookText className="inline-block ml-2 h-4 w-4" />
+      </TabsTrigger>
+
+      <TabsTrigger
+        value="School"
+        className="
+          rounded-md px-3 py-1.5
+          text-muted-foreground dark:text-muted-foreground
+          hover:text-foreground dark:hover:text-foreground
+          data-[state=active]:bg-primary
+          data-[state=active]:text-white
+          data-[state=active]:dark:bg-primary
+        "
+      >
+        School
+        <BookOpen className="inline-block ml-2 h-4 w-4" />
+      </TabsTrigger>
+    </TabsList>
+  </div>
+
+  <div className="mt-3 w-full">
+    <TabsContent value="University">
+      <EducationCards level="University" />
+    </TabsContent>
+
+    <TabsContent value="College">
+      <EducationCards level="College" />
+    </TabsContent>
+
+    <TabsContent value="School">
+      <EducationCards level="School" />
+    </TabsContent>
+  </div>
+</Tabs>
+
 
         {/* Certificates */}
         <motion.div variants={item} className="space-y-6">
