@@ -7,6 +7,7 @@ export interface SkillItem {
 
 export interface SkillSectionProps {
   title: string;
+  icon?: React.ReactNode;
   description?: string;
   skills: SkillItem[];
 }
