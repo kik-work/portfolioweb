@@ -45,6 +45,14 @@ export function TypographyP(props: React.HTMLAttributes<HTMLParagraphElement>) {
     />
   );
 }
+export function TypographyP2(props: React.HTMLAttributes<HTMLParagraphElement>) {
+  return (
+    <p
+      {...props}
+      className={`leading-7 not-first:mt-1 ${props.className || ""}`}
+    />
+  );
+}
 
 export function TypographyBlockquote(props: React.HTMLAttributes<HTMLElement>) {
   return (
