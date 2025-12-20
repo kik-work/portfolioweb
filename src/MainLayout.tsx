@@ -8,6 +8,7 @@ import { TabContainers, TabPages } from "./components/TapContainer";
 
 import { ProgressLineLoader } from "./components/ui/progress-line-loader";
 import { ScrollProgress } from "./components/ui/scroll-progress";
+import ChatBubble from "./components/ChatBubble";
 
 function MainLayoutPage() {
   const [loading, setLoading] = useState(true);
@@ -82,6 +83,7 @@ useEffect(() => {
       <Footer />
       <Toaster richColors position="top-center" />
     </div>
+      <ChatBubble />
     </>
   
   );
