@@ -129,6 +129,7 @@ export default function SkillsPage() {
               level: "Intermediate",
               rating: 7,
             },
+            
            
             {
               name: "NestJS",
@@ -162,6 +163,12 @@ export default function SkillsPage() {
               icon: "/nodejs.svg",
               level: "Advanced",
               rating: 8,
+            },
+             {
+              name: "Redux",
+              icon: "/redux.svg",
+              level: "Intermediate",
+              rating: 7,
             },
             {
               name: "Prisma",

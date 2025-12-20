@@ -21,18 +21,19 @@ import { TypographyH2, TypographyP } from "@/components/ui/typography";
 const projects = [
   {
     id: 1,
-    name: "Project E-Commerce",
-    video: "/videos/ecom.mp4",
-    description: "Created to establish payment from Stripe and manage products",
+    name: "KIK QR Card",
+    video: "/videos/kikqrcard.mp4",
+    description: "“A modern QR scan–based web application for customizing, previewing, and purchasing cards.",
     demo: "https://ecommerceproject-kikservercoder.netlify.app/",
   },
-  {
+    {
     id: 2,
     name: "Booking Management",
     video: "/videos/bookingappcv.mp4",
     description: "Managing bookings and invoices with receipts with Firebase and Next.js",
     demo: "https://bookingapppersonal.netlify.app/",
   },
+ 
   {
     id: 3,
     name: "E-Shop Management",
@@ -40,20 +41,30 @@ const projects = [
     description: "Tracking and managing buy/sell of products with Express.js and Next.js",
     demo: "https://github.com/kakon-aiubcse/Eshopmanagementweb",
   },
-  {
+   {
     id: 4,
-    name: "Postiz Design",
-    video: "/videos/postizvid.mp4",
-    description: "Purpose of learning Tailwind CSS and frontend skills.",
-    demo: "https://postiz.netlify.app/",
-  },
-  {
-    id: 5,
     name: "Info Strainer",
     video: "/videos/infostrainervid.mp4",
     description: "Created on VS Code with C# for information validation",
     demo: "https://github.com/kakon-aiubcse/info-strainer",
   },
+   {
+    id: 5,
+    name: "Postiz Design",
+    video: "/videos/postizvid.mp4",
+    description: "Purpose of learning Tailwind CSS and frontend skills.",
+    demo: "https://postiz.netlify.app/",
+  },
+   {
+    id: 6,
+    name: "Project E-Commerce",
+    video: "/videos/ecom.mp4",
+    description: "Created to establish payment from Stripe and manage products",
+    demo: "https://ecommerceproject-kikservercoder.netlify.app/",
+  },
+
+ 
+ 
 ];
 
 /* -------------------- PAGE -------------------- */
