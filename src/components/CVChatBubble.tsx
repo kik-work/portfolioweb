@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CVChatModal } from "./CVChatModal";
-
+import { MessageCircleMore } from "lucide-react";
 
 export const CVChat: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -9,12 +9,14 @@ export const CVChat: React.FC = () => {
     <>
       {open && <CVChatModal onClose={() => setOpen(false)} />}
 
-      <button
-        onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full shadow-lg z-50"
-      >
-        Chat
-      </button>
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          className="fixed bottom-5 right-5 bg-primary text-white p-3 md:p-4 xl:p-5 rounded-xl shadow-lg z-50"
+        >
+          <MessageCircleMore />
+        </button>
+      )}
     </>
   );
 };
