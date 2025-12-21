@@ -12,10 +12,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// -------------------------
+// Constants
+// -------------------------
 const BASE_URL = "https://generativelanguage.googleapis.com/v1beta";
-
-// Path to your service account JSON
-const SERVICE_ACCOUNT_PATH = "./api/service/service-account.json";
 
 // CV context
 const CV_CONTEXT = `
@@ -54,14 +54,18 @@ app.post("/api/chat", async (req, res) => {
   if (!message) return res.status(400).json({ error: "Message required" });
 
   try {
-    // Authenticate with service account
+    // 🔑 Use service-account.json directly
     const auth = new GoogleAuth({
-      keyFile: SERVICE_ACCOUNT_PATH,
-      scopes: ["https://www.googleapis.com/auth/cloud-platform"],
+      keyFile: "service-account.json",
+      scopes: ["https://www.googleapis.com/auth/ai.generate"],
     });
 
     const client = await auth.getClient();
     const accessToken = await client.getAccessToken();
+
+    if (!accessToken?.token) {
+      return res.status(500).json({ error: "Failed to obtain access token" });
+    }
 
     // Build chat prompt
     const prompt = [
@@ -90,19 +94,19 @@ ${CV_CONTEXT}`
         body: JSON.stringify({
           prompt,
           maxOutputTokens: 500,
-          temperature: 0.2
+          temperature: 0.2,
         }),
       }
     );
 
     const data = await response.json();
-    console.log(JSON.stringify(data, null, 2)); // Debug full response
+    console.log("Gemini API response:", JSON.stringify(data, null, 2));
 
     const reply = data?.candidates?.[0]?.content || "Sorry, I couldn't generate a response.";
     res.json({ reply });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+    console.error("Error in /api/chat:", err);
+    res.status(500).json({ error: err.message || "Server error" });
   }
 });
 
