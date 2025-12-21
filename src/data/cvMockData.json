@@ -1,0 +1,54 @@
+{
+  "summary": "Tech enthusiast with hands on experience from multiple internships and probationary period, eager to contribute to the tech industry...",
+  "contact": {
+    "name": "Khairul Islam Kakon",
+    "phone": "+88 01923089370",
+    "email": "kakon.aiubcse@gmail.com",
+    "linkedin": "https://t.ly/9mS-v",
+    "portfolio": "https://is.gd/Z3au4a",
+    "github": "https://t.ly/2ENJq"
+  },
+  "experience": [
+    {
+      "role": "Junior Software Developer",
+      "company": "Alor Feri Limited",
+      "period": "August 2025 – present",
+      "details": [
+        "System analysis, design, development, integration",
+        "Code review and testing, bug fixing and maintenance",
+        "Technical documentation and team collaboration"
+      ]
+    },
+    {
+      "role": "Backend Developer Intern",
+      "company": "Taskirsview",
+      "period": "January 2025 – February 2025",
+      "details": [
+        "Designed, developed and maintained server-side logic",
+        "Collaborated with team for high quality solutions"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "BSc in Computer Science and Engineering",
+      "university": "AIUB",
+      "session": "Spring 2024",
+      "major": "Software Engineering",
+      "cgpa": "3.66/4.00"
+    }
+  ],
+  "skills": [
+    "JavaScript", "Python", "C++", "Java", "PHP",
+    "React.js", "Next.js", "Express.js", "Django", "Laravel", "Nest.js",
+    "Redux", "Tailwind CSS", "Shadcn-ui", "Prisma", "Stripe",
+    "PostgreSQL", "MySQL", "MongoDB", "Firestore"
+  ],
+  "projects": [
+    {
+      "title": "KIKQRcard",
+      "description": "Web app for managing booking with invoices using Next.js and Firebase.",
+      "link": "https://is.gd/77VNPv"
+    }
+  ]
+}
