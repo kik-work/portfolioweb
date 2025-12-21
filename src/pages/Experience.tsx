@@ -150,10 +150,17 @@ export default function ExperiencePage() {
                       <TypographyH2 className="text-xl md:text-2xl">
                         {activeExp.role}
                       </TypographyH2>
-                      <TypographyP className="text-muted-foreground mt-1 flex flex-col items-start gap-2 ">
-                        <div><Building2 className="inline-block  h-5 w-5 text-primary" />   {activeExp.company} </div>
-                        <div><Clock6 className="inline-block  h-5 w-5 text-primary" /> {activeExp.period}</div>
+                      <TypographyP className="text-muted-foreground mt-1 flex flex-col md:flex-row items-start lg:items-center gap-4">
+                        <span className="flex items-center gap-1">
+                          <Building2 className="h-5 w-5 text-primary" />
+                          {activeExp.company}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock6 className="h-5 w-5 text-primary" />
+                          {activeExp.period}
+                        </span>
                       </TypographyP>
+
                     </div>
 
                     <Badge variant="outline" className="w-fit  text-primary dark:text-primary-foreground">
@@ -177,17 +184,17 @@ export default function ExperiencePage() {
                         Key Responsibilities
                       </TypographyP>
 
-                    <ul className="space-y-2 ml-3">
-  {activeExp.highlights.map((item, i) => (
-    <li
-      key={i}
-      className="grid grid-cols-[10px_1fr] gap-3 text-sm text-muted-foreground"
-    >
-      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary" />
-      <span className="leading-relaxed">{item}</span>
-    </li>
-  ))}
-</ul>
+                      <ul className="space-y-2 ml-3">
+                        {activeExp.highlights.map((item, i) => (
+                          <li
+                            key={i}
+                            className="grid grid-cols-[10px_1fr] gap-3 text-sm text-muted-foreground"
+                          >
+                            <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary" />
+                            <span className="leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
 
                     </div>
 
