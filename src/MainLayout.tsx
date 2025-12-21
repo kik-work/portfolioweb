@@ -9,6 +9,8 @@ import { TabContainers, TabPages } from "./components/TapContainer";
 import { ProgressLineLoader } from "./components/ui/progress-line-loader";
 import { ScrollProgress } from "./components/ui/scroll-progress";
 
+import GPTAssistant from "./components/CallGemini";
+
 function MainLayoutPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(TabContainers[0]);
@@ -82,6 +84,7 @@ useEffect(() => {
       <Footer />
       <Toaster richColors position="top-center" />
     </div>
+    <GPTAssistant />
     </>
   
   );
