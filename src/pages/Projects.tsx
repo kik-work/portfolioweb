@@ -49,13 +49,13 @@ const projects = [
     demo: "https://ecommerceproject-kikservercoder.netlify.app/",
   },
   
-   {
-    id: 5,
-    name: "Postiz Design",
-    video: "/videos/postizvid.mp4",
-    description: "Purpose of learning Tailwind CSS and frontend skills.",
-    demo: "https://postiz.netlify.app/",
-  },
+  //  {
+  //   id: 5,
+  //   name: "Postiz Design",
+  //   video: "/videos/postizvid.mp4",
+  //   description: "Purpose of learning Tailwind CSS and frontend skills.",
+  //   demo: "https://postiz.netlify.app/",
+  // },
    {
     id: 6,
     name: "Info Strainer",

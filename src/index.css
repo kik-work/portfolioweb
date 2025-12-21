@@ -172,22 +172,39 @@
   background-color: var(--primary);
   border-radius: 999px;
 }
-/* Light mode dots */
+/* ===== Slick Slider Dots Styling ===== */
+
+/* Inactive dots (light mode) */
 .slick-dots li button:before {
-  color: var(--muted-foreground); /* visible on light background */
-  opacity: 0.5; /* optional, for subtle effect */
+  font-size: 10px; /* size of the dot */
+  color: #888; /* gray for inactive dots */
+  opacity: 0.7;
+  transition: color 0.3s, opacity 0.3s;
 }
 
-/* Dark mode dots */
-.dark .slick-dots li button:before {
-  color: var(--foreground); /* visible on dark background */
-  opacity: 0.5;
-}
-
-/* Optional: hover effect */
+/* Active dot (light mode) */
 .slick-dots li.slick-active button:before {
+  color: var(--primary); /* primary color for active dot */
   opacity: 1;
 }
+
+/* Inactive dots (dark mode) */
+.dark .slick-dots li button:before {
+  color: #666; /* subtle gray in dark mode */
+  opacity: 0.7;
+}
+
+/* Active dot (dark mode) */
+.dark .slick-dots li.slick-active button:before {
+  color: var(--primary);
+  opacity: 1;
+}
+
+/* Optional: hover effect for all dots */
+.slick-dots li button:hover:before {
+  opacity: 1;
+}
+
 @keyframes progress {
   0% {
     transform: translateX(-100%);
