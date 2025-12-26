@@ -69,7 +69,7 @@ export default function ExperiencePage() {
   const activeExp = experiences[activeIndex];
 
   return (
-    <main className="min-h-screen bg-background text-foreground py-8">
+    <main className="min-h-screen bg-background text-foreground py-10">
       {/* HEADER */}
       <section className="container mx-auto px-6 text-center">
         <motion.div

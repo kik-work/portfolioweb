@@ -128,7 +128,7 @@ const ProjectPage = () => {
   };
 
   return (
-    <main id="projects" className="min-h-screen bg-background text-foreground py-8">
+    <main id="projects" className="min-h-screen bg-background text-foreground py-10">
       {/* HEADER */}
       <section className="text-center mb-16">
         <motion.h1

@@ -93,7 +93,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <section className="container mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <section className="container mx-auto px-6 py-2 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* LEFT CONTENT */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

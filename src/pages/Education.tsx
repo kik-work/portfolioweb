@@ -40,7 +40,7 @@ const educationData = [
     location: "Kuratoli, Khilkhet",
     year: "Spring 2020-2024",
     major: "Software Engineering",
-    result: "CGPA 3.66",
+    result: "CGPA 3.66/400",
     logo: "/aiub.png",
     website: "https://www.aiub.edu/",
     level: "University",
@@ -151,7 +151,7 @@ export default function EducationPage() {
   }, []);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20">
+    <section className="max-w-7xl mx-auto px-6 py-10">
       <motion.div
         variants={container}
         initial="hidden"

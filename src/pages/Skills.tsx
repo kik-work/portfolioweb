@@ -36,7 +36,7 @@ export default function SkillsPage() {
   const Icon = currentTab.icon;
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16 space-y-10">
+    <section className="max-w-7xl mx-auto px-6 py-10 space-y-10">
       <motion.div
         variants={container}
         initial="hidden"

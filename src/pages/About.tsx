@@ -64,7 +64,7 @@ const AboutPage = () => {
 
   return (
     <>
-      <section className="max-w-7xl mx-auto px-6 py-16 space-y-12">
+      <section className="max-w-7xl mx-auto px-6 py-10 space-y-12">
         {/* Header */}
         <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
           <motion.div variants={item} className="space-y-3">
