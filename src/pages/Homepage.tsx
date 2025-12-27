@@ -84,7 +84,7 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/CvKhairulIslamKakon.pdf";
+    link.href = "/KhairulIslamKakonCV.pdf";
     link.download = "Kik_Kakon_CV.pdf";
     link.click();
   };
