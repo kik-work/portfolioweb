@@ -14,9 +14,25 @@ import { BriefcaseBusiness, Building2, Clock6, NotepadText, TrendingUp } from "l
 
 const experiences = [
   {
-    role: "Jr. Software Developer",
+    role: "Jr. Software Engineer",
+    company: "Nidus Lab",
+    period: "Jan 2026 – Present",
+    highlights: [
+      "Develop, test, and maintain Laravel-based backend applications.",
+      "Build modern Next.js + TypeScript frontend interfaces.",
+      "Create and manage RESTful APIs for web and mobile applications.",
+      "Integrate third-party services (payment gateways, SMS, email, etc.).",
+      "Collaborate with design, product, and QA teams.",
+
+    ],
+    logo: "/niduslab.png",
+    link: "https://www.niduslab.com/",
+    type: "Full Time",
+  },
+  {
+    role: "Jr. Software Engineer",
     company: "Alor Feri Limited",
-    period: "Aug 2024 – Present",
+    period: "Aug 2024 – Dec 2025",
     highlights: [
       "System analysis & architecture planning",
       "Full-stack feature development",
