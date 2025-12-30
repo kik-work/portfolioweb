@@ -104,9 +104,9 @@ export default function ExperiencePage() {
 
       {/* TABS LAYOUT */}
       <section className="container mx-auto px-6 mt-10">
-        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-10">
           {/* LEFT TABS */}
-          <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible">
+          <div className="flex lg:flex-col gap-3 overflow-x-auto md:overflow-visible">
             {experiences.map((exp, index) => {
               const isActive = index === activeIndex;
 
@@ -235,6 +235,7 @@ export default function ExperiencePage() {
             border border-border
             p-3
             bg-background
+            dark:bg-white
             transition-transform
             hover:scale-105
             hover:shadow-md
