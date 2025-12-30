@@ -1,4 +1,3 @@
-// src/pages/Experience.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -32,7 +31,7 @@ const experiences = [
   {
     role: "Jr. Software Engineer",
     company: "Alor Feri Limited",
-    period: "Aug 2024 – Dec 2025",
+    period: "Aug 2025 – Dec 2025",
     highlights: [
       "System analysis & architecture planning",
       "Full-stack feature development",
@@ -167,10 +166,13 @@ export default function ExperiencePage() {
                         {activeExp.role}
                       </TypographyH2>
                       <TypographyP className="text-muted-foreground mt-1 flex flex-col md:flex-row items-start lg:items-center gap-4">
-                        <span className="flex items-center gap-1">
-                          <Building2 className="h-5 w-5 text-primary" />
+                       <Building2 className="h-5 w-5 text-primary" />
+                       <Badge variant={"outline"}>
+                        
+                         <a href={activeExp.link} className="flex items-center gap-1">
+                         
                           {activeExp.company}
-                        </span>
+                        </a></Badge> 
                         <span className="flex items-center gap-1">
                           <Clock6 className="h-5 w-5 text-primary" />
                           {activeExp.period}
