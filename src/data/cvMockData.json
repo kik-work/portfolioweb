@@ -9,6 +9,18 @@
     "github": "https://t.ly/2ENJq"
   },
   "experience": [
+     {
+      "role": "Junior Software Engineer",
+      "company": "Alor Feri Limited",
+      "period": "January 2026 – present",
+      "details": [    
+      " Develop, test, and maintain Laravel-based backend applications.",
+      "Build modern Next.js + TypeScript frontend interfaces.",
+      "Create and manage RESTful APIs for web and mobile applications.",
+      "Integrate third-party services (payment gateways, SMS, email, etc.).",
+      "Collaborate with design, product, and QA teams."
+      ]
+    },
     {
       "role": "Junior Software Developer",
       "company": "Alor Feri Limited",
@@ -41,8 +53,8 @@
   "skills": [
     "JavaScript", "Python", "C++", "Java", "PHP",
     "React.js", "Next.js", "Express.js", "Django", "Laravel", "Nest.js",
-    "Redux", "Tailwind CSS", "Shadcn-ui", "Prisma", "Stripe",
-    "PostgreSQL", "MySQL", "MongoDB", "Firestore"
+    "Redux", "Tailwind CSS", "Shadcn-ui", "Prisma", "Stripe", "TanStack",
+    "PostgreSQL", "MySQL", "MongoDB", "Firestore", "SupaBase"
   ],
   "projects": [
     {
