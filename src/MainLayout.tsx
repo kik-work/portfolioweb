@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+﻿import { useEffect, useState, useRef } from "react";
 import { Header } from "./components/layout/Header";
 import { Toaster } from "sonner";
 // import { SpinnerCustom } from "./components/ui/spinner";
@@ -48,7 +48,7 @@ useEffect(() => {
         <div className="flex flex-col items-center gap-4">
 
 
-          <img src="/kikLogoRH.png" alt="Logo" className="h-24 w-56 rounded-md mt-10" />
+          <img src="/kikLogoRH.webp" alt="Logo" className="h-24 w-56 rounded-md mt-10" />
           <ProgressLineLoader />
 
 
@@ -94,3 +94,4 @@ useEffect(() => {
 }
 
 export default MainLayoutPage;
+

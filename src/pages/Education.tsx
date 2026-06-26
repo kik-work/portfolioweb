@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -34,7 +34,7 @@ import {
   University,
 } from "lucide-react";
 
-/* ---------- Animation variants — only for card entrance ---------- */
+/* ---------- Animation variants â€” only for card entrance ---------- */
 const container = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.12 } },
@@ -49,7 +49,7 @@ const educationData = [
     year: "Spring 2020-2024",
     major: "Software Engineering",
     result: "CGPA 3.66/4.00",
-    logo: "/aiub.png",
+    logo: "/aiub.webp",
     website: "https://www.aiub.edu/",
     level: "University",
   },
@@ -166,7 +166,7 @@ export default function EducationPage() {
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-10">
-      {/* Header — CSS fade-in, no framer needed for a static title */}
+      {/* Header â€” CSS fade-in, no framer needed for a static title */}
       <div className="text-center space-y-3 mb-14 animate-fade-in-up">
         <TypographyH1>
           My <span className="text-primary">Education</span>
@@ -222,7 +222,7 @@ export default function EducationPage() {
         <h2 className="text-3xl font-semibold text-center">Certificates</h2>
         <Card className="rounded-2xl overflow-hidden shadow-md hover:-translate-y-1 transition-transform">
           <img
-            src="/cisco-1.png"
+            src="/cisco-1.webp"
             alt="Cisco Certificate"
             className="w-full object-cover"
             loading="lazy"
@@ -234,3 +234,4 @@ export default function EducationPage() {
     </section>
   );
 }
+

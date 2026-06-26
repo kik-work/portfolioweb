@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
@@ -10,16 +10,16 @@ interface HobbyItem {
 }
 
 const hobbies: HobbyItem[] = [
-  { title: "Football", category: "Sports", image: "/football.png" },
-  { title: "Cricket", category: "Sports", image: "/cricket.png" },
-  { title: "Badminton", category: "Sports", image: "/badminton.png" },
-  { title: "Carrom", category: "Indoor Games", image: "/carrom.png" },
-  { title: "Chess", category: "Indoor Games", image: "/chess.png" },
+  { title: "Football", category: "Sports", image: "/football.webp" },
+  { title: "Cricket", category: "Sports", image: "/cricket.webp" },
+  { title: "Badminton", category: "Sports", image: "/badminton.webp" },
+  { title: "Carrom", category: "Indoor Games", image: "/carrom.webp" },
+  { title: "Chess", category: "Indoor Games", image: "/chess.webp" },
  
   { title: "National & International Politics", category: "Politics", image: "/international-politics.svg" },
-  { title: "Blockchain", category: "Trade Enthusiast", image: "/blockchain.png" },
-  { title: "NFT", category: "Trade Enthusiast", image: "/nft.png" },
-  { title: "Digital Currency", category: "Trade Enthusiast", image: "/digitalcurrency.png" },
+  { title: "Blockchain", category: "Trade Enthusiast", image: "/blockchain.webp" },
+  { title: "NFT", category: "Trade Enthusiast", image: "/nft.webp" },
+  { title: "Digital Currency", category: "Trade Enthusiast", image: "/digitalcurrency.webp" },
 ];
 
 // group by category
@@ -78,3 +78,4 @@ const Hobby = () => {
 };
 
 export default Hobby;
+

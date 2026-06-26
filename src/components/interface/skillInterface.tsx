@@ -1,4 +1,4 @@
-import {
+﻿import {
   Languages,
   Library,
   Grid2X2Check,
@@ -14,7 +14,7 @@ export interface SkillItem {
   name: string;
   icon: string;
   level: "Basic" | "Intermediate" | "Advanced";
-  rating: number; // 1–10
+  rating: number; // 1â€“10
 }
 
 export interface SkillSectionProps {
@@ -64,10 +64,10 @@ export const SKILL_TABS: SkillTab[] = [
         level: "Advanced",
         rating: 8,
       },
-      { name: "Express", icon: "/express.png", level: "Advanced", rating: 8 },
+      { name: "Express", icon: "/express.webp", level: "Advanced", rating: 8 },
       {
         name: "Laravel",
-        icon: "/laravel.png",
+        icon: "/laravel.webp",
         level: "Intermediate",
         rating: 7,
       },
@@ -97,7 +97,7 @@ export const SKILL_TABS: SkillTab[] = [
       { name: "Stripe", icon: "/stripe-4.svg", level: "Basic", rating: 6 },
       {
         name: "TanStack",
-        icon: "/tanstack.png",
+        icon: "/tanstack.webp",
         level: "Advanced",
         rating: 7,
       },
@@ -123,7 +123,7 @@ export const SKILL_TABS: SkillTab[] = [
       },
       {
         name: "Supavase",
-        icon: "/supabase.png",
+        icon: "/supabase.webp",
         level: "Basic",
         rating: 8,
       },
@@ -151,3 +151,4 @@ export const SKILL_TABS: SkillTab[] = [
     ],
   },
 ];
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -21,7 +21,7 @@ const experiences = [
   {
     role: "Jr. Software Engineer",
     company: "Nidus Lab",
-    period: "Jan 2026 – Present",
+    period: "Jan 2026 â€“ Present",
     highlights: [
       "Develop, test, and maintain Laravel-based backend applications.",
       "Build modern Next.js + TypeScript frontend interfaces.",
@@ -29,14 +29,14 @@ const experiences = [
       "Integrate third-party services (payment gateways, SMS, email, etc.).",
       "Collaborate with design, product, and QA teams.",
     ],
-    logo: "/niduslab.png",
+    logo: "/niduslab.webp",
     link: "https://www.niduslab.com/",
     type: "Full Time",
   },
   {
     role: "Jr. Software Engineer",
     company: "Alor Feri Limited",
-    period: "Aug 2025 – Dec 2025",
+    period: "Aug 2025 â€“ Dec 2025",
     highlights: [
       "System analysis & architecture planning",
       "Full-stack feature development",
@@ -44,35 +44,35 @@ const experiences = [
       "Bug fixing & performance improvements",
       "Team collaboration & documentation",
     ],
-    logo: "/alorferi.png",
+    logo: "/alorferi.webp",
     link: "https://www.alorferi.com/",
     type: "Full Time",
   },
   {
     role: "Backend Intern",
     company: "Pressply LLC",
-    period: "Jan 2024 – May 2024",
+    period: "Jan 2024 â€“ May 2024",
     highlights: [
       "REST API development with Express",
       "PostgreSQL & Prisma ORM",
       "Stripe payment integration",
       "Scalable e-commerce backend",
     ],
-    logo: "/pressply.png",
+    logo: "/pressply.webp",
     link: "https://pressply.com/",
     type: "Internship",
   },
   {
     role: "Backend Development Intern",
     company: "Taskirsview",
-    period: "Jan 2025 – Feb 2025",
+    period: "Jan 2025 â€“ Feb 2025",
     highlights: [
       "Server-side logic implementation",
       "Database design & optimization",
       "Backend performance tuning",
       "Cross-team collaboration",
     ],
-    logo: "/taskirsview.png",
+    logo: "/taskirsview.webp",
     link: "https://t.ly/gup-v/",
     type: "Internship",
   },
@@ -89,7 +89,7 @@ export default function ExperiencePage() {
 
   return (
     <main className="min-h-screen bg-background text-foreground py-10">
-      {/* HEADER — CSS fade-in, no framer needed */}
+      {/* HEADER â€” CSS fade-in, no framer needed */}
       <section className="container mx-auto px-6 text-center animate-fade-in-up">
         <TypographyH1>
           My <span className="text-primary">Experience</span>
@@ -208,7 +208,7 @@ export default function ExperiencePage() {
                       </ul>
                     </div>
 
-                    {/* Logo — lazy loaded */}
+                    {/* Logo â€” lazy loaded */}
                     <div className="flex justify-center md:justify-end items-center">
                       <a
                         href={activeExp.link}
@@ -236,3 +236,4 @@ export default function ExperiencePage() {
     </main>
   );
 }
+

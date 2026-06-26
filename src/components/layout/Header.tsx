@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useContext } from "react";
 import { Button } from "@/components/ui/button";
@@ -54,7 +54,7 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-end gap-2 cursor-pointer" onClick={()=>window.location.reload()}>
             <img
-              src="/kikLogoRH.png"
+              src="/kikLogoRH.webp"
               alt="Logo"
               className="h-6 w-16"
             />
@@ -100,3 +100,4 @@ export function Header() {
     </header>
   );
 }
+

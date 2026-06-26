@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -49,13 +49,13 @@ const PERSONAL_INFO: InfoItem[] = [
   { label: "Religion", value: "Muslim", tooltip: "Religion" },
   {
     label: "Permanent Address",
-    // Replaced react-world-flags with emoji flag — same visual, zero bundle cost
-    value: "Sherpur, Mymensingh 🇧🇩",
+    // Replaced react-world-flags with emoji flag â€” same visual, zero bundle cost
+    value: "Sherpur, Mymensingh ðŸ‡§ðŸ‡©",
     tooltip: "Place of Birth",
   },
   {
     label: "Present Address",
-    value: "Nikunjo-2, Khilkhet, Dhaka 🇧🇩",
+    value: "Nikunjo-2, Khilkhet, Dhaka ðŸ‡§ðŸ‡©",
     tooltip: "Present Address",
   },
 ];
@@ -103,7 +103,7 @@ const ACTIVITIES: ActivityItem[] = [
     title: "Assistance to the Needy during COVID-19",
     year: "Apr-Jul 2020",
     role: "Community Volunteer",
-    image: "/covidvol.png",
+    image: "/covidvol.webp",
     description:
       "Provided informal assistance to those in need during the COVID-19 pandemic.",
   },
@@ -206,7 +206,7 @@ const AboutPage = () => {
                 </CardContent>
               </Card>
 
-              {/* Personal info — flattened DOM, no nested Progress bars */}
+              {/* Personal info â€” flattened DOM, no nested Progress bars */}
               <div className="space-y-3">
                 {PERSONAL_INFO.map((info) => (
                   <div
@@ -273,3 +273,4 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
+
