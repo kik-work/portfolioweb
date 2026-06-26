@@ -15,10 +15,11 @@ export const ThemeContext = createContext<ThemeContextType>({
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
 
-  // Load saved theme on mount
+  // Load saved theme on mount, falling back to OS preference
   useEffect(() => {
     const saved = localStorage.getItem("theme") as Theme | null;
-    const initial = saved || "light";
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const initial = saved ?? (prefersDark ? "dark" : "light");
     setTheme(initial);
     document.documentElement.classList.toggle("dark", initial === "dark");
   }, []);

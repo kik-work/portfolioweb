@@ -60,18 +60,18 @@ const educationData = [
     year: "2017-2019",
     major: "Science",
     result: "GPA 4.00 / 5.00",
-    logo: "/sgc.jpeg",
+    logo: "/sgc.webp",
     website: "https://sherpurgovtcollege.edu.bd/",
     level: "College",
   },
   {
     degree: "Secondary School Certificate (SSC)",
     institute: "Jangaldi High School",
-    location: "Sherpur, Dhaka, Bangladesh",
+    location: "Sherpur, Mymensingh, Bangladesh",
     year: "2016-2017",
     major: "Science",
     result: "GPA 5.00 / 5.00",
-    logo: "/jangaldi.jpeg",
+    logo: "/jangaldi.webp",
     website: "https://locator.eduportalbd.com/institutes/?ins=113829",
     level: "School",
   },
@@ -160,10 +160,6 @@ function EducationCards({ level }: { level: string }) {
 export default function EducationPage() {
   const [tab, setTab] = useState("University");
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
   return (
     <section className="max-w-7xl mx-auto px-6 py-10">
       {/* Header â€” CSS fade-in, no framer needed for a static title */}
@@ -179,7 +175,7 @@ export default function EducationPage() {
       {/* Tabs */}
       <Tabs value={tab} onValueChange={setTab} className="w-full">
         <div className="flex justify-start px-1 border-b border-muted/50 dark:border-muted/30 pb-2">
-          <TabsList className="w-full rounded-2xl px-2 bg-muted/40 dark:bg-muted/20">
+          <TabsList className="rounded-2xl px-2 bg-muted/40 dark:bg-muted/20">
             <TabsTrigger
               value="University"
               className="rounded-md px-3 py-1.5 text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-white"

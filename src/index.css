@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -246,4 +245,42 @@
   .animate-fade-in-up {
     animation: none;
   }
+}
+
+/* Carousel arrows — fully CSS-controlled, slick style prop ignored */
+.arrow-wrapper {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 50 !important;
+  width: 40px !important;
+  height: 40px !important;
+  cursor: pointer;
+}
+
+.arrow-next {
+  right: -20px !important;
+  left: auto !important;
+}
+
+.arrow-prev {
+  left: -20px !important;
+  right: auto !important;
+}
+
+.arrow-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--background);
+  color: var(--primary);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.arrow-btn:hover {
+  background-color: var(--primary);
+  color: var(--background);
 }

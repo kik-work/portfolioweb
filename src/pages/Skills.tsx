@@ -11,13 +11,13 @@ import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import AdditionalSkillPage from "@/components/AdditionalSkill";
 import { TypographyH1, TypographyP } from "@/components/ui/typography";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SKILL_TABS } from "@/components/interface/skillInterface";
 
 /* ---------- Animation ---------- */
 const container = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+  show: { opacity: 1, transition: { staggerChildren: 0.03 } },
 };
 const item = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
 
@@ -28,11 +28,7 @@ const levelStyles: Record<"Basic" | "Intermediate" | "Advanced", string> = {
 };
 
 export default function SkillsPage() {
-  const [activeTab, setActiveTab] = useState(SKILL_TABS[1].id);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const [activeTab, setActiveTab] = useState(SKILL_TABS[0].id);
 
   const currentTab = SKILL_TABS.find((t) => t.id === activeTab)!;
   const Icon = currentTab.icon;

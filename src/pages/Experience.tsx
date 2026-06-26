@@ -21,7 +21,7 @@ const experiences = [
   {
     role: "Jr. Software Engineer",
     company: "Nidus Lab",
-    period: "Jan 2026 â€“ Present",
+    period: "Jan 2026 - Present",
     highlights: [
       "Develop, test, and maintain Laravel-based backend applications.",
       "Build modern Next.js + TypeScript frontend interfaces.",
@@ -36,7 +36,7 @@ const experiences = [
   {
     role: "Jr. Software Engineer",
     company: "Alor Feri Limited",
-    period: "Aug 2025 â€“ Dec 2025",
+    period: "Aug 2025 - Dec 2025",
     highlights: [
       "System analysis & architecture planning",
       "Full-stack feature development",
@@ -51,7 +51,7 @@ const experiences = [
   {
     role: "Backend Intern",
     company: "Pressply LLC",
-    period: "Jan 2024 â€“ May 2024",
+    period: "Jan 2024 - May 2024",
     highlights: [
       "REST API development with Express",
       "PostgreSQL & Prisma ORM",
@@ -65,7 +65,7 @@ const experiences = [
   {
     role: "Backend Development Intern",
     company: "Taskirsview",
-    period: "Jan 2025 â€“ Feb 2025",
+    period: "Jan 2025 - Feb 2025",
     highlights: [
       "Server-side logic implementation",
       "Database design & optimization",
@@ -81,15 +81,11 @@ const experiences = [
 export default function ExperiencePage() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
   const activeExp = experiences[activeIndex];
 
   return (
     <main className="min-h-screen bg-background text-foreground py-10">
-      {/* HEADER â€” CSS fade-in, no framer needed */}
+      {/* HEADER - CSS fade-in, no framer needed */}
       <section className="container mx-auto px-6 text-center animate-fade-in-up">
         <TypographyH1>
           My <span className="text-primary">Experience</span>
@@ -130,9 +126,7 @@ export default function ExperiencePage() {
                     />
                   </p>
                   <p
-                    className={`text-xs mt-1 md:block ${
-                      isActive ? "block" : "hidden"
-                    } ${
+                    className={`text-xs mt-1 ${
                       isActive
                         ? "text-primary-foreground/80"
                         : "text-muted-foreground"
@@ -208,7 +202,7 @@ export default function ExperiencePage() {
                       </ul>
                     </div>
 
-                    {/* Logo â€” lazy loaded */}
+                    {/* Logo - lazy loaded */}
                     <div className="flex justify-center md:justify-end items-center">
                       <a
                         href={activeExp.link}
@@ -236,4 +230,5 @@ export default function ExperiencePage() {
     </main>
   );
 }
+
 

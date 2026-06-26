@@ -87,7 +87,7 @@ const ACTIVITIES: ActivityItem[] = [
     title: "AIUB Premium League Cricket Tournament",
     year: "2022-2024",
     role: "Wicket Keeper Batsman & Vice Captain (2024)",
-    image: "/cricket1.JPG",
+    image: "/cricket1.webp",
     description:
       "Played 3 APL seasons, playing for CS Cougars and ending up playing for CS Chasers team.",
   },
@@ -95,7 +95,7 @@ const ACTIVITIES: ActivityItem[] = [
     title: "AIUB Football World Cup 2023",
     year: "2023",
     role: "Lead Center Forward",
-    image: "/football1.jpg",
+    image: "/football1.webp",
     description:
       "Played 1 AFWC tournament for team Switzerland in group rounds. Center forward position.",
   },
@@ -121,10 +121,6 @@ type Tab = "personal" | "activities" | "hobbies";
 const AboutPage = () => {
   const [activeTab, setActiveTab] = useState<Tab>("personal");
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
   return (
     <section className="max-w-7xl mx-auto px-6 py-10 space-y-12">
       {/* Header */}
@@ -137,10 +133,11 @@ const AboutPage = () => {
       >
         <motion.div variants={item} className="space-y-3">
           <TypographyH1>
-            <span className="text-primary">Kakon,</span> Khairul Islam
+            Khairul Islam{" "}
+            <span className="text-primary">(Kakon)</span>
           </TypographyH1>
           <TypographyP className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            Software Engineer.
+            Software Engineer
           </TypographyP>
         </motion.div>
       </motion.div>
@@ -177,7 +174,7 @@ const AboutPage = () => {
               {/* Profile image + contact */}
               <Card className="w-full h-fit flex items-center overflow-hidden rounded-2xl shadow-lg hover:-translate-y-1 transition-transform p-4">
                 <img
-                  src="/mine4.jpg"
+                  src="/mine4.webp"
                   alt="Kakon"
                   className="object-cover hover:border hover:border-primary rounded-xl"
                   loading="lazy"
@@ -200,7 +197,7 @@ const AboutPage = () => {
                           <TooltipContent>{info.tooltip}</TooltipContent>
                         )}
                       </Tooltip>
-                      <Badge variant="default">{info.value}</Badge>
+                      <span>{info.value}</span>
                     </Card>
                   ))}
                 </CardContent>
@@ -249,7 +246,7 @@ const AboutPage = () => {
                       <Badge variant="secondary">{act.year}</Badge>
                       <p className="text-center">{act.role}</p>
                       {act.description && (
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-muted-foreground">
                           {act.description}
                         </p>
                       )}

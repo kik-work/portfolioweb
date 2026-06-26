@@ -57,8 +57,11 @@ export function ProgressLineLoader({
         )}
       >
         <div
-          className="h-full bg-primary transition-all duration-100 ease-out rounded-full"
-          style={{ width: `${progress}%` }}
+          className="h-full w-full bg-primary rounded-full origin-left will-change-transform"
+          style={{
+            transform: `scaleX(${progress / 100})`,
+            transition: "transform 100ms ease-out",
+          }}
         />
       </div>
 

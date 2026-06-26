@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { Bot, Send, X } from "lucide-react";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 const CHAT_STORAGE_KEY = "cv-chat-messages";
 
@@ -200,19 +202,22 @@ export const CVChatModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         {/* Input */}
         <div className="flex gap-2">
-          <input
-            className="flex-1 border rounded-xl px-3 py-2 dark:bg-gray-700 dark:text-white"
+          <Input
+            className="flex-1 rounded-xl"
             placeholder="Type a question..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
           />
-          <button
+          <Button
+            variant="outline"
+            size="icon"
             onClick={handleSend}
-            className="border border-primary rounded-2xl hover:text-background hover:bg-primary"
+            aria-label="Send message"
+            className="rounded-2xl border-primary hover:bg-primary hover:text-primary-foreground"
           >
-            <Send className="m-2 cursor-pointer" />
-          </button>
+            <Send className="h-4 w-4" />
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

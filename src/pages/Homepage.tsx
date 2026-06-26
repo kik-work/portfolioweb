@@ -1,5 +1,5 @@
 // src/pages/Homepage.tsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,9 +20,14 @@ import {
   TypographyH3,
   TypographyP,
 } from "@/components/ui/typography";
-import { ChartRadialSimple } from "@/components/chart/radial-chart";
-import CareerChart from "@/components/chart/Career-chart";
-import { GitHubContributionChart } from "@/components/chart/Git-clone-chart";
+
+const ChartRadialSimple = lazy(() =>
+  import("@/components/chart/radial-chart").then((m) => ({ default: m.ChartRadialSimple }))
+);
+const CareerChart = lazy(() => import("@/components/chart/Career-chart"));
+const GitHubContributionChart = lazy(() =>
+  import("@/components/chart/Git-clone-chart").then((m) => ({ default: m.GitHubContributionChart }))
+);
 import { TabContainers } from "@/components/TapContainer";
 
 interface HomePageProps {
@@ -78,8 +83,6 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % roles.length);
     }, 9000);
@@ -102,10 +105,10 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
       <section className="container mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* LEFT — CSS fade-in replaces framer initial animation */}
         <div className="space-y-6 animate-fade-in-up">
-          <Badge variant="secondary">786</Badge>
+          <Badge variant="secondary">﷽ 786</Badge>
 
-          {/* Role heading — keep AnimatePresence for the toggle effect */}
-          <div className="min-h-14">
+          {/* Role heading — animates between name and role on interval */}
+          <div className="min-h-16">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeRole.title}
@@ -114,16 +117,15 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4 }}
               >
-                <TypographyH1 className="flex flex-col lg:flex-row items-center gap-2 text-start text-2xl md:text-2xl font-bold tracking-tight">
-                  Hi! I&apos;m{" "}
+                <TypographyH1 className="flex flex-wrap items-start gap-2 text-2xl md:text-2xl font-bold tracking-tight">
+                  {activeRole.hero}
                   <motion.span
                     className="text-primary inline-block"
-                    initial={{ width: 0 }}
-                    animate={{ width: "auto" }}
-                    transition={{ duration: 2, ease: "easeInOut" }}
-                    style={{ overflow: "hidden", whiteSpace: "nowrap" }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
                   >
-                    Khairul Islam
+                    {activeRole.subhero}
                   </motion.span>
                 </TypographyH1>
               </motion.div>
@@ -191,14 +193,15 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
             </CardHeader>
 
             <CardContent className="p-4 flex flex-col items-center text-center gap-4">
-              <div className="w-32 h-36 rounded-full overflow-hidden bg-muted shadow-md">
+              <div className="w-32 h-32 rounded-full overflow-hidden bg-muted shadow-md">
                 <img
-                  src="/minet.jpg"
+                  src="/minet.webp"
                   alt="Khairul Islam"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-center"
                   width={128}
-                  height={144}
+                  height={128}
                   loading="eager"
+                  fetchPriority="high"
                 />
               </div>
 
@@ -231,21 +234,27 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
         </div>
       </section>
 
-      {/* ANALYTICS — CSS fade-in replaces framer */}
+      {/* ANALYTICS — lazy-loaded so charts don't block FCP */}
       <section className="container mx-auto px-6 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-12 animate-fade-in-up" style={{ animationDelay: "0.25s" }}>
-        <Card className="p-6 rounded-2xl shadow-lg">
-          <CareerChart />
-        </Card>
-        <Card className="rounded-2xl shadow-lg p-6">
-          <ChartRadialSimple />
-        </Card>
+        <Suspense fallback={<div className="h-48 rounded-2xl bg-muted animate-pulse" />}>
+          <Card className="p-6 rounded-2xl shadow-lg">
+            <CareerChart />
+          </Card>
+        </Suspense>
+        <Suspense fallback={<div className="h-48 rounded-2xl bg-muted animate-pulse" />}>
+          <Card className="rounded-2xl shadow-lg p-6">
+            <ChartRadialSimple />
+          </Card>
+        </Suspense>
       </section>
 
       {/* GITHUB CONTRIBUTION */}
       <section className="mb-4 pb-4 my-12 container mx-auto px-6 rounded-2xl animate-fade-in-up" style={{ animationDelay: "0.35s" }}>
-        <Card className="rounded-2xl shadow-lg p-6">
-          <GitHubContributionChart />
-        </Card>
+        <Suspense fallback={<div className="h-40 rounded-2xl bg-muted animate-pulse" />}>
+          <Card className="rounded-2xl shadow-lg p-6">
+            <GitHubContributionChart />
+          </Card>
+        </Suspense>
       </section>
     </main>
   );

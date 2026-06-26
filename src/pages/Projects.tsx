@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
 import Slider from "react-slick";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, memo } from "react";
 import {
   Dialog,
   DialogClose,
@@ -14,7 +14,7 @@ import {
 import { NextArrow, PrevArrow } from "@/components/interface/Arrow";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { CircleArrowOutUpRight, FolderGit2 } from "lucide-react";
+import { CircleArrowOutUpRight, FolderGit2, X } from "lucide-react";
 import { TypographyH2, TypographyP } from "@/components/ui/typography";
 
 /* -------------------- DATA -------------------- */
@@ -63,10 +63,10 @@ const projects = [
 /* -------------------- Lazy Video Card -------------------- */
 interface VideoCardProps {
   project: (typeof projects)[0];
-  onOpenVideo: (src: string) => void;
+  onOpenVideo: (video: { src: string; name: string }) => void;
 }
 
-function VideoCard({ project, onOpenVideo }: VideoCardProps) {
+const VideoCard = memo(function VideoCard({ project, onOpenVideo }: VideoCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -107,6 +107,7 @@ function VideoCard({ project, onOpenVideo }: VideoCardProps) {
               <video
                 muted
                 loop
+                autoPlay
                 playsInline
                 preload="metadata"
                 className="absolute inset-0 w-full h-full object-cover"
@@ -127,7 +128,7 @@ function VideoCard({ project, onOpenVideo }: VideoCardProps) {
                 size="sm"
                 variant="secondary"
                 className="backdrop-blur-sm"
-                onClick={() => onOpenVideo(project.video)}
+                onClick={() => onOpenVideo({ src: project.video, name: project.name })}
               >
                 View Video
               </Button>
@@ -163,20 +164,17 @@ function VideoCard({ project, onOpenVideo }: VideoCardProps) {
       </Card2>
     </motion.div>
   );
-}
+});
 
 /* -------------------- PAGE -------------------- */
 const ProjectPage = () => {
-  const [openVideo, setOpenVideo] = useState<string | null>(null);
+  const [openVideo, setOpenVideo] = useState<{ src: string; name: string } | null>(null);
+  const handleOpenVideo = useCallback((video: { src: string; name: string }) => setOpenVideo(video), []);
 
   // Throttled resize with requestAnimationFrame
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200
   );
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
 
   const handleResize = useCallback(() => {
     let raf: number;
@@ -243,7 +241,7 @@ const ProjectPage = () => {
             <VideoCard
               key={project.id}
               project={project}
-              onOpenVideo={setOpenVideo}
+              onOpenVideo={handleOpenVideo}
             />
           ))}
         </Slider>
@@ -252,22 +250,26 @@ const ProjectPage = () => {
       {/* MODAL */}
       <Dialog open={!!openVideo} onOpenChange={() => setOpenVideo(null)}>
         <DialogContent className="max-w-3xl w-full p-0 bg-black rounded-2xl">
-          <DialogHeader>
-            <DialogClose className="absolute top-2 right-2 text-white dark:text-white hover:text-red-500">
-              ×
-            </DialogClose>
-            <DialogTitle
-              className="m-2 cursor-pointer text-white dark:text-white hover:text-red-500 transition-colors"
-              onClick={() => setOpenVideo(null)}
-            >
-              KIK
+          <DialogHeader className="flex flex-row items-center justify-between px-4 pt-3 pb-2">
+            <DialogTitle className="text-white text-base font-semibold">
+              {openVideo?.name ?? "Project Video"}
             </DialogTitle>
+            <DialogClose asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Close video"
+                className="text-white hover:text-red-400 hover:bg-transparent"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </DialogClose>
           </DialogHeader>
 
           {openVideo && (
             <video
-              key={openVideo}
-              src={openVideo}
+              key={openVideo.src}
+              src={openVideo.src}
               controls
               autoPlay
               className="w-full h-[500px] object-contain"

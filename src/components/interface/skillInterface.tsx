@@ -48,7 +48,7 @@ export const SKILL_TABS: SkillTab[] = [
       { name: "PHP", icon: "/php.svg", level: "Advanced", rating: 8 },
       { name: "C++", icon: "/c.svg", level: "Intermediate", rating: 7.5 },
       { name: "Python", icon: "/python.svg", level: "Intermediate", rating: 7 },
-      { name: "C#", icon: "/csharp.jpg", level: "Basic", rating: 6 },
+      { name: "C#", icon: "/csharp.webp", level: "Basic", rating: 6 },
       { name: "Java", icon: "/java.svg", level: "Basic", rating: 6 },
     ],
   },

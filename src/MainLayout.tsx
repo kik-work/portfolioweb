@@ -17,29 +17,38 @@ function MainLayoutPage() {
   const [showHeader, setShowHeader] = useState(true);
   const lastScrollY = useRef(0);
 
-  // Loading spinner
+  // Show splash only until the browser is idle (400ms max)
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3000);
-    return () => clearTimeout(timer);
+    if ("requestIdleCallback" in window) {
+      const ric = window.requestIdleCallback(() => setLoading(false), { timeout: 400 });
+      return () => window.cancelIdleCallback(ric);
+    }
+    const t = setTimeout(() => setLoading(false), 400);
+    return () => clearTimeout(t);
   }, []);
 useEffect(() => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }, [activeTab]);
 
-  // Scroll handler for header
+  // Scroll handler for header — RAF-throttled so it runs at most once per frame
   useEffect(() => {
+    let rafId = 0;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY <= 0) setShowHeader(true);
-      else if (currentScrollY > lastScrollY.current) setShowHeader(false);
-      else setShowHeader(true);
-
-      lastScrollY.current = currentScrollY;
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY <= 0) setShowHeader(true);
+        else if (currentScrollY > lastScrollY.current) setShowHeader(false);
+        else setShowHeader(true);
+        lastScrollY.current = currentScrollY;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   if (loading) {
@@ -66,7 +75,7 @@ useEffect(() => {
       {/* Header: slides away */}
       <ScrollProgress />
       <div
-        className={`transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
+        className={`transition-transform duration-300 will-change-transform ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
       >
         <Header />
       </div>

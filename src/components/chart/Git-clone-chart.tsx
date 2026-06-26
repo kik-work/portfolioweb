@@ -8,7 +8,6 @@ import {
     CardTitle,
     CardDescription,
 } from "@/components/ui/card"
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { Badge } from "../ui/badge"
 import { TypographyH1 } from "../ui/typography"
 import { GitBranch, GitCommitHorizontal } from "lucide-react"
@@ -34,11 +33,36 @@ function getColor(count: number) {
     return chartColors[4]
 }
 
+const CACHE_KEY = "gh_contributions"
+const CACHE_TTL = 60 * 60 * 1000 // 1 hour
+
+function getCached(): Day[] | null {
+    try {
+        const raw = sessionStorage.getItem(CACHE_KEY)
+        if (!raw) return null
+        const { data, ts } = JSON.parse(raw)
+        if (Date.now() - ts > CACHE_TTL) return null
+        return data
+    } catch {
+        return null
+    }
+}
+
+function setCache(data: Day[]) {
+    try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }))
+    } catch {
+        // storage quota exceeded — silently skip
+    }
+}
+
 export function GitHubContributionChart() {
-    const [data, setData] = React.useState<Day[]>([])
-    const [loading, setLoading] = React.useState(true)
+    const [data, setData] = React.useState<Day[]>(() => getCached() ?? [])
+    const [loading, setLoading] = React.useState(() => getCached() === null)
 
     React.useEffect(() => {
+        if (!loading) return // already have cached data
+
         fetch("https://api.github.com/graphql", {
             method: "POST",
             headers: {
@@ -73,6 +97,7 @@ export function GitHubContributionChart() {
                             commits: day.contributionCount,
                         }))
                     )
+                setCache(days)
                 setData(days)
                 setLoading(false)
             })
@@ -199,22 +224,16 @@ export function GitHubContributionChart() {
                         {weeks.map((week, i) => (
                             <div key={i} className="flex flex-col space-y-1 shrink-0">
                                 {week.map((day, j) => (
-                                    <Tooltip key={i + "-" + j}>
-                                        <TooltipTrigger>
-                                            <div
-                                                className="w-4 h-4 rounded-xs cursor-pointer"
-                                                style={{ backgroundColor: getColor(day.commits) }}
-                                            />
-                                        </TooltipTrigger>
-                                        {day.date && (
-                                            <TooltipContent>
-                                                <div className="text-sm">
-                                                    {day.commits} commit{day.commits !== 1 ? "s" : ""} on{" "}
-                                                    {new Date(day.date).toLocaleDateString()}
-                                                </div>
-                                            </TooltipContent>
-                                        )}
-                                    </Tooltip>
+                                    <div
+                                        key={i + "-" + j}
+                                        className="w-4 h-4 rounded-xs cursor-pointer"
+                                        style={{ backgroundColor: getColor(day.commits) }}
+                                        title={
+                                            day.date
+                                                ? `${day.commits} commit${day.commits !== 1 ? "s" : ""} on ${new Date(day.date).toLocaleDateString()}`
+                                                : undefined
+                                        }
+                                    />
                                 ))}
                             </div>
                         ))}
