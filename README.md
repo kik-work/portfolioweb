@@ -1,6 +1,6 @@
 My Personal Portfolio
 
-![Portfolio Banner](./banner.png)
+
 
 A modern, responsive personal portfolio showcasing my projects, skills, and experience. Built with **React**, **TypeScript**, **Tailwind CSS**, **Shadcn UI**, and **MongoDB**.
 
