@@ -71,11 +71,7 @@ Copy code
 
 ---
 
-## 🎨 Demo
 
-Live Demo: [YourWebsite.com](https://yourwebsite.com)
-
-![Screenshot](./screenshot.png)
 
 ---
 
