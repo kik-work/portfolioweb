@@ -73,7 +73,7 @@ useEffect(() => {
     
      <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* Header: slides away */}
-      <ScrollProgress />
+      {/* <ScrollProgress /> */}
       <div
         className={`transition-transform duration-300 will-change-transform ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
       >

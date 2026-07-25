@@ -19,6 +19,20 @@ interface InfoItem {
   tooltip?: string | React.ReactNode;
 }
 
+// Emoji flags render as "BD" text on Windows (no flag glyph in Segoe UI Emoji) — use SVG instead
+function BDFlag() {
+  return (
+    <img
+      src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f1e7-1f1e9.svg"
+      alt="Bangladesh flag"
+      width={16}
+      height={12}
+      className="inline-block align-middle"
+      loading="lazy"
+    />
+  );
+}
+
 interface ActivityItem {
   title: string;
   year: string;
@@ -49,13 +63,20 @@ const PERSONAL_INFO: InfoItem[] = [
   { label: "Religion", value: "Muslim", tooltip: "Religion" },
   {
     label: "Permanent Address",
-    // Replaced react-world-flags with emoji flag â€” same visual, zero bundle cost
-    value: "Sherpur, Mymensingh ðŸ‡§ðŸ‡©",
+    value: (
+      <span className="inline-flex items-center gap-1.5">
+        Sherpur, Mymensingh <BDFlag />
+      </span>
+    ),
     tooltip: "Place of Birth",
   },
   {
     label: "Present Address",
-    value: "Nikunjo-2, Khilkhet, Dhaka ðŸ‡§ðŸ‡©",
+    value: (
+      <span className="inline-flex items-center gap-1.5">
+        Nikunjo-2, Khilkhet, Dhaka <BDFlag />
+      </span>
+    ),
     tooltip: "Present Address",
   },
 ];
@@ -203,7 +224,7 @@ const AboutPage = () => {
                 </CardContent>
               </Card>
 
-              {/* Personal info â€” flattened DOM, no nested Progress bars */}
+              {/* Personal info — flattened DOM, no nested Progress bars */}
               <div className="space-y-3">
                 {PERSONAL_INFO.map((info) => (
                   <div

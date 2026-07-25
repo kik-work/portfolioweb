@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { ThemeContext } from "../../context/ThemeContext";
-import { Mail, Moon, PhoneCall, Sun } from "lucide-react";
+import { Mail, PhoneCall } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -80,19 +80,15 @@ export function Header() {
               <TooltipContent side="top">01923089370 (4PM – 11PM)</TooltipContent>
             </Tooltip>
 
-            {/* Theme toggle with sun/moon icons */}
+            {/* Theme toggle */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-1.5 mr-2">
-                  <Sun className="h-3.5 w-3.5 text-muted-foreground" />
-                  <Switch
-                    checked={theme === "dark"}
-                    onCheckedChange={toggleTheme}
-                    aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-                    className="h-4 w-10"
-                  />
-                  <Moon className="h-3.5 w-3.5 text-muted-foreground" />
-                </div>
+                <Switch
+                  checked={theme === "dark"}
+                  onCheckedChange={toggleTheme}
+                  aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                  className="mr-2"
+                />
               </TooltipTrigger>
               <TooltipContent side="top">
                 {theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}

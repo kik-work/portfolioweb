@@ -249,7 +249,7 @@ const ProjectPage = () => {
 
       {/* MODAL */}
       <Dialog open={!!openVideo} onOpenChange={() => setOpenVideo(null)}>
-        <DialogContent className="max-w-3xl w-full p-0 bg-black rounded-2xl">
+        <DialogContent className="max-w-3xl w-full p-0 bg-black rounded-2xl" showCloseButton={false}>
           <DialogHeader className="flex flex-row items-center justify-between px-4 pt-3 pb-2">
             <DialogTitle className="text-white text-base font-semibold">
               {openVideo?.name ?? "Project Video"}
