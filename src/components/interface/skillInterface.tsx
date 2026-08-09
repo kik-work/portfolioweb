@@ -13,8 +13,8 @@ export type SkillLevel = "Basic" | "Intermediate" | "Advanced";
 export interface SkillItem {
   name: string;
   icon: string;
-  level: "Basic" | "Intermediate" | "Advanced";
-  rating: number; // 1â€“10
+  level: SkillLevel;
+  rating: number; // 1–10
 }
 
 export interface SkillSectionProps {
@@ -62,14 +62,14 @@ export const SKILL_TABS: SkillTab[] = [
         name: "Next.js",
         icon: "/nextjs.Default",
         level: "Advanced",
-        rating: 8,
+        rating: 9,
       },
       { name: "Express", icon: "/express.webp", level: "Advanced", rating: 8 },
       {
         name: "Laravel",
         icon: "/laravel.webp",
-        level: "Intermediate",
-        rating: 7,
+        level: "Advanced",
+        rating: 9,
       },
       { name: "NestJS", icon: "/nestjs.svg", level: "Intermediate", rating: 7 },
       { name: "Django", icon: "/django.svg", level: "Basic", rating: 6 },
@@ -94,12 +94,13 @@ export const SKILL_TABS: SkillTab[] = [
         level: "Intermediate",
         rating: 7,
       },
-      { name: "Stripe", icon: "/stripe-4.svg", level: "Basic", rating: 6 },
+      { name: "Stripe", icon: "/stripe-4.svg", level: "Intermediate", rating: 6 },
+       { name: "Bkash", icon: "/bkash.svg", level: "Intermediate", rating: 6 },
       {
         name: "TanStack",
         icon: "/tanstack.webp",
         level: "Advanced",
-        rating: 7,
+        rating: 8,
       },
     ],
   },
@@ -114,7 +115,7 @@ export const SKILL_TABS: SkillTab[] = [
         level: "Advanced",
         rating: 8,
       },
-      { name: "MySQL", icon: "/mysql-3.svg", level: "Intermediate", rating: 7 },
+      { name: "MySQL", icon: "/mysql-3.svg", level: "Advanced", rating: 8 },
       {
         name: "MongoDB",
         icon: "/mongodb.svg",
@@ -122,10 +123,10 @@ export const SKILL_TABS: SkillTab[] = [
         rating: 6,
       },
       {
-        name: "Supavase",
+        name: "Supabase",
         icon: "/supabase.webp",
-        level: "Basic",
-        rating: 8,
+        level: "Intermediate",
+        rating: 6,
       },
     ],
   },
@@ -151,4 +152,3 @@ export const SKILL_TABS: SkillTab[] = [
     ],
   },
 ];
-
