@@ -19,16 +19,33 @@ import { TypographyH2, TypographyP } from "@/components/ui/typography";
 
 /* -------------------- DATA -------------------- */
 const projects = [
+
   {
     id: 1,
-    name: "KIK QR Card",
-    video: "/videos/kikqrcard.mp4",
+    name: "SN Foundation (SNF)",
+    video: "/videos/snf.mp4",
     description:
-      "A modern QR scan–based web application for customizing, previewing, and purchasing cards.",
-    demo: "https://kikqrcard.netlify.app/",
+      "Orphan Sponsorship Management with Recurring Donations & Real-Time Messaging",
+    demo: "https://snfoundations.org/",
   },
   {
     id: 2,
+    name: "Expro Welfare Foundation",
+    video: "/videos/ewf.mp4",
+    description:
+      "Membership and Pension package enrollment, installment, Document managemnet ",
+    demo: "https://ewfbd.org/",
+  },
+  {
+    id: 3,
+
+    name: "Info Strainer",
+    video: "/videos/infostrainervid.mp4",
+    description: "Created on VS Code with C# for information validation",
+    demo: "https://github.com/kakon-aiubcse/info-strainer",
+  },
+  {
+    id: 4,
     name: "Booking Management",
     video: "/videos/bookingappcv.mp4",
     description:
@@ -36,7 +53,7 @@ const projects = [
     demo: "https://bookingapppersonal.netlify.app/",
   },
   {
-    id: 3,
+    id: 5,
     name: "E-Shop Management",
     video: "/videos/eshopvid.mp4",
     description:
@@ -44,7 +61,7 @@ const projects = [
     demo: "https://github.com/kakon-aiubcse/Eshopmanagementweb",
   },
   {
-    id: 4,
+    id: 6,
     name: "Project E-Commerce",
     video: "/videos/ecom.mp4",
     description:
@@ -52,11 +69,12 @@ const projects = [
     demo: "https://ecommerceproject-kikservercoder.netlify.app/",
   },
   {
-    id: 6,
-    name: "Info Strainer",
-    video: "/videos/infostrainervid.mp4",
-    description: "Created on VS Code with C# for information validation",
-    demo: "https://github.com/kakon-aiubcse/info-strainer",
+    id: 7,
+    name: "KIK QR Card",
+    video: "/videos/kikqrcard.mp4",
+    description:
+      "A modern QR scan–based web application for customizing, previewing, and purchasing cards.",
+    demo: "https://kikqrcard.netlify.app/",
   },
 ];
 

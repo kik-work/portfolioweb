@@ -72,7 +72,7 @@ export default function AdditionalSkillPage() {
                 <Card
               
                   key={group.title}
-                  className=" rounded-xl border bg-slate-100/40 hover:bg-slate-300/30 transition"
+                  className="rounded-xl border bg-slate-100/40 hover:bg-slate-200/60 dark:bg-white/5 dark:hover:bg-white/10 dark:border-white/10 transition"
                 >
                   <CardHeader className="pb-2">
                     <CardTitle className="flex items-center gap-1 text-sm font-semibold text-foreground">
@@ -91,7 +91,7 @@ export default function AdditionalSkillPage() {
                   </CardHeader>
                   <CardContent className="flex flex-wrap gap-2">
                     {group.items.map((skill) => (
-                      <Badge key={skill} className="rounded-full bg-violet-200/20" variant={"outline"}>
+                      <Badge key={skill} className="rounded-full bg-violet-200/20 dark:bg-violet-500/15 dark:text-violet-200 dark:border-violet-500/30" variant={"outline"}>
                         {skill}
                       </Badge>
                     ))}
