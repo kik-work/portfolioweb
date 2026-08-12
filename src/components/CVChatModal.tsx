@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import React, { useState, useEffect, useRef } from "react";
 import { ChatBubble } from "./ChatBubble";
 import cvData from "@/data/cvMockData.json";
@@ -14,6 +13,7 @@ import { Bot, Send, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import type { BotPayload, WhoAmIPayload, WelcomePayload } from "./ChatBubble";
 
 const CHAT_STORAGE_KEY = "cv-chat-messages";
 
@@ -21,7 +21,9 @@ type Sender = "user" | "bot";
 
 interface Message {
   sender: Sender;
-  text: string;
+  // user messages are always plain strings;
+  // bot messages can be a structured payload OR a plain string
+  text: string | BotPayload;
 }
 
 const badges = [
@@ -31,17 +33,16 @@ const badges = [
   "Projects",
   "Education",
   "Contact",
-  "Current Job",
   "Tech Stack",
 ];
 
 /* ------------------------------------------------------------------ */
-/*  Response engine                                                     */
+/*  Response engine — returns BotPayload (typed) or string             */
 /* ------------------------------------------------------------------ */
-function buildResponse(input: string): string {
+function buildResponse(input: string): string | BotPayload {
   const q = input.toLowerCase().trim();
 
-  // ── Who / about / introduce ──────────────────────────────────────
+  /* ── Who / about ─────────────────────────────────────────────── */
   if (
     q.includes("who are you") ||
     q.includes("about you") ||
@@ -49,22 +50,32 @@ function buildResponse(input: string): string {
     q.includes("tell me about") ||
     q === "who are you?"
   ) {
-    return cvData.faq.whoAreYou;
+    return {
+      type: "whoami",
+      name: "Khairul Islam Kakon",
+      title: "Full-Stack Software Engineer",
+      location: "Bangladesh",
+      summary: "I'm Khairul Islam Kakon, a full-stack software engineer based in Bangladesh. I specialize in Laravel and Next.js.",
+      highlights: ["Laravel", "Next.js", "TypeScript", "REST APIs"],
+      company: "Alor Feri Limited",
+      email: cvData.contact.email,
+      github: cvData.contact.github,
+      portfolio: cvData.contact.portfolio,
+    };
   }
 
-  // ── Current job / company / working ─────────────────────────────
+  /* ── Current job / company ───────────────────────────────────── */
   if (
     q.includes("current job") ||
     q.includes("current role") ||
     q.includes("current company") ||
     q.includes("where do you work") ||
-    q.includes("where are you working") ||
-    q === "current job"
+    q.includes("where are you working")
   ) {
     return cvData.faq.currentJob;
   }
 
-  // ── Tech stack / preferred stack ─────────────────────────────────
+  /* ── Tech Stack ──────────────────────────────────────────────── */
   if (
     q.includes("tech stack") ||
     q.includes("preferred stack") ||
@@ -72,10 +83,20 @@ function buildResponse(input: string): string {
     q.includes("favorite stack") ||
     q === "tech stack"
   ) {
-    return cvData.faq.preferredStack;
+    const s = cvData.skills;
+    return {
+      type: "techstack",
+      sections: [
+        { label: "Languages",        items: s.languages.map((x) => ({ name: x.name, level: x.level })) },
+        { label: "Frameworks",       items: s.frameworks.map((x) => ({ name: x.name, level: x.level })) },
+        { label: "Technologies",     items: s.technologies.map((x) => ({ name: x.name, level: x.level })) },
+        { label: "Databases",        items: s.databases.map((x) => ({ name: x.name, level: x.level })) },
+        { label: "Tools",            items: s.tools.map((x) => ({ name: x.name, level: x.level })) },
+      ],
+    };
   }
 
-  // ── Availability / hire ──────────────────────────────────────────
+  /* ── Availability / hire ─────────────────────────────────────── */
   if (
     q.includes("available") ||
     q.includes("availability") ||
@@ -86,7 +107,7 @@ function buildResponse(input: string): string {
     return cvData.faq.availability;
   }
 
-  // ── Strength / best at ───────────────────────────────────────────
+  /* ── Strength / best at ──────────────────────────────────────── */
   if (
     q.includes("strength") ||
     q.includes("best at") ||
@@ -96,55 +117,76 @@ function buildResponse(input: string): string {
     return cvData.faq.strengths;
   }
 
-  // ── Client projects ──────────────────────────────────────────────
-  if (q.includes("client project") || q.includes("live project") || q.includes("production")) {
+  /* ── Client / live projects ──────────────────────────────────── */
+  if (
+    q.includes("client project") ||
+    q.includes("live project") ||
+    q.includes("production")
+  ) {
     return cvData.faq.clientProjects;
   }
 
-  // ── Summary ──────────────────────────────────────────────────────
+  /* ── Summary ─────────────────────────────────────────────────── */
   if (q.includes("summary") || q.includes("overview") || q.includes("profile")) {
     return cvData.summary;
   }
 
-  // ── Experience ───────────────────────────────────────────────────
+  /* ── Experience ──────────────────────────────────────────────── */
   if (
     q.includes("experience") ||
     q.includes("work history") ||
     q.includes("job history") ||
-    q.includes("career")
+    q.includes("career") ||
+    q === "experience"
   ) {
-    return cvData.experience
-      .map(
-        (e) =>
-          `🏢 ${e.role} @ ${e.company}\n📅 ${e.period}\n${e.details.map((d) => `  • ${d}`).join("\n")}`
-      )
-      .join("\n\n");
+    return {
+      type: "experience",
+      jobs: cvData.experience.map((e) => ({
+        role: e.role,
+        company: e.company,
+        period: e.period,
+        details: e.details,
+      })),
+    };
   }
 
-  // ── Alor Feri (specific company) ─────────────────────────────────
+  /* ── Alor Feri ───────────────────────────────────────────────── */
   if (q.includes("alor feri")) {
     const jobs = cvData.experience.filter((e) =>
       e.company.toLowerCase().includes("alor feri")
     );
-    return jobs
-      .map(
-        (e) =>
-          `🏢 ${e.role} @ ${e.company}\n📅 ${e.period}\n${e.details.map((d) => `  • ${d}`).join("\n")}`
-      )
-      .join("\n\n");
+    return {
+      type: "experience",
+      jobs: jobs.map((e) => ({
+        role: e.role,
+        company: e.company,
+        period: e.period,
+        details: e.details,
+      })),
+    };
   }
 
-  // ── Internship ───────────────────────────────────────────────────
+  /* ── Internship ──────────────────────────────────────────────── */
   if (q.includes("intern")) {
     const intern = cvData.experience.find((e) =>
       e.role.toLowerCase().includes("intern")
     );
     if (intern) {
-      return `🏢 ${intern.role} @ ${intern.company}\n📅 ${intern.period}\n${intern.details.map((d) => `  • ${d}`).join("\n")}`;
+      return {
+        type: "experience",
+        jobs: [
+          {
+            role: intern.role,
+            company: intern.company,
+            period: intern.period,
+            details: intern.details,
+          },
+        ],
+      };
     }
   }
 
-  // ── Education ────────────────────────────────────────────────────
+  /* ── Education ───────────────────────────────────────────────── */
   if (
     q.includes("education") ||
     q.includes("degree") ||
@@ -152,69 +194,122 @@ function buildResponse(input: string): string {
     q.includes("cgpa") ||
     q.includes("aiub") ||
     q.includes("study") ||
-    q.includes("academic")
+    q.includes("academic") ||
+    q === "education"
   ) {
-    return cvData.education
-      .map(
-        (e) =>
-          `🎓 ${e.degree}\n🏫 ${e.university}\n📅 Session: ${e.session}\n📚 Major: ${e.major}\n⭐ CGPA: ${e.cgpa}`
-      )
-      .join("\n\n");
+    return {
+      type: "education",
+      entries: cvData.education.map((e) => ({
+        degree: e.degree,
+        university: e.university,
+        session: e.session,
+        major: e.major,
+        cgpa: e.cgpa,
+      })),
+    };
   }
 
-  // ── Skills (all) ─────────────────────────────────────────────────
+  /* ── Skills (all) ────────────────────────────────────────────── */
   if (
     q === "skills" ||
     q.includes("all skills") ||
     q.includes("what skills") ||
-    (q.includes("skill") && !q.includes("soft") && !q.includes("additional") && !q.includes("language") && !q.includes("database") && !q.includes("framework") && !q.includes("tool"))
+    (q.includes("skill") &&
+      !q.includes("soft") &&
+      !q.includes("additional") &&
+      !q.includes("language") &&
+      !q.includes("database") &&
+      !q.includes("framework") &&
+      !q.includes("tool"))
   ) {
     const s = cvData.skills;
-    const langs = s.languages.map((x) => `${x.name} (${x.level})`).join(", ");
-    const fw = s.frameworks.map((x) => `${x.name} (${x.level})`).join(", ");
-    const tech = s.technologies.map((x) => `${x.name} (${x.level})`).join(", ");
-    const db = s.databases.map((x) => `${x.name} (${x.level})`).join(", ");
-    const tools = s.tools.map((x) => `${x.name} (${x.level})`).join(", ");
-    return `Here's a summary of my skills:\n\n🗣️ Languages: ${langs}\n\n📦 Frameworks: ${fw}\n\n⚙️ Technologies: ${tech}\n\n🗄️ Databases: ${db}\n\n🛠️ Tools: ${tools}`;
+    return {
+      type: "techstack",
+      sections: [
+        { label: "Languages",    items: s.languages.map((x) => ({ name: x.name, level: x.level })) },
+        { label: "Frameworks",   items: s.frameworks.map((x) => ({ name: x.name, level: x.level })) },
+        { label: "Technologies", items: s.technologies.map((x) => ({ name: x.name, level: x.level })) },
+        { label: "Databases",    items: s.databases.map((x) => ({ name: x.name, level: x.level })) },
+        { label: "Tools",        items: s.tools.map((x) => ({ name: x.name, level: x.level })) },
+      ],
+    };
   }
 
-  // ── Languages ────────────────────────────────────────────────────
+  /* ── Languages ───────────────────────────────────────────────── */
   if (
     q.includes("language") &&
-    (q.includes("program") || q.includes("coding") || q.includes("know") || q === "languages")
+    (q.includes("program") ||
+      q.includes("coding") ||
+      q.includes("know") ||
+      q === "languages")
   ) {
-    return (
-      "Programming languages I know:\n" +
-      cvData.skills.languages.map((x) => `  • ${x.name} — ${x.level}`).join("\n")
-    );
+    return {
+      type: "techstack",
+      sections: [
+        {
+          label: "Programming Languages",
+          items: cvData.skills.languages.map((x) => ({ name: x.name, level: x.level })),
+        },
+      ],
+    };
   }
 
-  // ── Frameworks ───────────────────────────────────────────────────
+  /* ── Frameworks ──────────────────────────────────────────────── */
   if (q.includes("framework") || q.includes("library") || q.includes("libraries")) {
-    return (
-      "Frameworks & libraries I work with:\n" +
-      cvData.skills.frameworks.map((x) => `  • ${x.name} — ${x.level}`).join("\n")
-    );
+    return {
+      type: "techstack",
+      sections: [
+        {
+          label: "Frameworks & Libraries",
+          items: cvData.skills.frameworks.map((x) => ({ name: x.name, level: x.level })),
+        },
+      ],
+    };
   }
 
-  // ── Database ─────────────────────────────────────────────────────
-  if (q.includes("database") || q.includes("db") || q.includes("sql") || q.includes("mongo")) {
-    return (
-      "Databases I work with:\n" +
-      cvData.skills.databases.map((x) => `  • ${x.name} — ${x.level}`).join("\n")
-    );
+  /* ── Databases ───────────────────────────────────────────────── */
+  if (
+    q.includes("database") ||
+    q.includes(" db") ||
+    q.includes("sql") ||
+    q.includes("mongo")
+  ) {
+    return {
+      type: "techstack",
+      sections: [
+        {
+          label: "Databases",
+          items: cvData.skills.databases.map((x) => ({ name: x.name, level: x.level })),
+        },
+      ],
+    };
   }
 
-  // ── Tools ────────────────────────────────────────────────────────
-  if (q.includes("tool") || q.includes("postman") || q.includes("vscode") || q.includes("vs code") || q.includes("git")) {
-    return (
-      "Tools I use regularly:\n" +
-      cvData.skills.tools.map((x) => `  • ${x.name} — ${x.level}`).join("\n")
-    );
+  /* ── Tools ───────────────────────────────────────────────────── */
+  if (
+    q.includes("tool") ||
+    q.includes("postman") ||
+    q.includes("vscode") ||
+    q.includes("vs code") ||
+    q.includes("git")
+  ) {
+    return {
+      type: "techstack",
+      sections: [
+        {
+          label: "Tools",
+          items: cvData.skills.tools.map((x) => ({ name: x.name, level: x.level })),
+        },
+      ],
+    };
   }
 
-  // ── Soft skills / additional skills ──────────────────────────────
-  if (q.includes("soft skill") || q.includes("additional skill") || q.includes("professional skill")) {
+  /* ── Soft / additional skills ────────────────────────────────── */
+  if (
+    q.includes("soft skill") ||
+    q.includes("additional skill") ||
+    q.includes("professional skill")
+  ) {
     const a = cvData.skills.additional;
     return (
       `🧠 Backend Architecture: ${a.backendArchitecture.join(", ")}\n` +
@@ -225,50 +320,58 @@ function buildResponse(input: string): string {
     );
   }
 
-  // ── Laravel ──────────────────────────────────────────────────────
+  /* ── Laravel ─────────────────────────────────────────────────── */
   if (q.includes("laravel")) {
     return `Laravel is one of my strongest skills (Advanced). I use it for backend applications, RESTful APIs, Sanctum authentication, Spatie role & permissions, queue jobs, schedulers, and real-time messaging. I work with it daily at Alor Feri Limited.`;
   }
 
-  // ── Next.js / React ──────────────────────────────────────────────
-  if (q.includes("next.js") || q.includes("nextjs") || q.includes("next js")) {
+  /* ── Next.js ─────────────────────────────────────────────────── */
+  if (
+    q.includes("next.js") ||
+    q.includes("nextjs") ||
+    q.includes("next js")
+  ) {
     return `Next.js is my primary frontend framework (Advanced, rating 9/10). I use it with TypeScript, Tailwind CSS, Shadcn UI, TanStack Query, and Redux. Most of my production client projects are built on Next.js.`;
   }
+
+  /* ── React ───────────────────────────────────────────────────── */
   if (q.includes("react")) {
     return `React.js — Advanced level. I use it with hooks, Redux, TanStack Query, and component libraries like Shadcn UI. My portfolio site is itself built with React + Vite + TypeScript.`;
   }
 
-  // ── Payment / Stripe / Bkash ─────────────────────────────────────
-  if (q.includes("stripe") || q.includes("bkash") || q.includes("payment")) {
+  /* ── Payment / Stripe / Bkash ────────────────────────────────── */
+  if (
+    q.includes("stripe") ||
+    q.includes("bkash") ||
+    q.includes("payment")
+  ) {
     return `I have hands-on experience integrating payment gateways — Stripe for international payments and Bkash for local Bangladesh payments. Both are integrated in my production projects.`;
   }
 
-  // ── Projects (all) ───────────────────────────────────────────────
+  /* ── Projects (all) ──────────────────────────────────────────── */
   if (
     q === "projects" ||
     q.includes("all projects") ||
     q.includes("what projects") ||
     q.includes("show project") ||
     q.includes("your project") ||
-    (q.includes("project") && !q.includes("client") && !q.includes("personal") && !q.includes("live"))
+    (q.includes("project") &&
+      !q.includes("client") &&
+      !q.includes("personal") &&
+      !q.includes("live"))
   ) {
-    return cvData.projects
-      .map(
-        (p) =>
-          `📁 ${p.title} [${p.type}]\n${p.description}\n🔧 ${p.tech.join(", ")}\n🔗 ${p.link}`
-      )
-      .join("\n\n");
+    return { type: "projects", items: cvData.projects };
   }
 
-  // ── Personal projects ────────────────────────────────────────────
+  /* ── Personal projects ───────────────────────────────────────── */
   if (q.includes("personal project")) {
-    const personal = cvData.projects.filter((p) => p.type === "personal");
-    return personal
-      .map((p) => `📁 ${p.title}\n${p.description}\n🔧 ${p.tech.join(", ")}\n🔗 ${p.link}`)
-      .join("\n\n");
+    return {
+      type: "projects",
+      items: cvData.projects.filter((p) => p.type === "personal"),
+    };
   }
 
-  // ── Specific project lookup ───────────────────────────────────────
+  /* ── Specific project lookup ─────────────────────────────────── */
   const projectMatch = cvData.projects.find(
     (p) =>
       q.includes(p.title.toLowerCase()) ||
@@ -278,10 +381,10 @@ function buildResponse(input: string): string {
         .some((word) => word.length > 3 && q.includes(word))
   );
   if (projectMatch) {
-    return `📁 ${projectMatch.title}\n${projectMatch.description}\n🔧 Tech: ${projectMatch.tech.join(", ")}\n🔗 ${projectMatch.link}`;
+    return { type: "projects", items: [projectMatch] };
   }
 
-  // ── Contact ──────────────────────────────────────────────────────
+  /* ── Contact ─────────────────────────────────────────────────── */
   if (
     q === "contact" ||
     q.includes("contact") ||
@@ -293,15 +396,27 @@ function buildResponse(input: string): string {
     q.includes("portfolio")
   ) {
     const c = cvData.contact;
-    return `📬 Contact Khairul Islam Kakon:\n\n📧 Email: ${c.email}\n📞 Phone: ${c.phone}\n💼 LinkedIn: ${c.linkedin}\n🐙 GitHub: ${c.github}\n🌐 Portfolio: ${c.portfolio}`;
+    return {
+      type: "contact",
+      name: c.name,
+      email: c.email,
+      phone: c.phone,
+      linkedin: c.linkedin,
+      github: c.github,
+      portfolio: c.portfolio,
+    };
   }
 
-  // ── Name ─────────────────────────────────────────────────────────
-  if (q.includes("name") || q.includes("kakon") || q.includes("khairul")) {
-    return `My name is Khairul Islam Kakon — a full-stack software engineer from Bangladesh. You can find me at kakon.aiubcse@gmail.com.`;
+  /* ── Name ────────────────────────────────────────────────────── */
+  if (
+    q.includes("name") ||
+    q.includes("kakon") ||
+    q.includes("khairul")
+  ) {
+    return `My name is Khairul Islam Kakon — a full-stack software engineer from Bangladesh. You can reach me at kakon.aiubcse@gmail.com.`;
   }
 
-  // ── Hello / hi ───────────────────────────────────────────────────
+  /* ── Greeting ────────────────────────────────────────────────── */
   if (
     q === "hi" ||
     q === "hello" ||
@@ -313,17 +428,23 @@ function buildResponse(input: string): string {
     return `Hi there! 👋 I'm Kakon's CV assistant. Ask me anything about his experience, skills, projects, or how to get in touch. Or tap a badge below!`;
   }
 
-  // ── Thanks ───────────────────────────────────────────────────────
-  if (q.includes("thank") || q === "ok" || q === "okay" || q === "cool" || q === "great") {
+  /* ── Thanks ──────────────────────────────────────────────────── */
+  if (
+    q.includes("thank") ||
+    q === "ok" ||
+    q === "okay" ||
+    q === "cool" ||
+    q === "great"
+  ) {
     return `You're welcome! Feel free to ask anything else about Kakon's background or work. 😊`;
   }
 
-  // ── Fallback ─────────────────────────────────────────────────────
+  /* ── Fallback ────────────────────────────────────────────────── */
   return `I'm not sure about that one. Try asking about:\n• Experience or career\n• Skills (Laravel, Next.js, databases…)\n• Projects\n• Education\n• Contact info\n\nOr just tap one of the badges below!`;
 }
 
 /* ------------------------------------------------------------------ */
-/*  Component                                                          */
+/*  Component                                                           */
 /* ------------------------------------------------------------------ */
 export const CVChatModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [messages, setMessages] = useState<Message[]>(() => {
@@ -332,8 +453,8 @@ export const CVChatModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     if (stored) return JSON.parse(stored);
     return [
       {
-        sender: "bot",
-        text: "Hi! 👋 I'm Kakon's CV assistant. Ask me anything about his experience, skills, or projects — or tap a badge below to get started.",
+        sender: "bot" as Sender,
+        text: { type: "welcome" } as WelcomePayload,
       },
     ];
   });
@@ -361,9 +482,9 @@ export const CVChatModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     });
   }, [messages, loading]);
 
-  const addBotMessage = async (text: string) => {
+  const addBotMessage = async (text: string | BotPayload) => {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 600 + Math.random() * 700));
+    await new Promise((r) => setTimeout(r, 500 + Math.random() * 600));
     setMessages((prev) => [...prev, { sender: "bot", text }]);
     setLoading(false);
   };
@@ -371,12 +492,9 @@ export const CVChatModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const handleSend = (text?: string) => {
     const userMessage = (text ?? input).trim();
     if (!userMessage) return;
-
     setMessages((prev) => [...prev, { sender: "user", text: userMessage }]);
     setInput("");
-
-    const response = buildResponse(userMessage);
-    addBotMessage(response);
+    addBotMessage(buildResponse(userMessage));
   };
 
   return (
@@ -422,12 +540,11 @@ export const CVChatModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {/* Badges */}
         <div className="flex overflow-x-auto pb-4 gap-2 mb-2 no-scrollbar">
           {badges.map((b) => (
-            <button
-              key={b}
-              onClick={() => handleSend(b)}
-              className="rounded-full shrink-0"
-            >
-              <Badge variant="outline" className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors">
+            <button key={b} onClick={() => handleSend(b)} className="rounded-full shrink-0">
+              <Badge
+                variant="outline"
+                className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
                 {b}
               </Badge>
             </button>

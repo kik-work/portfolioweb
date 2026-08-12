@@ -165,7 +165,7 @@
   ],
 
   "faq": {
-    "whoAreYou": "I'm Khairul Islam Kakon, a full-stack software engineer based in Bangladesh. I specialize in Laravel and Next.js and am currently working at Alor Feri Limited.",
+    "whoAreYou": "__WHO__",
     "currentJob": "I'm currently a Junior Software Engineer at Alor Feri Limited (since January 2026), working on Laravel backends and Next.js frontends for client projects.",
     "strengths": "My strongest areas are Laravel (backend architecture, API design, Sanctum auth, Spatie roles), Next.js/React for frontend, and MySQL/PostgreSQL for databases. I'm also comfortable with real-time features and payment gateway integrations (Stripe, Bkash).",
     "availability": "I'm currently employed at Alor Feri Limited. Feel free to reach out via email at kakon.aiubcse@gmail.com for collaboration or opportunities.",
