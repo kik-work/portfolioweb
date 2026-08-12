@@ -20,6 +20,16 @@ export const TabContainers = [
   "About",
 ];
 
+// Section IDs — each tab maps to a scrollable <section id="...">
+export const TabSectionIds: Record<string, string> = {
+  Home:       "section-home",
+  Experience: "section-experience",
+  Projects:   "section-projects",
+  Skills:     "section-skills",
+  Education:  "section-education",
+  About:      "section-about",
+};
+
 // Tab icons
 export const TabIcons = [
   <House className="h-4 w-4" />,

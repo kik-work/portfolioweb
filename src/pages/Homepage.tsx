@@ -28,10 +28,10 @@ const CareerChart = lazy(() => import("@/components/chart/Career-chart"));
 const GitHubContributionChart = lazy(() =>
   import("@/components/chart/Git-clone-chart").then((m) => ({ default: m.GitHubContributionChart }))
 );
-import { TabContainers } from "@/components/TapContainer";
+import { TabSectionIds } from "@/components/TapContainer";
 
 interface HomePageProps {
-  setActiveTab: (tab: string) => void;
+  setActiveTab: (tab: string) => void; // kept for interface compatibility; unused here
 }
 
 const roles = [
@@ -79,7 +79,7 @@ const roles = [
   },
 ];
 
-export default function HomePage({ setActiveTab }: HomePageProps) {
+export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -142,12 +142,9 @@ export default function HomePage({ setActiveTab }: HomePageProps) {
             <Button
               size="lg"
               onClick={() => {
-                setActiveTab(TabContainers[2]);
-                setTimeout(() => {
-                  document
-                    .getElementById("projects")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }, 100);
+                document
+                  .getElementById(TabSectionIds["Projects"])
+                  ?.scrollIntoView({ behavior: "smooth" });
               }}
             >
               <Presentation /> View Projects

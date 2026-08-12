@@ -5,10 +5,11 @@ import { TabContainers, TabIcons } from "../TapContainer";
 
 interface TopNavbarProps {
   activeTab: string;
-  setActiveTab: (tab: string) => void;
+  /** Called with the tab name when the user clicks a tab. */
+  onTabClick: (tab: string) => void;
 }
 
-export function TopNavbar({ activeTab, setActiveTab }: TopNavbarProps) {
+export function TopNavbar({ activeTab, onTabClick }: TopNavbarProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -27,17 +28,21 @@ export function TopNavbar({ activeTab, setActiveTab }: TopNavbarProps) {
   return (
     <header
       className={cn(
-       "w-full sticky top-0 z-50 transition-all duration-300 backdrop-blur-md",
+        "w-full sticky top-0 z-50 transition-all duration-300 backdrop-blur-md",
         scrolled ? "shadow-md" : ""
       )}
     >
       <nav className="mx-auto w-full flex justify-center py-2 gap-3 max-w-7xl">
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
+        {/* value keeps the active highlight in sync with the scroll-spy;
+            onValueChange is intentionally omitted — clicks go through
+            the individual TabsTrigger onClick so we can call scrollToSection. */}
+        <Tabs value={activeTab}>
           <TabsList className="flex justify-center mx-auto">
             {TabContainers.map((tab, idx) => (
               <TabsTrigger
                 key={tab}
                 value={tab}
+                onClick={() => onTabClick(tab)}
                 className={cn(
                   "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-full transition-all duration-200",
                   activeTab === tab
@@ -47,7 +52,6 @@ export function TopNavbar({ activeTab, setActiveTab }: TopNavbarProps) {
               >
                 <span className="md:hidden">{TabIcons[idx]}</span>
                 <span className="hidden md:flex items-center gap-2">
-                 
                   {tab} {TabIcons[idx]}
                 </span>
               </TabsTrigger>

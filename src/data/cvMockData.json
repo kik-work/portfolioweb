@@ -1,5 +1,6 @@
 {
-  "summary": "Tech enthusiast with hands on experience from multiple internships and probationary period, eager to contribute to the tech industry...",
+  "summary": "Full-stack software engineer with hands-on experience building production-grade web applications using Laravel, Next.js, and modern JavaScript/TypeScript ecosystems. Currently working as a Junior Software Engineer at Alor Feri Limited, where I design and ship features for real clients. I have a BSc in Computer Science & Engineering from AIUB (major: Software Engineering, CGPA 3.66/4.00) and a strong interest in clean architecture, RESTful API design, and developer tooling.",
+
   "contact": {
     "name": "Khairul Islam Kakon",
     "phone": "+88 01923089370",
@@ -8,27 +9,28 @@
     "portfolio": "https://is.gd/Z3au4a",
     "github": "https://t.ly/2ENJq"
   },
+
   "experience": [
-     {
+    {
       "role": "Junior Software Engineer",
       "company": "Alor Feri Limited",
-      "period": "January 2026 – present",
-      "details": [    
-      " Develop, test, and maintain Laravel-based backend applications.",
-      "Build modern Next.js + TypeScript frontend interfaces.",
-      "Create and manage RESTful APIs for web and mobile applications.",
-      "Integrate third-party services (payment gateways, SMS, email, etc.).",
-      "Collaborate with design, product, and QA teams."
+      "period": "January 2026 – Present",
+      "details": [
+        "Develop, test, and maintain Laravel-based backend applications",
+        "Build modern Next.js + TypeScript frontend interfaces",
+        "Create and manage RESTful APIs for web and mobile applications",
+        "Integrate third-party services (payment gateways, SMS, email, etc.)",
+        "Collaborate with design, product, and QA teams"
       ]
     },
     {
       "role": "Junior Software Developer",
       "company": "Alor Feri Limited",
-      "period": "August 2025 – present",
+      "period": "August 2025 – January 2026",
       "details": [
-        "System analysis, design, development, integration",
-        "Code review and testing, bug fixing and maintenance",
-        "Technical documentation and team collaboration"
+        "System analysis, design, development, and integration",
+        "Code review, testing, bug fixing, and maintenance",
+        "Technical documentation and cross-team collaboration"
       ]
     },
     {
@@ -36,31 +38,138 @@
       "company": "Taskirsview",
       "period": "January 2025 – February 2025",
       "details": [
-        "Designed, developed and maintained server-side logic",
-        "Collaborated with team for high quality solutions"
+        "Designed, developed, and maintained server-side logic",
+        "Collaborated with team members to deliver high-quality solutions"
       ]
     }
   ],
+
   "education": [
     {
       "degree": "BSc in Computer Science and Engineering",
-      "university": "AIUB",
+      "university": "American International University-Bangladesh (AIUB)",
       "session": "Spring 2024",
       "major": "Software Engineering",
       "cgpa": "3.66/4.00"
     }
   ],
-  "skills": [
-    "JavaScript", "Python", "C++", "Java", "PHP",
-    "React.js", "Next.js", "Express.js", "Django", "Laravel", "Nest.js",
-    "Redux", "Tailwind CSS", "Shadcn-ui", "Prisma", "Stripe", "TanStack",
-    "PostgreSQL", "MySQL", "MongoDB", "Firestore", "SupaBase"
-  ],
+
+  "skills": {
+    "languages": [
+      { "name": "JavaScript", "level": "Advanced" },
+      { "name": "PHP", "level": "Advanced" },
+      { "name": "C++", "level": "Intermediate" },
+      { "name": "Python", "level": "Intermediate" },
+      { "name": "C#", "level": "Basic" },
+      { "name": "Java", "level": "Basic" }
+    ],
+    "frameworks": [
+      { "name": "React.js", "level": "Advanced" },
+      { "name": "Next.js", "level": "Advanced" },
+      { "name": "Laravel", "level": "Advanced" },
+      { "name": "Express.js", "level": "Advanced" },
+      { "name": "NestJS", "level": "Intermediate" },
+      { "name": "Django", "level": "Basic" }
+    ],
+    "technologies": [
+      { "name": "Node.js", "level": "Advanced" },
+      { "name": "Firebase", "level": "Advanced" },
+      { "name": "TanStack Query", "level": "Advanced" },
+      { "name": "Redux", "level": "Intermediate" },
+      { "name": "Prisma", "level": "Intermediate" },
+      { "name": "Stripe", "level": "Intermediate" },
+      { "name": "Bkash Payment", "level": "Intermediate" },
+      { "name": "Tailwind CSS", "level": "Advanced" },
+      { "name": "Shadcn UI", "level": "Advanced" }
+    ],
+    "databases": [
+      { "name": "PostgreSQL", "level": "Advanced" },
+      { "name": "MySQL", "level": "Advanced" },
+      { "name": "MongoDB", "level": "Intermediate" },
+      { "name": "Supabase", "level": "Intermediate" },
+      { "name": "Firestore", "level": "Intermediate" }
+    ],
+    "tools": [
+      { "name": "VS Code", "level": "Advanced" },
+      { "name": "Git & Git Bash", "level": "Advanced" },
+      { "name": "Postman", "level": "Intermediate" },
+      { "name": "Visual Studio", "level": "Intermediate" },
+      { "name": "Figma", "level": "Intermediate" }
+    ],
+    "additional": {
+      "backendArchitecture": ["Sanctum Auth", "Spatie Role Permissions", "Queue Jobs", "Scheduler", "Real-time Messaging"],
+      "softSkills": ["Leadership", "Teamwork", "Adaptability", "Analytical thinking", "Decision making"],
+      "planning": ["SRS Documentation", "User Stories", "Project Timelines"],
+      "creative": ["Graphic design", "Photo & video editing", "Figma"],
+      "communication": ["English", "Bengali", "50+ WPM typing"]
+    }
+  },
+
   "projects": [
     {
-      "title": "KIKQRcard",
-      "description": "Web app for managing booking with invoices using Next.js and Firebase.",
-      "link": "https://is.gd/77VNPv"
+      "id": 1,
+      "title": "SN Foundation (SNF)",
+      "description": "Orphan sponsorship management platform with recurring donation tracking and real-time messaging between sponsors and coordinators.",
+      "tech": ["Laravel", "Next.js", "TypeScript", "MySQL", "Real-time Messaging"],
+      "link": "https://snfoundations.org/",
+      "type": "client"
+    },
+    {
+      "id": 2,
+      "title": "Expro Welfare Foundation (EWF)",
+      "description": "Membership and pension package enrollment system with installment payment tracking and document management for a welfare organization.",
+      "tech": ["Laravel", "Next.js", "TypeScript", "MySQL"],
+      "link": "https://ewfbd.org/",
+      "type": "client"
+    },
+    {
+      "id": 3,
+      "title": "Info Strainer",
+      "description": "Desktop application built with C# for structured information validation and filtering.",
+      "tech": ["C#", "Visual Studio"],
+      "link": "https://github.com/kakon-aiubcse/info-strainer",
+      "type": "personal"
+    },
+    {
+      "id": 4,
+      "title": "Booking Management App",
+      "description": "Web app for managing bookings and invoices with receipt generation, built with Next.js and Firebase.",
+      "tech": ["Next.js", "Firebase", "Firestore"],
+      "link": "https://bookingapppersonal.netlify.app/",
+      "type": "personal"
+    },
+    {
+      "id": 5,
+      "title": "E-Shop Management",
+      "description": "Product buy/sell tracking and inventory management system with Express.js backend and Next.js frontend.",
+      "tech": ["Next.js", "Express.js", "Node.js"],
+      "link": "https://github.com/kakon-aiubcse/Eshopmanagementweb",
+      "type": "personal"
+    },
+    {
+      "id": 6,
+      "title": "E-Commerce Project",
+      "description": "Full e-commerce platform with Stripe payment integration and product management.",
+      "tech": ["React.js", "Stripe", "Node.js"],
+      "link": "https://ecommerceproject-kikservercoder.netlify.app/",
+      "type": "personal"
+    },
+    {
+      "id": 7,
+      "title": "KIK QR Card",
+      "description": "Modern QR scan-based web application for customizing, previewing, and purchasing digital business cards.",
+      "tech": ["Next.js", "TypeScript", "Tailwind CSS"],
+      "link": "https://kikqrcard.netlify.app/",
+      "type": "personal"
     }
-  ]
+  ],
+
+  "faq": {
+    "whoAreYou": "I'm Khairul Islam Kakon, a full-stack software engineer based in Bangladesh. I specialize in Laravel and Next.js and am currently working at Alor Feri Limited.",
+    "currentJob": "I'm currently a Junior Software Engineer at Alor Feri Limited (since January 2026), working on Laravel backends and Next.js frontends for client projects.",
+    "strengths": "My strongest areas are Laravel (backend architecture, API design, Sanctum auth, Spatie roles), Next.js/React for frontend, and MySQL/PostgreSQL for databases. I'm also comfortable with real-time features and payment gateway integrations (Stripe, Bkash).",
+    "availability": "I'm currently employed at Alor Feri Limited. Feel free to reach out via email at kakon.aiubcse@gmail.com for collaboration or opportunities.",
+    "preferredStack": "I prefer Laravel + Next.js + TypeScript + PostgreSQL/MySQL as my primary stack for full-stack web development.",
+    "clientProjects": "Two of my major client projects are SN Foundation (orphan sponsorship platform) and Expro Welfare Foundation (membership & pension management system). Both are live and in production."
+  }
 }
