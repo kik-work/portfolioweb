@@ -3,7 +3,6 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 const VERCEL_API_BASE = "https://api.vercel.com/v1/query/web-analytics";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Only allow GET
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -17,42 +16,48 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Fetch daily visitor counts for the last 30 days
-    const params = new URLSearchParams({
+    const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    const until = new Date().toISOString();
+
+    const aggregateParams = new URLSearchParams({
       teamId,
       projectId,
       by: "day",
-      // last 30 days
-      since: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-      until: new Date().toISOString(),
+      since,
+      until,
+      limit: "30",
     });
 
+    const countParams = new URLSearchParams({ teamId, projectId });
+
     const [visitorsRes, totalRes] = await Promise.all([
-      fetch(`${VERCEL_API_BASE}/visits/aggregate?${params}`, {
+      fetch(`${VERCEL_API_BASE}/visits/aggregate?${aggregateParams}`, {
         headers: { Authorization: `Bearer ${token}` },
       }),
-      fetch(
-        `${VERCEL_API_BASE}/visits/count?${new URLSearchParams({ teamId, projectId })}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      ),
+      fetch(`${VERCEL_API_BASE}/visits/count?${countParams}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+    ]);
+
+    const [dailyRaw, totalRaw] = await Promise.all([
+      visitorsRes.text(),
+      totalRes.text(),
     ]);
 
     if (!visitorsRes.ok || !totalRes.ok) {
-      const errText = await visitorsRes.text();
-      console.error("Vercel Analytics API error:", errText);
+      console.error("aggregate:", dailyRaw);
+      console.error("count:", totalRaw);
       return res.status(502).json({ error: "Failed to fetch analytics data" });
     }
 
-    const [daily, total] = await Promise.all([
-      visitorsRes.json(),
-      totalRes.json(),
-    ]);
+    const daily = JSON.parse(dailyRaw);
+    const total = JSON.parse(totalRaw);
 
-    // Cache for 1 hour on CDN edge
     res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
 
     return res.status(200).json({
-      total: total.total ?? 0,
+      total: total.data?.pageviews ?? 0,
+      visitors: total.data?.visitors ?? 0,
       daily: daily.data ?? [],
     });
   } catch (err) {

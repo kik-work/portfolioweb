@@ -193,9 +193,9 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
             </CardHeader>
 
             <CardContent className="p-4 flex flex-col items-center text-center gap-4">
-              <div className="w-32 h-32 rounded-full overflow-hidden bg-muted shadow-md">
+              <div className="w-64 h-64 rounded-2xl overflow-hidden bg-muted shadow-md">
                 <img
-                  src="/minet.webp"
+                  src="/kakon_new_pp.png"
                   alt="Khairul Islam"
                   className="w-full h-full object-cover object-center"
                   width={128}
