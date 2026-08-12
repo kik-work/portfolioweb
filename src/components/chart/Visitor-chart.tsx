@@ -32,8 +32,8 @@ type ApiResponse = {
   daily: DayData[];
 };
 
-const CACHE_KEY = "visitor_chart_cache";
-const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+const CACHE_KEY = "visitor_chart_cache_v2";
+const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
 function getCached(): ApiResponse | null {
   try {

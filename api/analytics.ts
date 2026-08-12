@@ -28,37 +28,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       limit: "30",
     });
 
-    const countParams = new URLSearchParams({ teamId, projectId });
+    const visitorsRes = await fetch(
+      `${VERCEL_API_BASE}/visits/aggregate?${aggregateParams}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-    const [visitorsRes, totalRes] = await Promise.all([
-      fetch(`${VERCEL_API_BASE}/visits/aggregate?${aggregateParams}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-      fetch(`${VERCEL_API_BASE}/visits/count?${countParams}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-    ]);
+    const dailyRaw = await visitorsRes.text();
 
-    const [dailyRaw, totalRaw] = await Promise.all([
-      visitorsRes.text(),
-      totalRes.text(),
-    ]);
-
-    if (!visitorsRes.ok || !totalRes.ok) {
-      console.error("aggregate:", dailyRaw);
-      console.error("count:", totalRaw);
+    if (!visitorsRes.ok) {
+      console.error("aggregate error:", dailyRaw);
       return res.status(502).json({ error: "Failed to fetch analytics data" });
     }
 
-    const daily = JSON.parse(dailyRaw);
-    const total = JSON.parse(totalRaw);
+    const daily: { data: { timestamp: string; visitors: number; pageviews: number }[] } =
+      JSON.parse(dailyRaw);
 
-    res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
+    const rows = daily.data ?? [];
+
+    // Sum totals directly from the daily rows — avoids the unreliable /count endpoint
+    const totalPageviews = rows.reduce((sum, d) => sum + (d.pageviews ?? 0), 0);
+    const totalVisitors = rows.reduce((sum, d) => sum + (d.visitors ?? 0), 0);
+
+    res.setHeader("Cache-Control", "s-maxage=600, stale-while-revalidate=3600");
 
     return res.status(200).json({
-      total: total.data?.pageviews ?? 0,
-      visitors: total.data?.visitors ?? 0,
-      daily: daily.data ?? [],
+      total: totalPageviews,
+      visitors: totalVisitors,
+      daily: rows,
     });
   } catch (err) {
     console.error("Analytics handler error:", err);
