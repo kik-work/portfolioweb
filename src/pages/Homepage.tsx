@@ -28,6 +28,9 @@ const CareerChart = lazy(() => import("@/components/chart/Career-chart"));
 const GitHubContributionChart = lazy(() =>
   import("@/components/chart/Git-clone-chart").then((m) => ({ default: m.GitHubContributionChart }))
 );
+const VisitorChart = lazy(() =>
+  import("@/components/chart/Visitor-chart").then((m) => ({ default: m.VisitorChart }))
+);
 import { TabSectionIds } from "@/components/TapContainer";
 
 interface HomePageProps {
@@ -251,6 +254,13 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
           <Card className="rounded-2xl shadow-lg p-6">
             <GitHubContributionChart />
           </Card>
+        </Suspense>
+      </section>
+
+      {/* VISITOR CHART */}
+      <section className="mb-4 pb-4 container mx-auto px-6 rounded-2xl animate-fade-in-up" style={{ animationDelay: "0.45s" }}>
+        <Suspense fallback={<div className="h-48 rounded-2xl bg-muted animate-pulse" />}>
+          <VisitorChart />
         </Suspense>
       </section>
     </main>
