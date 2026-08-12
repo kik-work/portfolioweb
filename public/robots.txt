@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kikportfolio.vercel.app/sitemap.xml
