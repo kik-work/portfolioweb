@@ -21,61 +21,72 @@ import { TypographyH1 } from "@/components/ui/typography";
 import { Eye, Users } from "lucide-react";
 
 type DayData = {
-  timestamp: string;  // ISO date string from Vercel API
+  timestamp: string;
   visitors: number;
   pageviews: number;
 };
 
-type ApiResponse = {
-  total: number;      // total pageviews
-  visitors: number;   // total unique visitors
-  daily: DayData[];
+type ChartRow = {
+  date: string;
+  visitors: number;
+  pageviews: number;
 };
 
-const CACHE_KEY = "visitor_chart_cache_v2";
-const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+type DisplayData = {
+  totalPageviews: number;
+  totalVisitors: number;
+  rows: ChartRow[];
+};
 
-function getCached(): ApiResponse | null {
-  try {
-    const raw = sessionStorage.getItem(CACHE_KEY);
-    if (!raw) return null;
-    const { data, ts } = JSON.parse(raw);
-    if (Date.now() - ts > CACHE_TTL) return null;
-    return data;
-  } catch {
-    return null;
-  }
-}
-
-function setCache(data: ApiResponse) {
-  try {
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
-  } catch {
-    // quota exceeded — skip silently
-  }
-}
+const VERCEL_API_BASE = "https://api.vercel.com/v1/query/web-analytics";
 
 function formatDate(isoDate: string) {
   const d = new Date(isoDate);
   return d.toLocaleDateString("default", { month: "short", day: "numeric" });
 }
 
+async function fetchAnalytics(): Promise<DisplayData> {
+  const token = import.meta.env.VITE_VERCEL_API_TOKEN;
+  const projectId = import.meta.env.VITE_VERCEL_PROJECT_ID;
+  const teamId = import.meta.env.VITE_VERCEL_TEAM_ID;
+
+  if (!token || !projectId || !teamId) {
+    throw new Error("Missing analytics config");
+  }
+
+  const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  const until = new Date().toISOString();
+
+  const params = new URLSearchParams({ teamId, projectId, by: "day", since, until, limit: "30" });
+
+  const res = await fetch(`${VERCEL_API_BASE}/visits/aggregate?${params}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) throw new Error("Analytics API error");
+
+  const json: { data: DayData[] } = await res.json();
+  const rows = (json.data ?? []).map((d) => ({
+    date: formatDate(d.timestamp),
+    visitors: d.visitors ?? 0,
+    pageviews: d.pageviews ?? 0,
+  }));
+
+  const totalPageviews = rows.reduce((sum, d) => sum + d.pageviews, 0);
+  const totalVisitors = rows.reduce((sum, d) => sum + d.visitors, 0);
+
+  return { totalPageviews, totalVisitors, rows };
+}
+
 export function VisitorChart() {
-  const [data, setData] = React.useState<ApiResponse | null>(() => getCached());
-  const [loading, setLoading] = React.useState(() => getCached() === null);
+  const [data, setData] = React.useState<DisplayData | null>(null);
+  const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(false);
 
   React.useEffect(() => {
-    if (!loading) return;
-
-    fetch("/api/analytics")
-      .then((r) => {
-        if (!r.ok) throw new Error("API error");
-        return r.json();
-      })
-      .then((json: ApiResponse) => {
-        setCache(json);
-        setData(json);
+    fetchAnalytics()
+      .then((d) => {
+        setData(d);
         setLoading(false);
       })
       .catch(() => {
@@ -84,17 +95,8 @@ export function VisitorChart() {
       });
   }, []);
 
-  // Hide entirely when loading, errored, or no data
   if (loading || error || !data) return null;
-
-  const chartData = data.daily.map((d) => ({
-    date: formatDate(d.timestamp),
-    visitors: d.visitors ?? 0,
-    pageviews: d.pageviews ?? 0,
-  }));
-
-  // Don't render if daily data is empty
-  if (chartData.length === 0) return null;
+  if (data.rows.length === 0) return null;
 
   return (
     <Card className="flex flex-col">
@@ -114,7 +116,7 @@ export function VisitorChart() {
               <Users className="h-3 w-3" /> Visitors
             </span>
             <TypographyH1 className="text-primary text-lg sm:text-3xl leading-none font-bold">
-              {data.visitors.toLocaleString()}
+              {data.totalVisitors.toLocaleString()}
             </TypographyH1>
             <span className="text-xs text-muted-foreground">last 30 days</span>
           </div>
@@ -123,7 +125,7 @@ export function VisitorChart() {
               <Eye className="h-3 w-3" /> Page Views
             </span>
             <TypographyH1 className="text-primary text-lg sm:text-3xl leading-none font-bold">
-              {data.total.toLocaleString()}
+              {data.totalPageviews.toLocaleString()}
             </TypographyH1>
             <span className="text-xs text-muted-foreground">last 30 days</span>
           </div>
@@ -133,7 +135,7 @@ export function VisitorChart() {
       <CardContent className="pt-6 pb-4">
         <ResponsiveContainer width="100%" height={180}>
           <AreaChart
-            data={chartData}
+            data={data.rows}
             margin={{ top: 4, right: 8, left: -20, bottom: 0 }}
           >
             <defs>

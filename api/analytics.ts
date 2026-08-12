@@ -49,7 +49,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const totalPageviews = rows.reduce((sum, d) => sum + (d.pageviews ?? 0), 0);
     const totalVisitors = rows.reduce((sum, d) => sum + (d.visitors ?? 0), 0);
 
-    res.setHeader("Cache-Control", "s-maxage=600, stale-while-revalidate=3600");
+    // No edge caching — client handles its own 10-min sessionStorage cache.
+    // This ensures production always returns fresh data from Vercel Analytics.
+    res.setHeader("Cache-Control", "no-store");
 
     return res.status(200).json({
       total: totalPageviews,
