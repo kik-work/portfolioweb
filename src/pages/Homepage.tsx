@@ -1,11 +1,12 @@
 // src/pages/Homepage.tsx
 import { useEffect, useState, lazy, Suspense } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, Card2, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   ArrowDown,
   CircleStar,
+  Droplet,
   Facebook,
   FolderCode,
   Github,
@@ -13,6 +14,7 @@ import {
   Linkedin,
   Presentation,
   Signature,
+  Youtube,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -36,6 +38,7 @@ import { TabSectionIds } from "@/components/TapContainer";
 interface HomePageProps {
   setActiveTab: (tab: string) => void; // kept for interface compatibility; unused here
 }
+
 
 const roles = [
   {
@@ -101,6 +104,11 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
   };
 
   const activeRole = roles[activeIndex];
+   const scrollToContact = () => {
+      document
+        .getElementById(TabSectionIds["Contact"])
+        ?.scrollIntoView({ behavior: "smooth" });
+    };
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -180,6 +188,24 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
             >
               <Facebook className="w-5 h-5 text-muted-foreground hover:text-primary hover:-translate-y-0.5 cursor-pointer transition-transform" />
             </a>
+              <a
+              href="https://www.youtube.com/@kikKakon"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Youtube className="w-5 h-5 text-muted-foreground hover:text-primary hover:-translate-y-0.5 cursor-pointer transition-transform" />
+            </a>
+              <a
+               href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToContact();
+              }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Droplet className="w-5 h-5 text-muted-foreground hover:text-primary hover:-translate-y-0.5 cursor-pointer transition-transform" />
+            </a>
           </div>
         </div>
 
@@ -188,7 +214,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
           <Card className="rounded-2xl shadow-lg">
             <CardHeader className="flex justify-end items-center pb-0">
               <Badge variant="default" className="text-xs px-3">
-                <CircleStar /> 2+ Years Experience
+                <CircleStar /> 1.7+ Years Experience
               </Badge>
             </CardHeader>
 
@@ -237,23 +263,23 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
       {/* ANALYTICS — lazy-loaded so charts don't block FCP */}
       <section className="container mx-auto px-6 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-12 animate-fade-in-up" style={{ animationDelay: "0.25s" }}>
         <Suspense fallback={<div className="h-48 rounded-2xl bg-muted animate-pulse" />}>
-          <Card className="p-6 rounded-2xl shadow-lg">
+        
             <CareerChart />
-          </Card>
+          
         </Suspense>
         <Suspense fallback={<div className="h-48 rounded-2xl bg-muted animate-pulse" />}>
-          <Card className="rounded-2xl shadow-lg p-6">
+         
             <ChartRadialSimple />
-          </Card>
+        
         </Suspense>
       </section>
 
       {/* GITHUB CONTRIBUTION */}
       <section className="mb-4 pb-4 my-12 container mx-auto px-6 rounded-2xl animate-fade-in-up" style={{ animationDelay: "0.35s" }}>
         <Suspense fallback={<div className="h-40 rounded-2xl bg-muted animate-pulse" />}>
-          <Card className="rounded-2xl shadow-lg p-6">
+        
             <GitHubContributionChart />
-          </Card>
+          
         </Suspense>
       </section>
 

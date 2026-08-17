@@ -10,6 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import type { TooltipProps } from "recharts";
 import {
   Card,
   CardContent,
@@ -32,9 +33,64 @@ type ApiResponse = {
   daily: DayData[];
 };
 
+type ChartRow = {
+  date: string;
+  // cumulative value plotted on the chart
+  cumulative: number;
+  // raw daily values shown in tooltip
+  dailyVisitors: number;
+  dailyPageviews: number;
+};
+
 function formatDate(isoDate: string) {
   const d = new Date(isoDate);
   return d.toLocaleDateString("default", { month: "short", day: "numeric" });
+}
+
+/** Custom tooltip — shows daily visitors & pageviews on hover */
+function CustomTooltip({ active, payload, label }: TooltipProps<number, string>) {
+  if (!active || !payload?.length) return null;
+  const row = payload[0].payload as ChartRow;
+  return (
+    <div
+      style={{
+        backgroundColor: "var(--card)",
+        border: "1px solid var(--border)",
+        borderRadius: 8,
+        padding: "10px 14px",
+        fontSize: 12,
+        lineHeight: "1.6",
+        color: "var(--card-foreground)",
+        minWidth: 160,
+      }}
+    >
+      <p style={{ fontWeight: 600, marginBottom: 6 }}>{label}</p>
+      <p style={{ color: "var(--primary)", display: "flex", justifyContent: "space-between", gap: 16 }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          <Users size={11} /> Visitors
+        </span>
+        <span style={{ fontWeight: 700 }}>{row.dailyVisitors}</span>
+      </p>
+      <p style={{ color: "var(--muted-foreground)", display: "flex", justifyContent: "space-between", gap: 16 }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          <Eye size={11} /> Page Views
+        </span>
+        <span style={{ fontWeight: 700 }}>{row.dailyPageviews}</span>
+      </p>
+      <p style={{
+        marginTop: 6,
+        paddingTop: 6,
+        borderTop: "1px solid var(--border)",
+        color: "var(--muted-foreground)",
+        display: "flex",
+        justifyContent: "space-between",
+        gap: 16,
+      }}>
+        <span>Total visitors</span>
+        <span style={{ fontWeight: 700, color: "var(--card-foreground)" }}>{row.cumulative}</span>
+      </p>
+    </div>
+  );
 }
 
 export function VisitorChart() {
@@ -60,13 +116,26 @@ export function VisitorChart() {
 
   if (loading || error || !data) return null;
 
-  const chartData = data.daily.map((d) => ({
-    date: formatDate(d.timestamp),
-    visitors: d.visitors ?? 0,
-    pageviews: d.pageviews ?? 0,
-  }));
+  // Build cumulative visitor totals — chart always grows (or stays flat)
+  let running = 0;
+  const allRows: ChartRow[] = data.daily.map((d) => {
+    running += d.visitors ?? 0;
+    return {
+      date: formatDate(d.timestamp),
+      cumulative: running,
+      dailyVisitors: d.visitors ?? 0,
+      dailyPageviews: d.pageviews ?? 0,
+    };
+  });
+
+  // Trim leading days where nothing happened yet
+  const firstActiveIndex = allRows.findIndex((r) => r.cumulative > 0);
+  const startIndex = firstActiveIndex <= 0 ? 0 : Math.max(0, firstActiveIndex - 3);
+  const chartData = allRows.slice(startIndex);
 
   if (chartData.length === 0) return null;
+
+  const maxCumulative = chartData[chartData.length - 1].cumulative;
 
   return (
     <Card className="flex flex-col">
@@ -76,7 +145,7 @@ export function VisitorChart() {
             Portfolio Visitors
             <Users className="h-4 w-4 ml-1 text-primary" />
           </CardTitle>
-          <CardDescription>Daily visitors & page views — last 30 days</CardDescription>
+          <CardDescription>Cumulative visitors — last 30 days (hover for daily breakdown)</CardDescription>
         </div>
 
         {/* Stats */}
@@ -106,19 +175,17 @@ export function VisitorChart() {
         <ResponsiveContainer width="100%" height={180}>
           <AreaChart
             data={chartData}
-            margin={{ top: 4, right: 8, left: -20, bottom: 0 }}
+            margin={{ top: 8, right: 8, left: -20, bottom: 0 }}
           >
             <defs>
-              <linearGradient id="visitorGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.35} />
-                <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="pageviewGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--chart-2-github)" stopOpacity={0.35} />
-                <stop offset="95%" stopColor="var(--chart-2-github)" stopOpacity={0} />
+              <linearGradient id="growthGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.4} />
+                <stop offset="100%" stopColor="var(--primary)" stopOpacity={0.02} />
               </linearGradient>
             </defs>
+
             <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+
             <XAxis
               dataKey="date"
               tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
@@ -126,40 +193,26 @@ export function VisitorChart() {
               axisLine={false}
               interval="preserveStartEnd"
             />
+
             <YAxis
               tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
               tickLine={false}
               axisLine={false}
               allowDecimals={false}
+              domain={[0, Math.ceil(maxCumulative * 1.15) || 10]}
             />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "var(--card)",
-                border: "1px solid var(--border)",
-                borderRadius: "8px",
-                fontSize: "12px",
-              }}
-              labelStyle={{ color: "var(--card-foreground)" }}
-            />
+
+            <Tooltip content={<CustomTooltip />} cursor={{ stroke: "var(--border)", strokeWidth: 1 }} />
+
             <Area
               type="monotone"
-              dataKey="pageviews"
-              name="Page Views"
-              stroke="var(--chart-2-github)"
-              strokeWidth={2}
-              fill="url(#pageviewGrad)"
-              dot={false}
-              activeDot={{ r: 4 }}
-            />
-            <Area
-              type="monotone"
-              dataKey="visitors"
-              name="Visitors"
+              dataKey="cumulative"
+              name="Total Visitors"
               stroke="var(--primary)"
-              strokeWidth={2}
-              fill="url(#visitorGrad)"
+              strokeWidth={2.5}
+              fill="url(#growthGrad)"
               dot={false}
-              activeDot={{ r: 4 }}
+              activeDot={{ r: 5, fill: "var(--primary)", stroke: "var(--card)", strokeWidth: 2 }}
             />
           </AreaChart>
         </ResponsiveContainer>

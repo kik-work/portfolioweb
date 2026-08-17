@@ -9,7 +9,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider>
          <MainLayoutPage />
-         <Analytics />
+         <Analytics debug={false} />
     </ThemeProvider>
   </React.StrictMode>
 );

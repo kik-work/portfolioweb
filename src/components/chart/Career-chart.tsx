@@ -6,7 +6,8 @@ import { CheckCircle, Cpu } from "lucide-react"
 const careerTimeline = [
   { role: "Software Development", duration: "2023-2024" },
   { role: "Backend Web Development", duration: "2024-2025" },
-  { role: "Full Stack Development", duration: "2025-present" },
+  { role: "Full Stack Development", duration: "2025-2026" },
+   { role: "AI Full Stack Development", duration: "2026-present" },
 ]
 
 export default function CareerTimelineChart() {

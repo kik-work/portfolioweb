@@ -1,8 +1,9 @@
 ﻿"use client";
 
-import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import React, { useState } from "react";
+import { Card, Card2, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipTrigger,
@@ -12,6 +13,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import ScrollSlideIn from "@/components/ui/ScrollSlideIn";
 import Hobby from "@/components/Hobbies";
 import { TypographyH1, TypographyP } from "@/components/ui/typography";
+import { Mail, Phone, Droplets } from "lucide-react";
+import { TabSectionIds } from "@/components/TapContainer";
 
 interface InfoItem {
   label: string;
@@ -81,28 +84,6 @@ const PERSONAL_INFO: InfoItem[] = [
   },
 ];
 
-const CONTACT_INFO: InfoItem[] = [
-  {
-    label: "Email",
-    value: (
-      <a href="mailto:kakon.aiubcse@gmail.com">
-        <Badge variant="default">kakon.aiubcse@gmail.com</Badge>
-      </a>
-    ),
-    tooltip: "Send me an email",
-  },
-  {
-    label: "Number",
-    value: <Badge variant="default">01923089370</Badge>,
-    tooltip: "Call me directly",
-  },
-  {
-    label: "Blood Group",
-    value: <Badge variant="default">B- (Neg)</Badge>,
-    tooltip: "My blood group",
-  },
-];
-
 const ACTIVITIES: ActivityItem[] = [
   {
     title: "AIUB Premium League Cricket Tournament",
@@ -141,6 +122,12 @@ type Tab = "personal" | "activities" | "hobbies";
 
 const AboutPage = () => {
   const [activeTab, setActiveTab] = useState<Tab>("personal");
+
+  const scrollToContact = () => {
+    document
+      .getElementById(TabSectionIds["Contact"])
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-10 space-y-12">
@@ -192,40 +179,20 @@ const AboutPage = () => {
           {/* Personal Tab */}
           {activeTab === "personal" && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Profile image + contact */}
-              <Card className="w-full h-fit flex items-center overflow-hidden rounded-2xl shadow-lg hover:-translate-y-1 transition-transform p-4">
+              {/* Profile image */}
+              <Card2 className="w-full h-[580px] overflow-hidden rounded-2xl shadow-lg hover:-translate-y-1 transition-transform">
                 <img
                   src="/mine4.webp"
                   alt="Kakon"
-                  className="object-cover hover:border hover:border-primary rounded-xl"
+                  className="w-full object-cover hover:border hover:border-primary rounded-xl"
                   loading="lazy"
                   width={400}
                   height={400}
                 />
-                <CardContent className="w-full">
-                  {CONTACT_INFO.map((info) => (
-                    <Card
-                      key={info.label}
-                      className="hover:-translate-y-0.5 transition-transform border border-border rounded-lg p-4 flex flex-col items-center my-2 justify-center"
-                    >
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span className="font-medium text-muted-foreground">
-                            {info.label}
-                          </span>
-                        </TooltipTrigger>
-                        {info.tooltip && (
-                          <TooltipContent>{info.tooltip}</TooltipContent>
-                        )}
-                      </Tooltip>
-                      <span>{info.value}</span>
-                    </Card>
-                  ))}
-                </CardContent>
-              </Card>
+              </Card2>
 
-              {/* Personal info — flattened DOM, no nested Progress bars */}
-              <div className="space-y-3">
+              {/* Personal info + action buttons */}
+              <div className="flex flex-col gap-3">
                 {PERSONAL_INFO.map((info) => (
                   <div
                     key={info.label}
@@ -244,6 +211,32 @@ const AboutPage = () => {
                     <Badge variant="outline">{info.value}</Badge>
                   </div>
                 ))}
+
+                {/* Action buttons */}
+                <div className="flex flex-wrap gap-3 pt-6">
+                  <Button asChild variant="default" className="flex-1 min-w-[130px] h-20">
+                    <a href="mailto:kakon.aiubcse@gmail.com">
+                      <Mail className="w-4 h-4 mr-2" />
+                      Email Me
+                    </a>
+                  </Button>
+
+                  <Button asChild variant="secondary" className="flex-1 min-w-[130px] h-20">
+                    <a href="tel:+8801923089370">
+                      <Phone className="w-4 h-4 mr-2" />
+                      Call Me
+                    </a>
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    className="flex-1 bg-red-500 min-w-[130px] h-20 text-white hover:text-white dark:bg-red-700 hover:bg-red-600 dark:hover:bg-red-600 cursor-pointer"
+                    onClick={scrollToContact}
+                  >
+                    <Droplets className="w-4 h-4 mr-2 " />
+                    Reach For: B- (Neg) 
+                  </Button>
+                </div>
               </div>
             </div>
           )}

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { lazy, Suspense } from "react";
-import { BriefcaseBusiness,  GraduationCap, House, Info, Presentation, Target } from "lucide-react";
+import { BriefcaseBusiness, GraduationCap, House, Info, Mail, Presentation, Target } from "lucide-react";
 
 // Lazy-loaded pages
 const HomeLazy = lazy(() => import("@/pages/Welcome"));
@@ -9,6 +9,7 @@ const ProjectsLazy = lazy(() => import("@/pages/Projects"));
 const SkillsLazy = lazy(() => import("@/pages/Skills"));
 const EducationLazy = lazy(() => import("@/pages/Education"));
 const AboutLazy = lazy(() => import("@/pages/About"));
+const ContactLazy = lazy(() => import("@/pages/Contact"));
 
 // Tab titles
 export const TabContainers = [
@@ -18,6 +19,7 @@ export const TabContainers = [
   "Skills",
   "Education",
   "About",
+  "Contact",
 ];
 
 // Section IDs — each tab maps to a scrollable <section id="...">
@@ -28,6 +30,7 @@ export const TabSectionIds: Record<string, string> = {
   Skills:     "section-skills",
   Education:  "section-education",
   About:      "section-about",
+  Contact:    "section-contact",
 };
 
 // Tab icons
@@ -38,6 +41,7 @@ export const TabIcons = [
   <Target className="h-4 w-4" />,
   <GraduationCap className="h-4 w-4" />,
   <Info className="h-4 w-4" />,
+  <Mail className="h-4 w-4" />,
 ];
 
 // Props type for all tab pages
@@ -62,4 +66,5 @@ export const TabPages: Record<string, FC<TabPageProps>> = {
   Skills: wrapLazy(SkillsLazy),
   Education: wrapLazy(EducationLazy),
   About: wrapLazy(AboutLazy),
+  Contact: wrapLazy(ContactLazy),
 };
