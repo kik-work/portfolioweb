@@ -94,8 +94,11 @@ export const SKILL_TABS: SkillTab[] = [
         level: "Intermediate",
         rating: 7,
       },
-      { name: "Stripe", icon: "/stripe-4.svg", level: "Intermediate", rating: 6 },
-       { name: "Bkash", icon: "/bkash.svg", level: "Intermediate", rating: 6 },
+      { name: "Stripe", icon: "/stripe-4.svg", level: "Advanced", rating: 10 },
+       { name: "Bkash", icon: "/bkash.svg", level: "Advanced", rating: 10 },
+     
+      { name: "Pathao", icon: "/pathaocurrier.png", level: "Advanced", rating: 10 },
+      { name: "Steadfast", icon: "/steadfast.webp", level: "Advanced", rating: 10 },
       {
         name: "TanStack",
         icon: "/tanstack.webp",
@@ -149,6 +152,9 @@ export const SKILL_TABS: SkillTab[] = [
         level: "Intermediate",
         rating: 7,
       },
+      { name: "Vercel", icon: "/vercel.jpg", level: "Advanced", rating: 8 },
+      { name: "cPanel", icon: "/cpanel.png", level: "Intermediate", rating: 7 },
+      { name: "CyberPanel", icon: "/cyberpanel.jpg", level: "Intermediate", rating: 7 },
     ],
   },
 ];

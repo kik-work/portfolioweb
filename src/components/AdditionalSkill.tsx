@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 import { motion } from "framer-motion";
-import { Bug, CirclePlus, GlobeLock, MonitorCloud, PcCase, Server, ShieldPlusIcon, Sprout, Workflow } from "lucide-react";
+import { Bug, CirclePlus, CloudUpload, Plug,GlobeLock, MonitorCloud, PcCase, Server, ShieldPlusIcon, Sprout, Workflow } from "lucide-react";
 import { TypographyH4 } from "./ui/typography";
 
 const item = {
@@ -34,7 +34,17 @@ export default function AdditionalSkillPage() {
                   {
                   title: "Backend Architecture",
                   icon: <Server className="h-12 w-16 text-primary" />,
-                  items: ["Sanctum Auth", "Spatie Role Permissions", "Queue Jobs", "Scheduler", "Real-time Messaging"],
+                  items: ["Sanctum Auth", "Spatie Role Permissions", "Queue Jobs", "Scheduler", "Real-time Messaging", "Courier API", "Payment Gateway"],
+                },
+                {
+                  title: "Deployment & DevOps",
+                  icon: <CloudUpload className="h-12 w-16 text-primary" />,
+                  items: ["cPanel", "CyberPanel", "Vercel", "Server updates"],
+                },
+                {
+                  title: "Integrations",
+                  icon: <Plug className="h-12 w-16 text-primary" />,
+                  items: ["Steadfast", "Pathao", "bKash", "Nagad"],
                 },
                 {
                   title: "Planning & Analysis",

@@ -19,9 +19,23 @@ import {
 
 const experiences = [
   {
+    role: "Software Engineer",
+    company: "Softtech Solution Ltd",
+    period: "Sep 2026 - Present",
+    highlights: [
+      "Build and maintain e-commerce platforms with Laravel and Next.js.",
+      "Fix bugs and deliver new features and modules for live projects.",
+      "Deploy and update cPanel, CyberPanel, and Vercel servers.",
+      "Integrate courier APIs (Steadfast, Pathao) and payment gateways (bKash, Nagad).",
+    ],
+    logo: "/softtechlogo.webp",
+    link: "https://softtechsolutionltd.com/",
+    type: "Full Time",
+  },
+  {
     role: "Jr. Software Engineer",
     company: "Nidus Lab",
-    period: "Jan 2026 - Present",
+    period: "Jan 2026 - Aug 2026",
     highlights: [
       "Develop, test, and maintain Laravel-based backend applications.",
       "Build modern Next.js + TypeScript frontend interfaces.",

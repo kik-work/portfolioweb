@@ -6,7 +6,6 @@ import Footer from "./components/layout/Footer";
 import { TabContainers, TabPages, TabSectionIds } from "./components/TapContainer";
 import { ProgressLineLoader } from "./components/ui/progress-line-loader";
 import { CVChat } from "./components/CVChatBubble";
-import { MouseTrailLine } from "./components/ui/MouseTrailLine";
 
 // A noop setter — pages no longer need to imperatively switch tabs,
 // but the prop is kept so page components compile without changes.
@@ -172,7 +171,6 @@ function MainLayoutPage() {
       </div>
 
       <CVChat />
-      <MouseTrailLine />
     </>
   );
 }
