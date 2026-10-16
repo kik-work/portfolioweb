@@ -18,14 +18,29 @@ import { CircleArrowOutUpRight, FolderGit2, X } from "lucide-react";
 import { TypographyH2, TypographyP } from "@/components/ui/typography";
 
 /* -------------------- DATA -------------------- */
-const projects = [
+/**
+ * Display order. List project ids here: first three show first, then the rest in order.
+ * Ids not listed go to the end. ids: 1 SNF, 2 EWF, 3 Info Strainer, 4 Booking,
+ * 5 E-Shop, 6 E-Commerce, 7 Dr. Momita, 8 KIK QR Card
+ */
+const PROJECT_ORDER = [1, 2, 7, 5, 3, 6, 4, 8];
+
+const allProjects = [
+  {
+    id: 7,
+    name: "Dr. Momita Healthcare",
+    video: "/videos/momitapu.mp4",
+    description:
+      "Bilingual (English/Bangla) doctor website with services, 4-step appointment booking.",
+    demo: "https://drmomitahealthcare.vercel.app/",
+  },
 
   {
     id: 1,
     name: "SN Foundation (SNF)",
     video: "/videos/snf.mp4",
     description:
-      "Orphan Sponsorship Management with Recurring Donations & Real-Time Messaging",
+      "Orphan Sponsorship Management with Recurring Donations & Real-Time. Messaging",
     demo: "https://snfoundations.org/",
   },
   {
@@ -33,7 +48,7 @@ const projects = [
     name: "Expro Welfare Foundation",
     video: "/videos/ewf.mp4",
     description:
-      "Membership and Pension package enrollment, installment, Document managemnet ",
+      "Membership and Pension package enrollment, installment, Document managemnet. ",
     demo: "https://ewfbd.org/",
   },
   {
@@ -41,7 +56,7 @@ const projects = [
 
     name: "Info Strainer",
     video: "/videos/infostrainervid.mp4",
-    description: "Created on VS Code with C# for information validation",
+    description: "Created on VS Code with C# for information validation.",
     demo: "https://github.com/kakon-aiubcse/info-strainer",
   },
   {
@@ -49,7 +64,7 @@ const projects = [
     name: "Booking Management",
     video: "/videos/bookingappcv.mp4",
     description:
-      "Managing bookings and invoices with receipts with Firebase and Next.js",
+      "Managing bookings and invoices with receipts with Firebase and Next.js.",
     demo: "https://bookingapppersonal.netlify.app/",
   },
   {
@@ -57,7 +72,7 @@ const projects = [
     name: "E-Shop Management",
     video: "/videos/eshopvid.mp4",
     description:
-      "Tracking and managing buy/sell of products with Express.js and Next.js",
+      "Tracking and managing buy/sell of products with Express.js and Next.js.",
     demo: "https://github.com/kakon-aiubcse/Eshopmanagementweb",
   },
   {
@@ -69,7 +84,7 @@ const projects = [
     demo: "https://ecommerceproject-kikservercoder.netlify.app/",
   },
   {
-    id: 7,
+    id: 8,
     name: "KIK QR Card",
     video: "/videos/kikqrcard.mp4",
     description:
@@ -77,6 +92,12 @@ const projects = [
     demo: "https://kikqrcard.netlify.app/",
   },
 ];
+
+const rank = (id: number) => {
+  const i = PROJECT_ORDER.indexOf(id);
+  return i === -1 ? PROJECT_ORDER.length : i;
+};
+const projects = [...allProjects].sort((a, b) => rank(a.id) - rank(b.id));
 
 /* -------------------- Lazy Video Card -------------------- */
 interface VideoCardProps {
@@ -213,14 +234,13 @@ const ProjectPage = () => {
   }, [handleResize]);
 
   let slidesToShow = 3;
-  let centerMode = true;
+  // centerMode off: first slide sits at the left edge, so order = display order
+  const centerMode = false;
 
   if (windowWidth < 768) {
     slidesToShow = 1;
-    centerMode = false;
   } else if (windowWidth < 1024) {
     slidesToShow = 2;
-    centerMode = true;
   }
 
   const sliderSettings = {

@@ -133,6 +133,14 @@
 
   "projects": [
     {
+      "id": 8,
+      "title": "Dr. Momita Healthcare",
+      "description": "Bilingual (English/Bangla) website for a doctor's chamber with services, a 4-step appointment booking flow, testimonials, and WhatsApp/phone/email/map contact. Designed and built entirely by me.",
+      "tech": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
+      "link": "https://drmomitahealthcare.vercel.app/",
+      "type": "personal"
+    },
+    {
       "id": 1,
       "title": "SN Foundation (SNF)",
       "description": "Orphan sponsorship management platform with recurring donation tracking and real-time messaging between sponsors and coordinators.",
