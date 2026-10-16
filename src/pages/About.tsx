@@ -184,7 +184,7 @@ const AboutPage = () => {
                 <img
                   src="/mine4.webp"
                   alt="Kakon"
-                  className="w-full object-cover hover:border hover:border-primary rounded-xl"
+                  className="w-full h-full object-cover object-top hover:border hover:border-primary rounded-xl"
                   loading="lazy"
                   width={400}
                   height={400}
