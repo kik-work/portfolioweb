@@ -214,7 +214,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
           <Card className="rounded-2xl shadow-lg">
             <CardHeader className="flex justify-end items-center pb-0">
               <Badge variant="default" className="text-xs px-3">
-                <CircleStar /> 1.7+ Years Experience
+                <CircleStar /> 1.10+ Years Experience
               </Badge>
             </CardHeader>
 

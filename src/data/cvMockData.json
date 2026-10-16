@@ -1,5 +1,5 @@
 {
-  "summary": "Full-stack software engineer with hands-on experience building production-grade web applications using Laravel, Next.js, and modern JavaScript/TypeScript ecosystems. Currently working as a Junior Software Engineer at Alor Feri Limited, where I design and ship features for real clients. I have a BSc in Computer Science & Engineering from AIUB (major: Software Engineering, CGPA 3.66/4.00) and a strong interest in clean architecture, RESTful API design, and developer tooling.",
+  "summary": "Full-stack software engineer with hands-on experience building production-grade web applications using Laravel, Next.js, and modern JavaScript/TypeScript ecosystems. Currently working as a Software Engineer at Softtech Solution Ltd with 1.10+ years of experience, where I design and ship features for real clients. I have a BSc in Computer Science & Engineering from AIUB (major: Software Engineering, CGPA 3.66/4.00) and a strong interest in clean architecture, RESTful API design, and developer tooling.",
 
   "contact": {
     "name": "Khairul Islam Kakon",
@@ -12,9 +12,20 @@
 
   "experience": [
     {
+      "role": "Software Engineer",
+      "company": "Softtech Solution Ltd",
+      "period": "September 2026 – Present",
+      "details": [
+        "Build and maintain e-commerce platforms with Laravel and Next.js",
+        "Fix bugs and deliver new features and modules for live projects",
+        "Deploy and update cPanel, CyberPanel, and Vercel servers",
+        "Integrate courier APIs (Steadfast, Pathao) and payment gateways (bKash, Nagad)"
+      ]
+    },
+    {
       "role": "Junior Software Engineer",
-      "company": "Alor Feri Limited",
-      "period": "January 2026 – Present",
+      "company": "Nidus Lab",
+      "period": "January 2026 – August 2026",
       "details": [
         "Develop, test, and maintain Laravel-based backend applications",
         "Build modern Next.js + TypeScript frontend interfaces",
@@ -24,22 +35,37 @@
       ]
     },
     {
-      "role": "Junior Software Developer",
+      "role": "Junior Software Engineer",
       "company": "Alor Feri Limited",
-      "period": "August 2025 – January 2026",
+      "period": "August 2025 – December 2025",
       "details": [
-        "System analysis, design, development, and integration",
-        "Code review, testing, bug fixing, and maintenance",
-        "Technical documentation and cross-team collaboration"
+        "System analysis and architecture planning",
+        "Full-stack feature development",
+        "API integration and optimization",
+        "Bug fixing and performance improvements",
+        "Team collaboration and documentation"
       ]
     },
     {
-      "role": "Backend Developer Intern",
+      "role": "Backend Development Intern",
       "company": "Taskirsview",
       "period": "January 2025 – February 2025",
       "details": [
-        "Designed, developed, and maintained server-side logic",
-        "Collaborated with team members to deliver high-quality solutions"
+        "Server-side logic implementation",
+        "Database design and optimization",
+        "Backend performance tuning",
+        "Cross-team collaboration"
+      ]
+    },
+    {
+      "role": "Backend Intern",
+      "company": "Pressply LLC",
+      "period": "January 2024 – May 2024",
+      "details": [
+        "REST API development with Express",
+        "PostgreSQL and Prisma ORM",
+        "Stripe payment integration",
+        "Scalable e-commerce backend"
       ]
     }
   ],
@@ -166,9 +192,9 @@
 
   "faq": {
     "whoAreYou": "__WHO__",
-    "currentJob": "I'm currently a Junior Software Engineer at Alor Feri Limited (since January 2026), working on Laravel backends and Next.js frontends for client projects.",
+    "currentJob": "I'm currently a Software Engineer at Softtech Solution Ltd (since September 2026), building e-commerce platforms with Laravel and Next.js. Total experience: 1.10+ years.",
     "strengths": "My strongest areas are Laravel (backend architecture, API design, Sanctum auth, Spatie roles), Next.js/React for frontend, and MySQL/PostgreSQL for databases. I'm also comfortable with real-time features and payment gateway integrations (Stripe, Bkash).",
-    "availability": "I'm currently employed at Alor Feri Limited. Feel free to reach out via email at kakon.aiubcse@gmail.com for collaboration or opportunities.",
+    "availability": "I'm currently employed at Softtech Solution Ltd. Feel free to reach out via email at kakon.aiubcse@gmail.com for collaboration or opportunities.",
     "preferredStack": "I prefer Laravel + Next.js + TypeScript + PostgreSQL/MySQL as my primary stack for full-stack web development.",
     "clientProjects": "Two of my major client projects are SN Foundation (orphan sponsorship platform) and Expro Welfare Foundation (membership & pension management system). Both are live and in production."
   }

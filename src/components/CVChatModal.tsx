@@ -57,7 +57,7 @@ function buildResponse(input: string): string | BotPayload {
       location: "Bangladesh",
       summary: "I'm Khairul Islam Kakon, a full-stack software engineer based in Bangladesh. I specialize in Laravel and Next.js.",
       highlights: ["Laravel", "Next.js", "TypeScript", "REST APIs"],
-      company: "Alor Feri Limited",
+      company: "Softtech Solution Ltd",
       email: cvData.contact.email,
       github: cvData.contact.github,
       portfolio: cvData.contact.portfolio,
@@ -168,20 +168,18 @@ function buildResponse(input: string): string | BotPayload {
 
   /* ── Internship ──────────────────────────────────────────────── */
   if (q.includes("intern")) {
-    const intern = cvData.experience.find((e) =>
+    const interns = cvData.experience.filter((e) =>
       e.role.toLowerCase().includes("intern")
     );
-    if (intern) {
+    if (interns.length) {
       return {
         type: "experience",
-        jobs: [
-          {
-            role: intern.role,
-            company: intern.company,
-            period: intern.period,
-            details: intern.details,
-          },
-        ],
+        jobs: interns.map((intern) => ({
+          role: intern.role,
+          company: intern.company,
+          period: intern.period,
+          details: intern.details,
+        })),
       };
     }
   }
@@ -322,7 +320,7 @@ function buildResponse(input: string): string | BotPayload {
 
   /* ── Laravel ─────────────────────────────────────────────────── */
   if (q.includes("laravel")) {
-    return `Laravel is one of my strongest skills (Advanced). I use it for backend applications, RESTful APIs, Sanctum authentication, Spatie role & permissions, queue jobs, schedulers, and real-time messaging. I work with it daily at Alor Feri Limited.`;
+    return `Laravel is one of my strongest skills (Advanced). I use it for backend applications, RESTful APIs, Sanctum authentication, Spatie role & permissions, queue jobs, schedulers, and real-time messaging. I work with it daily at Softtech Solution Ltd.`;
   }
 
   /* ── Next.js ─────────────────────────────────────────────────── */
