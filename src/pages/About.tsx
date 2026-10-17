@@ -15,6 +15,7 @@ import Hobby from "@/components/Hobbies";
 import { TypographyH1, TypographyP } from "@/components/ui/typography";
 import { Mail, Phone, Droplets } from "lucide-react";
 import { TabSectionIds } from "@/components/TapContainer";
+import { scrollToSectionId } from "@/lib/section-scroll";
 
 interface InfoItem {
   label: string;
@@ -123,11 +124,7 @@ type Tab = "personal" | "activities" | "hobbies";
 const AboutPage = () => {
   const [activeTab, setActiveTab] = useState<Tab>("personal");
 
-  const scrollToContact = () => {
-    document
-      .getElementById(TabSectionIds["Contact"])
-      ?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToContact = () => scrollToSectionId(TabSectionIds["Contact"]);
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-10 space-y-12">
@@ -230,7 +227,7 @@ const AboutPage = () => {
 
                   <Button
                     variant="outline"
-                    className="flex-1 bg-red-500 min-w-[130px] h-20 text-white hover:text-white dark:bg-red-700 hover:bg-red-600 dark:hover:bg-red-600 cursor-pointer"
+                    className="flex-1 bg-red-600 min-w-[130px] h-20 text-white hover:text-white dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-600 cursor-pointer"
                     onClick={scrollToContact}
                   >
                     <Droplets className="w-4 h-4 mr-2 " />

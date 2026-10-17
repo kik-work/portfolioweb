@@ -16,10 +16,8 @@ import {
   Signature,
   Youtube,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   TypographyH1,
-  TypographyH3,
   TypographyP,
 } from "@/components/ui/typography";
 
@@ -34,6 +32,8 @@ const VisitorChart = lazy(() =>
   import("@/components/chart/Visitor-chart").then((m) => ({ default: m.VisitorChart }))
 );
 import { TabSectionIds } from "@/components/TapContainer";
+import { scrollToSectionId } from "@/lib/section-scroll";
+import { LazyMount } from "@/components/ui/lazy-mount";
 
 interface HomePageProps {
   setActiveTab: (tab: string) => void; // kept for interface compatibility; unused here
@@ -87,9 +87,12 @@ const roles = [
 
 export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  // Skip the fade on first paint so the hero text is never mid-animation (LCP/contrast).
+  const [hasCycled, setHasCycled] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      setHasCycled(true);
       setActiveIndex((prev) => (prev + 1) % roles.length);
     }, 9000);
 
@@ -104,43 +107,26 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
   };
 
   const activeRole = roles[activeIndex];
-   const scrollToContact = () => {
-      document
-        .getElementById(TabSectionIds["Contact"])
-        ?.scrollIntoView({ behavior: "smooth" });
-    };
+   const scrollToContact = () => scrollToSectionId(TabSectionIds["Contact"]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* HERO */}
       <section className="container mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* LEFT — CSS fade-in replaces framer initial animation */}
-        <div className="space-y-6 animate-fade-in-up">
+        <div className="space-y-6">
           <Badge variant="secondary">﷽ 786</Badge>
 
           {/* Role heading — animates between name and role on interval */}
           <div className="min-h-16">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeRole.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4 }}
-              >
+            <div key={activeRole.title} className={hasCycled ? "animate-fade-in-up" : undefined}>
                 <TypographyH1 className="flex flex-wrap items-start gap-2 text-2xl md:text-2xl font-bold tracking-tight">
                   {activeRole.hero}
-                  <motion.span
-                    className="text-primary inline-block"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                  >
+                  <span className="text-primary inline-block">
                     {activeRole.subhero}
-                  </motion.span>
+                  </span>
                 </TypographyH1>
-              </motion.div>
-            </AnimatePresence>
+            </div>
           </div>
 
           <TypographyP className="text-muted-foreground">
@@ -152,11 +138,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
           <div className="flex gap-4 flex-wrap">
             <Button
               size="lg"
-              onClick={() => {
-                document
-                  .getElementById(TabSectionIds["Projects"])
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
+              onClick={() => scrollToSectionId(TabSectionIds["Projects"])}
             >
               <Presentation /> View Projects
             </Button>
@@ -169,6 +151,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
           <div className="flex gap-4 pt-4">
             <a
               href="https://github.com/kik-work"
+              aria-label="GitHub profile"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -176,6 +159,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
             </a>
             <a
               href="https://www.linkedin.com/in/khairul-islam-kakon-12618222a/"
+              aria-label="LinkedIn profile"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -183,6 +167,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
             </a>
             <a
               href="https://www.facebook.com/share/17XSYL6Q7R/?mibextid=wwXIfr"
+              aria-label="Facebook profile"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -190,6 +175,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
             </a>
               <a
               href="https://www.youtube.com/@kikKakon"
+              aria-label="YouTube channel"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -197,6 +183,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
             </a>
               <a
                href="#"
+              aria-label="Blood donation contact"
               onClick={(e) => {
                 e.preventDefault();
                 scrollToContact();
@@ -209,8 +196,8 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
           </div>
         </div>
 
-        {/* PROFILE CARD — CSS fade-in, keep AnimatePresence for role toggle */}
-        <div className="order-first md:order-last animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
+        {/* PROFILE CARD — CSS fade on role toggle */}
+        <div className="order-first md:order-last">
           <Card className="rounded-2xl shadow-lg">
             <CardHeader className="flex justify-end items-center pb-0">
               <Badge variant="default" className="text-xs px-3">
@@ -221,26 +208,22 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
             <CardContent className="p-4 flex flex-col items-center text-center gap-4">
               <div className="w-64 h-64 rounded-2xl overflow-hidden bg-muted shadow-md">
                 <img
-                  src="/kakon_new_pp.png"
+                  src="/kakon_new_pp-640.webp"
+                  srcSet="/kakon_new_pp-320.webp 320w, /kakon_new_pp-480.webp 480w, /kakon_new_pp-640.webp 640w"
+                  sizes="256px"
                   alt="Khairul Islam"
                   className="w-full h-full object-cover object-center"
-                  width={128}
-                  height={128}
+                  width={256}
+                  height={256}
+                  decoding="async"
                   loading="eager"
                   fetchPriority="high"
                 />
               </div>
 
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeRole.title}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.35 }}
-                >
+              <div key={activeRole.title} className={hasCycled ? "animate-fade-in-up" : undefined}>
                   <div className="flex items-center mt-2 justify-center gap-2">
-                    <TypographyH3>{activeRole.title}</TypographyH3>
+                    <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">{activeRole.title}</h2>
                     {activeRole.icon}
                   </div>
                   <TypographyP className="text-sm text-muted-foreground mb-2">
@@ -253,42 +236,41 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
                       </Badge>
                     ))}
                   </div>
-                </motion.div>
-              </AnimatePresence>
+              </div>
             </CardContent>
           </Card>
         </div>
       </section>
 
       {/* ANALYTICS — lazy-loaded so charts don't block FCP */}
-      <section className="container mx-auto px-6 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-12 animate-fade-in-up" style={{ animationDelay: "0.25s" }}>
-        <Suspense fallback={<div className="h-48 rounded-2xl bg-muted animate-pulse" />}>
-        
+      <LazyMount minHeight={640} rootMargin="0px">
+        <section className="container mx-auto px-6 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <Suspense fallback={<div className="h-[600px] rounded-2xl bg-muted animate-pulse" />}>
             <CareerChart />
-          
-        </Suspense>
-        <Suspense fallback={<div className="h-48 rounded-2xl bg-muted animate-pulse" />}>
-         
+          </Suspense>
+          <Suspense fallback={<div className="h-[600px] rounded-2xl bg-muted animate-pulse" />}>
             <ChartRadialSimple />
-        
-        </Suspense>
-      </section>
+          </Suspense>
+        </section>
+      </LazyMount>
 
       {/* GITHUB CONTRIBUTION */}
-      <section className="mb-4 pb-4 my-12 container mx-auto px-6 rounded-2xl animate-fade-in-up" style={{ animationDelay: "0.35s" }}>
-        <Suspense fallback={<div className="h-40 rounded-2xl bg-muted animate-pulse" />}>
-        
+      <LazyMount minHeight={320}>
+        <section className="mb-4 pb-4 my-12 container mx-auto px-6 rounded-2xl">
+          <Suspense fallback={<div className="h-72 rounded-2xl bg-muted animate-pulse" />}>
             <GitHubContributionChart />
-          
-        </Suspense>
-      </section>
+          </Suspense>
+        </section>
+      </LazyMount>
 
       {/* VISITOR CHART */}
-      <section className="mb-4 pb-4 container mx-auto px-6 rounded-2xl animate-fade-in-up" style={{ animationDelay: "0.45s" }}>
-        <Suspense fallback={<div className="h-48 rounded-2xl bg-muted animate-pulse" />}>
-          <VisitorChart />
-        </Suspense>
-      </section>
+      <LazyMount minHeight={360}>
+        <section className="mb-4 pb-4 container mx-auto px-6 rounded-2xl">
+          <Suspense fallback={<div className="h-80 rounded-2xl bg-muted animate-pulse" />}>
+            <VisitorChart />
+          </Suspense>
+        </section>
+      </LazyMount>
     </main>
   );
 }

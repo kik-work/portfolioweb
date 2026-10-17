@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 import {
   Mail,
   Phone,
@@ -151,6 +151,7 @@ export default function ContactPage(_props: TabPageProps) {
   // ── Render ───────────────────────────────────────────────────────────────────
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <Toaster richColors position="top-center" />
       <section className="container mx-auto px-6 py-12">
         {/* Section heading */}
         <motion.div

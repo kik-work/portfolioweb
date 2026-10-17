@@ -2,8 +2,8 @@ import type { FC } from "react";
 import { lazy, Suspense } from "react";
 import { BriefcaseBusiness, GraduationCap, House, Info, Mail, Presentation, Target } from "lucide-react";
 
-// Lazy-loaded pages
-const HomeLazy = lazy(() => import("@/pages/Welcome"));
+// Home is bundled with the entry chunk (it holds the LCP content); the rest are lazy.
+import Welcome from "@/pages/Welcome";
 const ExperienceLazy = lazy(() => import("@/pages/Experience"));
 const ProjectsLazy = lazy(() => import("@/pages/Projects"));
 const SkillsLazy = lazy(() => import("@/pages/Skills"));
@@ -52,7 +52,7 @@ export interface TabPageProps {
 // Helper: wrap lazy-loaded component in Suspense and pass typed props
 const wrapLazy = (Component: FC<TabPageProps>): FC<TabPageProps> => {
   return (props) => (
-    <Suspense fallback={<div className="text-center py-10"></div>}>
+    <Suspense fallback={<div className="min-h-screen" />}>
       <Component {...props} />
     </Suspense>
   );
@@ -60,7 +60,7 @@ const wrapLazy = (Component: FC<TabPageProps>): FC<TabPageProps> => {
 
 // Export wrapped lazy pages as functional components with props
 export const TabPages: Record<string, FC<TabPageProps>> = {
-  Home: wrapLazy(HomeLazy),
+  Home: Welcome,
   Experience: wrapLazy(ExperienceLazy),
   Projects: wrapLazy(ProjectsLazy),
   Skills: wrapLazy(SkillsLazy),

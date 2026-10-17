@@ -1,18 +1,19 @@
 ﻿import { useEffect, useState, useRef, Suspense } from "react";
 import { Header } from "./components/layout/Header";
-import { Toaster } from "sonner";
 import { TopNavbar } from "./components/layout/TopNavbar";
 import Footer from "./components/layout/Footer";
 import { TabContainers, TabPages, TabSectionIds } from "./components/TapContainer";
-import { ProgressLineLoader } from "./components/ui/progress-line-loader";
 import { CVChat } from "./components/CVChatBubble";
+import { LazyMount } from "./components/ui/lazy-mount";
+import { MountAllContext } from "./components/ui/mount-all-context";
+import { onMountAllSections, scrollToSectionId } from "./lib/section-scroll";
 
 // A noop setter — pages no longer need to imperatively switch tabs,
 // but the prop is kept so page components compile without changes.
 const noop = () => {};
 
 function MainLayoutPage() {
-  const [loading, setLoading] = useState(true);
+  const [mountAll, setMountAll] = useState(false);
   const [activeTab, setActiveTab] = useState(TabContainers[0]);
   const [showHeader, setShowHeader] = useState(true);
   const lastScrollY = useRef(0);
@@ -23,15 +24,8 @@ function MainLayoutPage() {
   // that's what causes the wrong tab to be highlighted on page load.
   const hasScrolled = useRef(false);
 
-  // ── Splash screen ───────────────────────────────────────────────────────────
-  useEffect(() => {
-    if ("requestIdleCallback" in window) {
-      const ric = window.requestIdleCallback(() => setLoading(false), { timeout: 400 });
-      return () => window.cancelIdleCallback(ric);
-    }
-    const t = setTimeout(() => setLoading(false), 400);
-    return () => clearTimeout(t);
-  }, []);
+  // ── Mount every lazy section before a programmatic scroll ───────────────────
+  useEffect(() => onMountAllSections(() => setMountAll(true)), []);
 
   // ── Hide/show header on scroll ──────────────────────────────────────────────
   useEffect(() => {
@@ -58,8 +52,6 @@ function MainLayoutPage() {
 
   // ── Scroll-spy: update activeTab as sections enter the viewport ─────────────
   useEffect(() => {
-    if (loading) return;
-
     // Give the DOM a tick to paint all sections before observing.
     const timer = setTimeout(() => {
       const observers: IntersectionObserver[] = [];
@@ -96,41 +88,28 @@ function MainLayoutPage() {
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [loading]);
+  }, []);
 
   // ── Scroll to a section when the navbar tab is clicked ──────────────────────
   const scrollToSection = (tab: string) => {
     const sectionId = TabSectionIds[tab];
-    const el = document.getElementById(sectionId);
-    if (!el) return;
 
     // Lock scroll-spy while we're animating to avoid flicker.
     isScrollingTo.current = true;
     hasScrolled.current = true; // treat a tab click as "user has navigated"
     setActiveTab(tab);
 
-    el.scrollIntoView({ behavior: "smooth" });
+    scrollToSectionId(sectionId);
 
-    // Unlock after the scroll animation completes (~800 ms is safe for most
-    // viewport heights; the spy will resume on the next user scroll).
+    // Unlock after the scroll animation completes (the spy will resume on the
+    // next user scroll). Includes the short wait for lazy sections to mount.
     setTimeout(() => {
       isScrollingTo.current = false;
-    }, 900);
+    }, 1400);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
-        <div className="flex flex-col items-center gap-4">
-          <img src="/kikLogoRH.webp" alt="Logo" className="h-24 w-56 rounded-md mt-10" />
-          <ProgressLineLoader />
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <>
+    <MountAllContext.Provider value={mountAll}>
       <div className="min-h-screen flex flex-col bg-background text-foreground">
         {/* Header: slides away on scroll-down */}
         <div
@@ -150,6 +129,11 @@ function MainLayoutPage() {
         <main className="flex-1 mx-auto px-2 w-full max-w-7xl">
           {TabContainers.map((tab) => {
             const PageComponent = TabPages[tab];
+            const page = (
+              <Suspense fallback={<div className="min-h-screen" />}>
+                <PageComponent setActiveTab={noop} />
+              </Suspense>
+            );
             return (
               <section
                 key={tab}
@@ -158,20 +142,21 @@ function MainLayoutPage() {
                 // so scrollIntoView lands correctly.
                 className="scroll-mt-14"
               >
-                <Suspense fallback={<div className="h-40" />}>
-                  <PageComponent setActiveTab={noop} />
-                </Suspense>
+                {tab === TabContainers[0] ? (
+                  page
+                ) : (
+                  <LazyMount minHeight="100vh">{page}</LazyMount>
+                )}
               </section>
             );
           })}
         </main>
 
         <Footer />
-        <Toaster richColors position="top-center" />
       </div>
 
       <CVChat />
-    </>
+    </MountAllContext.Provider>
   );
 }
 

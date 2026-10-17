@@ -6,6 +6,32 @@ import { compression } from "vite-plugin-compression2";
 import type { IncomingMessage, ServerResponse } from "http";
 
 /**
+ * Inlines the entry stylesheet into index.html so it no longer blocks first
+ * paint with an extra request. Lazy-chunk CSS (e.g. the carousel) stays separate.
+ */
+function inlineEntryCss(): Plugin {
+  return {
+    name: "inline-entry-css",
+    apply: "build",
+    enforce: "post",
+    transformIndexHtml: {
+      order: "post",
+      handler(html, ctx) {
+        if (!ctx.bundle) return html;
+        return html.replace(
+          /<link rel="stylesheet"[^>]*href="\/?(assets\/[^"]+\.css)"[^>]*>/g,
+          (tag, file: string) => {
+            const asset = ctx.bundle?.[file];
+            if (!asset || asset.type !== "asset") return tag;
+            return `<style>${String(asset.source)}</style>`;
+          }
+        );
+      },
+    },
+  };
+}
+
+/**
  * Vite dev-only plugin that handles /api/analytics locally.
  * In production this route is served by the Vercel serverless function in /api/analytics.ts.
  */
@@ -79,6 +105,7 @@ export default defineConfig(({ mode }) => {
     react(),
     tailwindcss(),
     analyticsDevPlugin(),
+    inlineEntryCss(),
     compression({ algorithm: "gzip", exclude: [/\.(br)$/, /\.(gz)$/, /\.(png|jpg|webp|gif|mp4|pdf|woff2?)$/] }),
     compression({ algorithm: "brotliCompress", exclude: [/\.(br)$/, /\.(gz)$/, /\.(png|jpg|webp|gif|mp4|pdf|woff2?)$/], deleteOriginalAssets: false }),
   ],
@@ -96,18 +123,6 @@ export default defineConfig(({ mode }) => {
       output: {
         manualChunks: {
           "vendor-react": ["react", "react-dom"],
-          "vendor-motion": ["framer-motion"],
-          "vendor-charts": ["recharts"],
-          "vendor-radix": [
-            "@radix-ui/react-dialog",
-            "@radix-ui/react-popover",
-            "@radix-ui/react-progress",
-            "@radix-ui/react-select",
-            "@radix-ui/react-slot",
-            "@radix-ui/react-switch",
-            "@radix-ui/react-tabs",
-            "@radix-ui/react-tooltip",
-          ],
         },
       },
     },

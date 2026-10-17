@@ -142,7 +142,7 @@ export default function ExperiencePage() {
                   <p
                     className={`text-xs mt-1 ${
                       isActive
-                        ? "text-primary-foreground/80"
+                        ? "text-primary-foreground"
                         : "text-muted-foreground"
                     }`}
                   >

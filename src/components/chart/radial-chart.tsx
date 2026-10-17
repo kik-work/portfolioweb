@@ -38,6 +38,13 @@ const chartConfig: ChartConfig = {
   "Java/C#": { label: "Java/C#", color: "var(--chart-5-global)" },
 };
 
+const chartSummary =
+  "Self-rated programming skills out of 10: " +
+  chartData
+    .filter((d) => d.skill)
+    .map((d) => `${d.skill} ${d.rating}`)
+    .join(", ");
+
 export function ChartRadialSimple() {
   return (
     <Card className="flex flex-col">
@@ -52,6 +59,13 @@ export function ChartRadialSimple() {
       </CardHeader>
 
       <CardContent className="flex-1 pb-0">
+        {/* Recharts marks each sector role="img" without a label, so hide the
+            SVG from assistive tech and describe the whole chart instead. */}
+        <div
+          role="img"
+          aria-label={chartSummary}
+        >
+        <div aria-hidden="true">
         <ChartContainer
           config={chartConfig}
           className="w-full max-w-[300px] mx-auto aspect-square"
@@ -77,6 +91,8 @@ export function ChartRadialSimple() {
             </RadialBar>
           </RadialBarChart>
         </ChartContainer>
+        </div>
+        </div>
       </CardContent>
 
       <CardFooter className="flex-col gap-2 text-sm">

@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 
 import { motion } from "framer-motion";
 import { Bug, CirclePlus, CloudUpload, Plug,GlobeLock, MonitorCloud, PcCase, Server, ShieldPlusIcon, Sprout, Workflow } from "lucide-react";
-import { TypographyH4 } from "./ui/typography";
 
 const item = {
   hidden: { opacity: 0, y: 20 },
@@ -94,7 +93,7 @@ export default function AdditionalSkillPage() {
 
                         </div>
                         <div className="my-2">
-                          <TypographyH4> {group.title}</TypographyH4>
+                          <h2 className="scroll-m-20 text-xl font-semibold tracking-tight">{group.title}</h2>
                         </div>
                       </div>
                     </CardTitle>

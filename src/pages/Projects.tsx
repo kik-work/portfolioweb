@@ -233,6 +233,27 @@ const ProjectPage = () => {
     return cleanup;
   }, [handleResize]);
 
+  // Slick keeps off-screen and cloned slides aria-hidden but still focusable;
+  // mark them inert so keyboard and assistive tech skip their buttons.
+  const sliderRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const root = sliderRef.current;
+    if (!root) return;
+    const sync = () =>
+      root.querySelectorAll<HTMLElement>(".slick-slide").forEach((slide) => {
+        slide.inert = slide.getAttribute("aria-hidden") === "true";
+      });
+    sync();
+    const observer = new MutationObserver(sync);
+    observer.observe(root, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["aria-hidden"],
+    });
+    return () => observer.disconnect();
+  }, []);
+
   let slidesToShow = 3;
   // centerMode off: first slide sits at the left edge, so order = display order
   const centerMode = false;
@@ -273,7 +294,7 @@ const ProjectPage = () => {
       </section>
 
       {/* SLIDER */}
-      <section className="w-full mx-auto px-4 sm:px-6 lg:px-8 my-8">
+      <section ref={sliderRef} className="w-full mx-auto px-4 sm:px-6 lg:px-8 my-8">
         <Slider {...sliderSettings}>
           {projects.map((project) => (
             <VideoCard

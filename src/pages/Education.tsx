@@ -92,7 +92,7 @@ function EducationCards({ level }: { level: string }) {
           <Card className="h-full rounded-2xl shadow-md hover:-translate-y-1 transition-transform">
             <CardHeader>
               <CardTitle>
-                <TypographyH3>{edu.degree}</TypographyH3>
+                <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">{edu.degree}</h2>
               </CardTitle>
               <TypographyH3 className="text-sm text-muted-foreground">
                 <Clock className="inline-block h-4 w-4 mb-1 mr-1 text-primary" />

@@ -8,21 +8,21 @@ interface ArrowProps {
 
 const NextArrow = memo(function NextArrow({ onClick }: ArrowProps) {
     return (
-        <div className="arrow-wrapper arrow-next" onClick={onClick}>
-            <div className="arrow-btn">
-                <ChevronRight size={20} />
-            </div>
-        </div>
+        <button type="button" aria-label="Next project" className="arrow-wrapper arrow-next bg-transparent border-0 p-0" onClick={onClick}>
+            <span className="arrow-btn">
+                <ChevronRight size={20} aria-hidden="true" />
+            </span>
+        </button>
     );
 });
 
 const PrevArrow = memo(function PrevArrow({ onClick }: ArrowProps) {
     return (
-        <div className="arrow-wrapper arrow-prev" onClick={onClick}>
-            <div className="arrow-btn">
-                <ChevronLeft size={20} />
-            </div>
-        </div>
+        <button type="button" aria-label="Previous project" className="arrow-wrapper arrow-prev bg-transparent border-0 p-0" onClick={onClick}>
+            <span className="arrow-btn">
+                <ChevronLeft size={20} aria-hidden="true" />
+            </span>
+        </button>
     );
 });
 

@@ -23,8 +23,8 @@ const item = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
 
 const levelStyles: Record<"Basic" | "Intermediate" | "Advanced", string> = {
   Basic: "bg-muted text-muted-foreground",
-  Intermediate: "bg-sky-500/10 text-sky-600 dark:text-sky-400",
-  Advanced: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  Intermediate: "bg-sky-500/10 text-sky-700 dark:text-sky-400",
+  Advanced: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
 };
 
 export default function SkillsPage() {
