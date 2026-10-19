@@ -121,7 +121,7 @@ const VideoCard = memo(function VideoCard({ project, onOpenVideo }: VideoCardPro
           observer.disconnect(); // load once, then stop observing
         }
       },
-      { rootMargin: "200px" } // start loading a bit before visible
+      { rootMargin: "600px" } // start loading well before visible
     );
 
     observer.observe(el);

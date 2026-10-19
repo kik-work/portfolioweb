@@ -5,6 +5,7 @@ import Footer from "./components/layout/Footer";
 import { TabContainers, TabPages, TabSectionIds } from "./components/TapContainer";
 import { CVChat } from "./components/CVChatBubble";
 import { LazyMount } from "./components/ui/lazy-mount";
+import { SectionSkeleton } from "./components/ui/skeleton";
 import { MountAllContext } from "./components/ui/mount-all-context";
 import { onMountAllSections, scrollToSectionId } from "./lib/section-scroll";
 
@@ -130,7 +131,7 @@ function MainLayoutPage() {
           {TabContainers.map((tab) => {
             const PageComponent = TabPages[tab];
             const page = (
-              <Suspense fallback={<div className="min-h-screen" />}>
+              <Suspense fallback={<SectionSkeleton />}>
                 <PageComponent setActiveTab={noop} />
               </Suspense>
             );
@@ -145,7 +146,9 @@ function MainLayoutPage() {
                 {tab === TabContainers[0] ? (
                   page
                 ) : (
-                  <LazyMount minHeight="100vh">{page}</LazyMount>
+                  <LazyMount minHeight="100vh" rootMargin="1200px">
+                    {page}
+                  </LazyMount>
                 )}
               </section>
             );

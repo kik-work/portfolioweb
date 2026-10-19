@@ -4,12 +4,29 @@ import { BriefcaseBusiness, GraduationCap, House, Info, Mail, Presentation, Targ
 
 // Home is bundled with the entry chunk (it holds the LCP content); the rest are lazy.
 import Welcome from "@/pages/Welcome";
-const ExperienceLazy = lazy(() => import("@/pages/Experience"));
-const ProjectsLazy = lazy(() => import("@/pages/Projects"));
-const SkillsLazy = lazy(() => import("@/pages/Skills"));
-const EducationLazy = lazy(() => import("@/pages/Education"));
-const AboutLazy = lazy(() => import("@/pages/About"));
-const ContactLazy = lazy(() => import("@/pages/Contact"));
+import { SectionSkeleton } from "@/components/ui/skeleton";
+
+const loaders = [
+  () => import("@/pages/Experience"),
+  () => import("@/pages/Projects"),
+  () => import("@/pages/Skills"),
+  () => import("@/pages/Education"),
+  () => import("@/pages/About"),
+  () => import("@/pages/Contact"),
+];
+const [ExperienceLazy, ProjectsLazy, SkillsLazy, EducationLazy, AboutLazy, ContactLazy] =
+  loaders.map((load) => lazy(load));
+
+// Prefetch the section chunks once the page is idle so scrolling never waits on the network.
+if (typeof window !== "undefined") {
+  const prefetch = () => loaders.forEach((load) => void load());
+  const schedule = () =>
+    "requestIdleCallback" in window
+      ? window.requestIdleCallback(prefetch, { timeout: 4000 })
+      : setTimeout(prefetch, 2000);
+  if (document.readyState === "complete") schedule();
+  else window.addEventListener("load", schedule, { once: true });
+}
 
 // Tab titles
 export const TabContainers = [
@@ -52,7 +69,7 @@ export interface TabPageProps {
 // Helper: wrap lazy-loaded component in Suspense and pass typed props
 const wrapLazy = (Component: FC<TabPageProps>): FC<TabPageProps> => {
   return (props) => (
-    <Suspense fallback={<div className="min-h-screen" />}>
+    <Suspense fallback={<SectionSkeleton />}>
       <Component {...props} />
     </Suspense>
   );
