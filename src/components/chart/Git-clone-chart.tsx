@@ -17,10 +17,10 @@ type Day = {
 
 const chartColors = [
     "var(--secondary)",
-    "var(--chart-2-github)",
-    "var(--chart-3-github)",
-    "var(--chart-4-github)",
-    "var(--chart-5-github)",
+    "var(--heat-1)",
+    "var(--heat-2)",
+    "var(--heat-3)",
+    "var(--heat-4)",
 ]
 
 function getColor(count: number) {
@@ -157,14 +157,14 @@ export function GitHubContributionChart() {
             <CardHeader className="flex flex-col items-stretch border-b border-hairline p-0! sm:flex-row">
                 <div className="flex flex-1 flex-col justify-center gap-1 px-7 pt-7 pb-4 sm:pb-6">
                     <CardTitle className="flex items-center gap-1">
-                        GitHub Commits Contribution <GitBranch className="h-4 w-4 text-link" aria-hidden="true"/>
+                        GitHub Commits Contribution <GitBranch className="h-4 w-4 text-violet" aria-hidden="true"/>
                     </CardTitle>
                     <CardDescription>
                         Live data from GitHub GraphQL API
                     </CardDescription>
                     <div className="mb-1">
                         <span className="text-xs text-muted-foreground">github username:</span>
-                        <a href="https://github.com/kik-work" target="_blank" rel="noopener noreferrer" className="ml-1.5 inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium text-link hover:bg-foreground/[0.05]">kik-work</a>
+                        <a href="https://github.com/kik-work" target="_blank" rel="noopener noreferrer" className="ml-1.5 inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium text-violet hover:bg-foreground/[0.05]">kik-work</a>
                     </div>
 
                 </div>
@@ -172,7 +172,7 @@ export function GitHubContributionChart() {
                 <div className="flex">
                     <div className="flex flex-1 flex-col justify-center gap-1 border-t border-hairline px-7 py-5 text-left sm:border-t-0 sm:border-l sm:px-8 sm:py-6">
                         <span className="text-muted-foreground text-xs flex items-center gap-1">
-                            Total Commits <GitCommitHorizontal className="h-4 w-4 text-link" aria-hidden="true"/>
+                            Total Commits <GitCommitHorizontal className="h-4 w-4 text-violet" aria-hidden="true"/>
                         </span>
                         <span className="leading-none">
                             <span className="text-spectrum text-4xl font-bold tracking-[-0.04em]">{totalCommits.toLocaleString()}</span>

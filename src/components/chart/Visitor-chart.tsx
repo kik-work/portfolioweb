@@ -64,7 +64,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps<number, string>)
       }}
     >
       <p style={{ fontWeight: 600, marginBottom: 6 }}>{label}</p>
-      <p style={{ color: "var(--primary)", display: "flex", justifyContent: "space-between", gap: 16 }}>
+      <p style={{ color: "var(--chart-accent)", display: "flex", justifyContent: "space-between", gap: 16 }}>
         <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
           <Users size={11} /> Visitors
         </span>
@@ -142,7 +142,7 @@ export function VisitorChart() {
         <div className="flex flex-1 flex-col justify-center gap-1 px-7 pt-7 pb-4 sm:pb-6">
           <CardTitle className="flex items-center gap-1">
             Portfolio Visitors
-            <Users className="h-4 w-4 ml-1 text-link" aria-hidden="true" />
+            <Users className="h-4 w-4 ml-1 text-violet" aria-hidden="true" />
           </CardTitle>
           <CardDescription>Cumulative visitors — last 30 days (hover for daily breakdown)</CardDescription>
         </div>
@@ -174,8 +174,8 @@ export function VisitorChart() {
           >
             <defs>
               <linearGradient id="growthGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.4} />
-                <stop offset="100%" stopColor="var(--primary)" stopOpacity={0.02} />
+                <stop offset="0%" stopColor="var(--chart-accent)" stopOpacity={0.4} />
+                <stop offset="100%" stopColor="var(--chart-accent)" stopOpacity={0.02} />
               </linearGradient>
             </defs>
 
@@ -203,12 +203,12 @@ export function VisitorChart() {
               type="monotone"
               dataKey="cumulative"
               name="Total Visitors"
-              stroke="var(--primary)"
+              stroke="var(--chart-accent)"
               strokeWidth={2.5}
               isAnimationActive
               fill="url(#growthGrad)"
               dot={false}
-              activeDot={{ r: 5, fill: "var(--primary)", stroke: "var(--card)", strokeWidth: 2 }}
+              activeDot={{ r: 5, fill: "var(--chart-accent)", stroke: "var(--card)", strokeWidth: 2 }}
             />
           </AreaChart>
         </ResponsiveContainer>
