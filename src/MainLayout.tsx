@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useRef, Suspense } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { Header } from "./components/layout/Header";
 import { TopNavbar } from "./components/layout/TopNavbar";
 import Footer from "./components/layout/Footer";
@@ -12,6 +12,18 @@ import { onMountAllSections, scrollToSectionId } from "./lib/section-scroll";
 // A noop setter — pages no longer need to imperatively switch tabs,
 // but the prop is kept so page components compile without changes.
 const noop = () => {};
+
+// Apple-style banding: light-grey sections alternate with white, and the
+// project gallery is a black "theatre" in both themes.
+const sectionSurface: Record<string, string> = {
+  Home: "",
+  Experience: "surface-alt",
+  Projects: "dark bg-background text-foreground",
+  Skills: "",
+  Education: "surface-alt",
+  About: "",
+  Contact: "surface-alt",
+};
 
 function MainLayoutPage() {
   const [mountAll, setMountAll] = useState(false);
@@ -28,13 +40,12 @@ function MainLayoutPage() {
   // ── Mount every lazy section before a programmatic scroll ───────────────────
   useEffect(() => onMountAllSections(() => setMountAll(true)), []);
 
-  // ── Hide/show header on scroll ──────────────────────────────────────────────
+  // ── Hide/show header on scroll; also marks that real scrolling has started ──
   useEffect(() => {
     let rafId = 0;
     const handleScroll = () => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        // Mark that real user scrolling has started so the spy can activate.
         hasScrolled.current = true;
 
         const currentScrollY = window.scrollY;
@@ -53,65 +64,60 @@ function MainLayoutPage() {
 
   // ── Scroll-spy: update activeTab as sections enter the viewport ─────────────
   useEffect(() => {
+    const observers: IntersectionObserver[] = [];
     // Give the DOM a tick to paint all sections before observing.
     const timer = setTimeout(() => {
-      const observers: IntersectionObserver[] = [];
-
       TabContainers.forEach((tab) => {
-        const sectionId = TabSectionIds[tab];
-        const el = document.getElementById(sectionId);
+        const el = document.getElementById(TabSectionIds[tab]);
         if (!el) return;
 
         const observer = new IntersectionObserver(
           ([entry]) => {
-            // Only update when:
-            // 1. The section is intersecting
-            // 2. The user has already scrolled (suppresses the spurious
-            //    initial-mount fires that caused the wrong tab on load)
-            // 3. We're not in the middle of a programmatic scroll-to
             if (entry.isIntersecting && hasScrolled.current && !isScrollingTo.current) {
               setActiveTab(tab);
             }
           },
-          {
-            // Fire when at least 30% of the section is visible.
-            // rootMargin top offset accounts for the sticky navbar height (~52px).
-            rootMargin: "-52px 0px -40% 0px",
-            threshold: 0.1,
-          }
+          // Top offset matches the sticky tab bar; a section is "active" once it
+          // crosses the upper part of the viewport.
+          { rootMargin: "-52px 0px -55% 0px", threshold: 0 }
         );
 
         observer.observe(el);
         observers.push(observer);
       });
-
-      return () => observers.forEach((o) => o.disconnect());
     }, 100);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      observers.forEach((o) => o.disconnect());
+    };
   }, []);
 
-  // ── Scroll to a section when the navbar tab is clicked ──────────────────────
+  // ── Scroll to a section when a nav link is clicked ──────────────────────────
   const scrollToSection = (tab: string) => {
     const sectionId = TabSectionIds[tab];
 
     // Lock scroll-spy while we're animating to avoid flicker.
     isScrollingTo.current = true;
-    hasScrolled.current = true; // treat a tab click as "user has navigated"
+    hasScrolled.current = true;
     setActiveTab(tab);
 
-    scrollToSectionId(sectionId);
-
-    // Unlock after the scroll animation completes (the spy will resume on the
-    // next user scroll). Includes the short wait for lazy sections to mount.
-    setTimeout(() => {
+    // Unlock once the scroll (including any wait for lazy sections) has settled.
+    scrollToSectionId(sectionId, () => {
       isScrollingTo.current = false;
-    }, 1400);
+    });
   };
 
   return (
     <MountAllContext.Provider value={mountAll}>
-      <div className="min-h-screen flex flex-col bg-background text-foreground">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+      >
+        Skip to content
+      </a>
+
+      <div className="flex min-h-screen flex-col bg-background text-foreground">
         {/* Header: slides away on scroll-down */}
         <div
           className={`transition-transform duration-300 will-change-transform ${
@@ -127,7 +133,7 @@ function MainLayoutPage() {
         </div>
 
         {/* All page sections rendered in one continuous scroll */}
-        <main className="flex-1 mx-auto px-2 w-full max-w-7xl">
+        <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {TabContainers.map((tab) => {
             const PageComponent = TabPages[tab];
             const page = (
@@ -139,9 +145,9 @@ function MainLayoutPage() {
               <section
                 key={tab}
                 id={TabSectionIds[tab]}
-                // Offset the section's scroll-snap point by the sticky navbar height
-                // so scrollIntoView lands correctly.
-                className="scroll-mt-14"
+                aria-labelledby={tab === TabContainers[0] ? "hero-title" : `${TabSectionIds[tab]}-title`}
+                // Offset scrollIntoView by the sticky tab bar.
+                className={`scroll-mt-14 ${sectionSurface[tab] ?? ""}`}
               >
                 {tab === TabContainers[0] ? (
                   page

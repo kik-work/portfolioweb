@@ -1,10 +1,12 @@
 "use client";
 
 import { useContext } from "react";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { ThemeContext } from "../../context/ThemeContext";
-import { Mail, PhoneCall } from "lucide-react";
+import { Mail, Moon, PhoneCall, Sun } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const iconButton =
+  "relative inline-flex size-9 cursor-pointer items-center justify-center rounded-full text-foreground/80 transition-[background-color,color,scale] duration-300 hover:bg-foreground/[0.07] hover:text-foreground active:scale-90 [&_svg]:size-[18px]";
 
 export function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -37,8 +39,8 @@ export function Header() {
   };
 
   return (
-    <header className="w-full border-b dark:border-muted bg-background/60 backdrop-blur-md sticky top-0 z-50">
-        <div className="mx-auto w-full flex items-center justify-between p-2 max-w-7xl">
+    <header className="w-full border-b border-hairline nav-glass sticky top-0 z-50">
+        <div className="shell flex h-12 items-center justify-between">
           {/* Logo — navigate to root instead of hard-reload */}
           <a href="/" className="flex items-end gap-2 cursor-pointer">
             <img
@@ -54,32 +56,45 @@ export function Header() {
           </a>
 
           {/* Action buttons — native title attributes replace Radix tooltips to keep the entry bundle small */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
+          <div className="flex items-center gap-0.5">
+            <button
+              type="button"
               onClick={handleMail}
               aria-label="Send email"
               title="kakon.aiubcse@gmail.com"
+              className={iconButton}
             >
-              <Mail className="h-4 w-4 text-primary" />
-            </Button>
-
-            <Button
-              variant="outline"
+              <Mail />
+            </button>
+            <button
+              type="button"
               onClick={handleCall}
               aria-label="Contact via WhatsApp"
               title="01923089370 (4PM – 11PM)"
+              className={iconButton}
             >
-              <PhoneCall className="h-4 w-4 text-teal-600" />
-            </Button>
-
-            <Switch
-              checked={theme === "dark"}
-              onCheckedChange={toggleTheme}
+              <PhoneCall />
+            </button>
+            <button
+              type="button"
+              onClick={(e) => toggleTheme({ x: e.clientX, y: e.clientY })}
               aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
               title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="mr-2"
-            />
+              className={iconButton}
+            >
+              <Sun
+                className={cn(
+                  "absolute transition-[rotate,scale,opacity] duration-500 ease-out-expo",
+                  theme === "dark" ? "scale-100 rotate-0 opacity-100" : "scale-50 -rotate-90 opacity-0"
+                )}
+              />
+              <Moon
+                className={cn(
+                  "absolute transition-[rotate,scale,opacity] duration-500 ease-out-expo",
+                  theme === "dark" ? "scale-50 rotate-90 opacity-0" : "scale-100 rotate-0 opacity-100"
+                )}
+              />
+            </button>
           </div>
         </div>
     </header>

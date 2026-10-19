@@ -5,6 +5,7 @@ import { BriefcaseBusiness, GraduationCap, House, Info, Mail, Presentation, Targ
 // Home is bundled with the entry chunk (it holds the LCP content); the rest are lazy.
 import Welcome from "@/pages/Welcome";
 import { SectionSkeleton } from "@/components/ui/skeleton";
+import { registerSectionPreloader } from "@/lib/section-scroll";
 
 const loaders = [
   () => import("@/pages/Experience"),
@@ -17,15 +18,29 @@ const loaders = [
 const [ExperienceLazy, ProjectsLazy, SkillsLazy, EducationLazy, AboutLazy, ContactLazy] =
   loaders.map((load) => lazy(load));
 
-// Prefetch the section chunks once the page is idle so scrolling never waits on the network.
+// Nav jumps wait for every chunk so section heights are final before scrolling.
+registerSectionPreloader(() => Promise.all(loaders.map((load) => load())));
+
+// Prefetch the section chunks so scrolling never waits on the network — but only
+// after the first interaction or once the page has fully settled, so the downloads
+// never compete with the hero (LCP) on slow connections.
 if (typeof window !== "undefined") {
-  const prefetch = () => loaders.forEach((load) => void load());
-  const schedule = () =>
-    "requestIdleCallback" in window
-      ? window.requestIdleCallback(prefetch, { timeout: 4000 })
-      : setTimeout(prefetch, 2000);
-  if (document.readyState === "complete") schedule();
-  else window.addEventListener("load", schedule, { once: true });
+  const events = ["scroll", "pointerdown", "keydown", "touchstart"] as const;
+  let started = false;
+  const prefetch = () => {
+    if (started) return;
+    started = true;
+    events.forEach((e) => window.removeEventListener(e, prefetch));
+    loaders.forEach((load) => void load());
+  };
+  events.forEach((e) => window.addEventListener(e, prefetch, { once: true, passive: true }));
+  const settle = () =>
+    window.setTimeout(
+      () => ("requestIdleCallback" in window ? window.requestIdleCallback(prefetch, { timeout: 2000 }) : prefetch()),
+      3500
+    );
+  if (document.readyState === "complete") settle();
+  else window.addEventListener("load", settle, { once: true });
 }
 
 // Tab titles

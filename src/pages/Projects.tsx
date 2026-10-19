@@ -1,21 +1,8 @@
-import { CardTitle, CardContent, Card2 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { motion } from "framer-motion";
-import Slider from "react-slick";
 import { useState, useEffect, useRef, useCallback, memo } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { NextArrow, PrevArrow } from "@/components/interface/Arrow";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { CircleArrowOutUpRight, FolderGit2, X } from "lucide-react";
-import { TypographyH2, TypographyP } from "@/components/ui/typography";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Play, X } from "lucide-react";
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionHeader } from "@/components/ui/section-header";
 
 /* -------------------- DATA -------------------- */
 /**
@@ -23,37 +10,32 @@ import { TypographyH2, TypographyP } from "@/components/ui/typography";
  * Ids not listed go to the end. ids: 1 SNF, 2 EWF, 3 Info Strainer, 4 Booking,
  * 5 E-Shop, 6 E-Commerce, 7 Dr. Momita, 8 KIK QR Card
  */
-const PROJECT_ORDER = [1, 2, 7, 5, 3, 6, 4, 8];
+const PROJECT_ORDER = [1, 2, 7, 8, 5, 3, 6, 4 ];
 
 const allProjects = [
   {
     id: 7,
     name: "Dr. Momita Healthcare",
     video: "/videos/momitapu.mp4",
-    description:
-      "Bilingual (English/Bangla) doctor website with services, 4-step appointment booking.",
+    description: "Bilingual (English/Bangla) doctor website with services, 4-step appointment booking.",
     demo: "https://drmomitahealthcare.vercel.app/",
   },
-
   {
     id: 1,
     name: "SN Foundation (SNF)",
     video: "/videos/snf.mp4",
-    description:
-      "Orphan Sponsorship Management with Recurring Donations & Real-Time. Messaging",
+    description: "Orphan Sponsorship Management with Recurring Donations & Real-Time Messaging.",
     demo: "https://snfoundations.org/",
   },
   {
     id: 2,
     name: "Expro Welfare Foundation",
     video: "/videos/ewf.mp4",
-    description:
-      "Membership and Pension package enrollment, installment, Document managemnet. ",
+    description: "Membership and Pension package enrollment, installment, Document management.",
     demo: "https://ewfbd.org/",
   },
   {
     id: 3,
-
     name: "Info Strainer",
     video: "/videos/infostrainervid.mp4",
     description: "Created on VS Code with C# for information validation.",
@@ -63,32 +45,28 @@ const allProjects = [
     id: 4,
     name: "Booking Management",
     video: "/videos/bookingappcv.mp4",
-    description:
-      "Managing bookings and invoices with receipts with Firebase and Next.js.",
+    description: "Managing bookings and invoices with receipts with Firebase and Next.js.",
     demo: "https://bookingapppersonal.netlify.app/",
   },
   {
     id: 5,
     name: "E-Shop Management",
     video: "/videos/eshopvid.mp4",
-    description:
-      "Tracking and managing buy/sell of products with Express.js and Next.js.",
+    description: "Tracking and managing buy/sell of products with Express.js and Next.js.",
     demo: "https://github.com/kakon-aiubcse/Eshopmanagementweb",
   },
   {
     id: 6,
     name: "Project E-Commerce",
     video: "/videos/ecom.mp4",
-    description:
-      "Created to establish payment from Stripe and manage products",
+    description: "Created to establish payment from Stripe and manage products.",
     demo: "https://ecommerceproject-kikservercoder.netlify.app/",
   },
   {
     id: 8,
     name: "KIK QR Card",
     video: "/videos/kikqrcard.mp4",
-    description:
-      "A modern QR scan–based web application for customizing, previewing, and purchasing cards.",
+    description: "A modern QR scan–based web application for customizing, previewing, and purchasing cards.",
     demo: "https://kikqrcard.netlify.app/",
   },
 ];
@@ -99,229 +77,250 @@ const rank = (id: number) => {
 };
 const projects = [...allProjects].sort((a, b) => rank(a.id) - rank(b.id));
 
-/* -------------------- Lazy Video Card -------------------- */
-interface VideoCardProps {
-  project: (typeof projects)[0];
-  onOpenVideo: (video: { src: string; name: string }) => void;
+type Project = (typeof projects)[0];
+type OpenVideo = { src: string; name: string };
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* -------------------- Card -------------------- */
+interface ProjectCardProps {
+  project: Project;
+  index: number;
+  onOpenVideo: (video: OpenVideo) => void;
 }
 
-const VideoCard = memo(function VideoCard({ project, onOpenVideo }: VideoCardProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+const ProjectCard = memo(function ProjectCard({ project, index, onOpenVideo }: ProjectCardProps) {
+  const cardRef = useRef<HTMLLIElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [inView, setInView] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [ready, setReady] = useState(false);
 
+  // Load the preview only when the card is mostly visible; pause it off-screen.
   useEffect(() => {
-    const el = containerRef.current;
+    const el = cardRef.current;
     if (!el) return;
-
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect(); // load once, then stop observing
-        }
+        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) setMounted(true);
       },
-      { rootMargin: "600px" } // start loading well before visible
+      { threshold: 0.55 }
     );
-
-    observer.observe(el);
-    return () => observer.disconnect();
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (inView && !prefersReducedMotion()) video.play().catch(() => {});
+    else video.pause();
+  }, [inView, mounted]);
+
+  // relative: keeps sr-only text inside the scroll container (no page overflow).
   return (
-    <motion.div
-      className="px-2 sm:px-4 lg:px-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <Card2 className="rounded-2xl shadow-xl hover:shadow-primary hover:shadow-xl/50 overflow-hidden group flex flex-col h-full mb-12">
-        <CardContent className="p-0 flex flex-col h-full">
-          {/* VIDEO / SKELETON */}
-          <div
-            ref={containerRef}
-            className="relative w-full aspect-video bg-muted overflow-hidden rounded-t-2xl"
+    <li ref={cardRef} className="relative w-[min(84vw,24rem)] shrink-0 snap-start md:w-[30rem]">
+      <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-card">
+        <div className="relative aspect-video overflow-hidden bg-muted">
+          {mounted && (
+            <video
+              ref={videoRef}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+              tabIndex={-1}
+              className="absolute inset-0 size-full object-cover transition-[opacity,scale] duration-700 ease-out-expo group-hover:scale-[1.03]"
+              style={{ opacity: ready ? 1 : 0 }}
+              onLoadedData={() => setReady(true)}
+              onError={() => setReady(true)}
+            >
+              <source src={project.video} type="video/mp4" />
+            </video>
+          )}
+          {!ready && <div aria-hidden="true" className="shimmer absolute inset-0" />}
+
+          <button
+            type="button"
+            onClick={() => onOpenVideo({ src: project.video, name: project.name })}
+            className="absolute right-3 bottom-3 inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-full bg-black/65 px-3.5 text-sm font-medium text-white backdrop-blur-md transition-[background-color,scale] duration-300 hover:bg-black/80 active:scale-95"
           >
-            {visible && (
-              <video
-                muted
-                loop
-                autoPlay
-                playsInline
-                preload="metadata"
-                className="absolute inset-0 w-full h-full object-cover"
-                onLoadedData={() => setLoaded(true)}
-                onError={() => setLoaded(true)}
-              >
-                <source src={project.video} type="video/mp4" />
-              </video>
-            )}
+            <Play className="size-3.5 fill-current" aria-hidden="true" />
+            Watch<span className="sr-only"> {project.name} demo video</span>
+          </button>
+        </div>
 
-            {(!visible || !loaded) && (
-              <Skeleton className="absolute inset-0 bg-primary/30" />
-            )}
-
-            {/* Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <Button
-                size="sm"
-                variant="secondary"
-                className="backdrop-blur-sm"
-                onClick={() => onOpenVideo({ src: project.video, name: project.name })}
-              >
-                View Video
-              </Button>
-            </div>
-          </div>
-
-          {/* CONTENT */}
-          <div className="flex flex-col flex-1 p-5 gap-3">
-            <CardTitle className="leading-tight">
-              <TypographyH2 className="text-xl sm:text-2xl font-semibold tracking-tight">
-                {project.name}{" "}
-                <FolderGit2 className="inline-block ml-2 h-5 w-5 text-primary" />
-              </TypographyH2>
-            </CardTitle>
-
-            <TypographyP className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
-              {project.description}
-            </TypographyP>
-
-            <div className="mt-auto pt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full sm:w-fit gap-2 rounded-lg transition hover:bg-primary hover:text-primary-foreground dark:hover:bg-primary-dark dark:hover:text-primary-foreground dark:bg-primary-dark dark:text-primary-foreground"
-                onClick={() => window.open(project.demo, "_blank")}
-              >
-                View Project
-                <CircleArrowOutUpRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card2>
-    </motion.div>
+        <div className="flex flex-1 flex-col p-6 md:p-7">
+          <p className="text-xs font-semibold tracking-[0.08em] text-muted-foreground tabular-nums">
+            {String(index + 1).padStart(2, "0")}
+          </p>
+          <h3 className="title-lg mt-2">{project.name}</h3>
+          <p className="mt-2 line-clamp-3 text-[0.9375rem] leading-relaxed text-muted-foreground">
+            {project.description}
+          </p>
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/link mt-auto inline-flex w-fit items-center gap-0.5 pt-6 text-[1.0625rem] font-medium text-violet underline-offset-4 hover:underline"
+          >
+            View project<span className="sr-only">: {project.name}</span>
+            <ArrowUpRight
+              className="size-4 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+              aria-hidden="true"
+            />
+          </a>
+        </div>
+      </article>
+    </li>
   );
 });
 
 /* -------------------- PAGE -------------------- */
+const paddle =
+  "inline-flex size-11 cursor-pointer items-center justify-center rounded-full bg-secondary text-foreground/90 transition-[background-color,opacity,scale] duration-300 hover:bg-foreground/[0.18] active:scale-90 disabled:cursor-default disabled:opacity-40 disabled:active:scale-100 [&_svg]:size-5";
+
 const ProjectPage = () => {
-  const [openVideo, setOpenVideo] = useState<{ src: string; name: string } | null>(null);
-  const handleOpenVideo = useCallback((video: { src: string; name: string }) => setOpenVideo(video), []);
+  const [openVideo, setOpenVideo] = useState<OpenVideo | null>(null);
+  const handleOpenVideo = useCallback((video: OpenVideo) => setOpenVideo(video), []);
+  const trackRef = useRef<HTMLUListElement>(null);
+  const [edges, setEdges] = useState({ start: true, end: false });
 
-  // Throttled resize with requestAnimationFrame
-  const [windowWidth, setWindowWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1200
-  );
-
-  const handleResize = useCallback(() => {
-    let raf: number;
-    const handler = () => {
+  // Enable/disable the paddles based on scroll position.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    let raf = 0;
+    const update = () => {
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => setWindowWidth(window.innerWidth));
+      raf = requestAnimationFrame(() => {
+        const max = track.scrollWidth - track.clientWidth;
+        setEdges({ start: track.scrollLeft <= 4, end: track.scrollLeft >= max - 4 });
+      });
     };
-    window.addEventListener("resize", handler);
+    update();
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", handler);
+      track.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
     };
   }, []);
 
-  useEffect(() => {
-    const cleanup = handleResize();
-    return cleanup;
-  }, [handleResize]);
+  // Mouse click-drag to slide. Touch/pen keep native scrolling.
+  const [dragging, setDragging] = useState(false);
+  const drag = useRef({ active: false, moved: false, startX: 0, startLeft: 0 });
 
-  // Slick keeps off-screen and cloned slides aria-hidden but still focusable;
-  // mark them inert so keyboard and assistive tech skip their buttons.
-  const sliderRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const root = sliderRef.current;
-    if (!root) return;
-    const sync = () =>
-      root.querySelectorAll<HTMLElement>(".slick-slide").forEach((slide) => {
-        slide.inert = slide.getAttribute("aria-hidden") === "true";
-      });
-    sync();
-    const observer = new MutationObserver(sync);
-    observer.observe(root, {
-      subtree: true,
-      childList: true,
-      attributes: true,
-      attributeFilter: ["aria-hidden"],
-    });
-    return () => observer.disconnect();
-  }, []);
+  const onPointerDown = (e: React.PointerEvent<HTMLUListElement>) => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    const track = trackRef.current;
+    if (!track) return;
+    drag.current = { active: true, moved: false, startX: e.clientX, startLeft: track.scrollLeft };
+  };
 
-  let slidesToShow = 3;
-  // centerMode off: first slide sits at the left edge, so order = display order
-  const centerMode = false;
+  const onPointerMove = (e: React.PointerEvent<HTMLUListElement>) => {
+    const d = drag.current;
+    const track = trackRef.current;
+    if (!d.active || !track) return;
+    const dx = e.clientX - d.startX;
+    if (!d.moved) {
+      if (Math.abs(dx) < 5) return;
+      d.moved = true;
+      setDragging(true);
+      track.setPointerCapture(e.pointerId);
+    }
+    track.scrollLeft = d.startLeft - dx;
+  };
 
-  if (windowWidth < 768) {
-    slidesToShow = 1;
-  } else if (windowWidth < 1024) {
-    slidesToShow = 2;
-  }
+  const endDrag = (e: React.PointerEvent<HTMLUListElement>) => {
+    if (!drag.current.active) return;
+    drag.current.active = false;
+    if (trackRef.current?.hasPointerCapture(e.pointerId)) trackRef.current.releasePointerCapture(e.pointerId);
+    setDragging(false); // snap re-engages and settles on nearest card
+  };
 
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 600,
-    slidesToShow,
-    slidesToScroll: 1,
-    centerMode,
-    centerPadding: "0px",
-    swipeToSlide: true,
-    adaptiveHeight: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+  // Swallow the click that ends a drag so links/buttons don't fire.
+  const onClickCapture = (e: React.MouseEvent) => {
+    if (drag.current.moved) {
+      e.preventDefault();
+      e.stopPropagation();
+      drag.current.moved = false;
+    }
+  };
+
+  const scrollByCard = (dir: 1 | -1) => {
+    const track = trackRef.current;
+    const card = track?.querySelector("li");
+    if (!track || !card) return;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 20;
+    track.scrollBy({ left: dir * (card.offsetWidth + gap), behavior: prefersReducedMotion() ? "auto" : "smooth" });
   };
 
   return (
-    <main
-      id="projects"
-      className="min-h-screen bg-background text-foreground py-10"
-    >
-      {/* HEADER */}
-      <section className="text-center mb-16 animate-fade-in-up">
-        <h1 className="text-4xl md:text-5xl font-bold">
-          My <span className="text-primary">Projects</span>
-        </h1>
-        <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-          Some of my recent work including personal and client projects.
-        </p>
-      </section>
+    <div className="py-24 md:py-32">
+      <div className="shell">
+        <SectionHeader
+          id="section-projects-title"
+          title="Projects."
+          subtitle="Recent personal and client work."
+        >
+          <p className="mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
+            Some of my recent work, including personal and client projects. Watch a preview or open the live
+            build.
+          </p>
+        </SectionHeader>
+      </div>
 
-      {/* SLIDER */}
-      <section ref={sliderRef} className="w-full mx-auto px-4 sm:px-6 lg:px-8 my-8">
-        <Slider {...sliderSettings}>
-          {projects.map((project) => (
-            <VideoCard
-              key={project.id}
-              project={project}
-              onOpenVideo={handleOpenVideo}
-            />
+      <Reveal className="mt-12 md:mt-16">
+        <ul
+          ref={trackRef}
+          aria-label="Project gallery"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onClickCapture={onClickCapture}
+          onDragStart={(e) => e.preventDefault()}
+          style={dragging ? { scrollSnapType: "none" } : undefined}
+          className={`gallery-pad no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-2 md:gap-5 ${
+            dragging ? "cursor-grabbing select-none" : "md:cursor-grab"
+          }`}
+        >
+          {projects.map((project, i) => (
+            <ProjectCard key={project.id} project={project} index={i} onOpenVideo={handleOpenVideo} />
           ))}
-        </Slider>
-      </section>
+        </ul>
+      </Reveal>
 
-      {/* MODAL */}
+      <div className="shell mt-6 flex justify-end gap-3">
+        <button type="button" aria-label="Previous project" className={paddle} disabled={edges.start} onClick={() => scrollByCard(-1)}>
+          <ChevronLeft aria-hidden="true" />
+        </button>
+        <button type="button" aria-label="Next project" className={paddle} disabled={edges.end} onClick={() => scrollByCard(1)}>
+          <ChevronRight aria-hidden="true" />
+        </button>
+      </div>
+
+      {/* VIDEO MODAL */}
       <Dialog open={!!openVideo} onOpenChange={() => setOpenVideo(null)}>
-        <DialogContent className="max-w-3xl w-full p-0 bg-black rounded-2xl" showCloseButton={false}>
-          <DialogHeader className="flex flex-row items-center justify-between px-4 pt-3 pb-2">
-            <DialogTitle className="text-white text-base font-semibold">
+        <DialogContent
+          className="w-[calc(100%-2rem)] max-w-4xl gap-0 overflow-hidden rounded-3xl border-0 bg-black p-0 sm:max-w-4xl"
+          showCloseButton={false}
+          aria-describedby={undefined}
+        >
+          <DialogHeader className="flex flex-row items-center justify-between gap-4 px-5 py-3">
+            <DialogTitle className="truncate text-base font-semibold tracking-[-0.01em] text-white">
               {openVideo?.name ?? "Project Video"}
             </DialogTitle>
-            <DialogClose asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="Close video"
-                className="text-white hover:text-red-400 hover:bg-transparent"
-              >
-                <X className="h-5 w-5" />
-              </Button>
+            <DialogClose
+              aria-label="Close video"
+              className="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
+            >
+              <X className="size-4" aria-hidden="true" />
             </DialogClose>
           </DialogHeader>
 
@@ -331,12 +330,13 @@ const ProjectPage = () => {
               src={openVideo.src}
               controls
               autoPlay
-              className="w-full h-[500px] object-contain"
+              playsInline
+              className="aspect-video max-h-[75vh] w-full bg-black object-contain"
             />
           )}
         </DialogContent>
       </Dialog>
-    </main>
+    </div>
   );
 };
 

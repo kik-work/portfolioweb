@@ -48,8 +48,8 @@ export function TopNavbar({ activeTab, onTabClick }: TopNavbarProps) {
               className={cn(
                 "focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 border border-transparent px-3 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 focus-visible:ring-[3px] focus-visible:outline-1 [&_svg]:pointer-events-none [&_svg]:shrink-0",
                 activeTab === tab
-                  ? "text-primary bg-background dark:bg-input/30 dark:border-input shadow-sm rounded-md"
-                  : "text-muted-foreground hover:text-primary rounded-full"
+                  ? "text-violet bg-background dark:bg-input/30 dark:border-input shadow-sm rounded-md"
+                  : "text-muted-foreground hover:text-violet rounded-full"
               )}
             >
               <span className="md:hidden">{TabIcons[idx]}</span>

@@ -20,13 +20,20 @@ export const CVChat: React.FC = () => {
 
       {!open && (
         <button
+          type="button"
           onClick={() => setOpen(true)}
           onPointerEnter={loadChatModal}
           onFocus={loadChatModal}
           aria-label="Open CV chat assistant"
-          className="fixed bottom-5 right-5 bg-primary text-white p-3 md:p-4 xl:p-5 rounded-xl shadow-lg z-50"
+          title="Ask about my CV"
+          className="animate-rise-in fixed right-5 bottom-5 z-50 size-14 cursor-pointer overflow-hidden rounded-full p-[2.5px] shadow-float transition-[scale] duration-300 ease-spring hover:scale-110 active:scale-95 md:right-8 md:bottom-8"
+          style={{ "--rise-delay": "1200ms" } as React.CSSProperties}
         >
-          <MessageCircleMore />
+          {/* Spinning spectrum ring */}
+          <span aria-hidden="true" className="spectrum-glow absolute -inset-1/2" />
+          <span className="relative flex size-full items-center justify-center rounded-full bg-foreground text-background">
+            <MessageCircleMore className="size-6" aria-hidden="true" />
+          </span>
         </button>
       )}
     </>

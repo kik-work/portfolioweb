@@ -1,116 +1,76 @@
-"use client";
+import type { LucideIcon } from "lucide-react";
+import {
+  Bug,
+  CloudUpload,
+  GlobeLock,
+  MonitorCloud,
+  PcCase,
+  Plug,
+  Server,
+  ShieldPlusIcon,
+  Sprout,
+  Workflow,
+} from "lucide-react";
+import { Reveal } from "@/components/ui/reveal";
 
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+interface SkillGroup {
+  title: string;
+  icon: LucideIcon;
+  items: string[];
+  /** Spans two columns on wide screens (bento layout). */
+  wide?: boolean;
+}
 
-import { motion } from "framer-motion";
-import { Bug, CirclePlus, CloudUpload, Plug,GlobeLock, MonitorCloud, PcCase, Server, ShieldPlusIcon, Sprout, Workflow } from "lucide-react";
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-};
+const groups: SkillGroup[] = [
+  { title: "Problem Solving", icon: Bug, items: ["Decision making", "Analytical thinking"] },
+  {
+    title: "Backend Architecture",
+    icon: Server,
+    wide: true,
+    items: ["Sanctum Auth", "Spatie Role Permissions", "Queue Jobs", "Scheduler", "Real-time Messaging", "Courier API", "Payment Gateway"],
+  },
+  { title: "Deployment & DevOps", icon: CloudUpload, items: ["cPanel", "CyberPanel", "Vercel", "Server updates"] },
+  { title: "Integrations", icon: Plug, items: ["Steadfast", "Pathao", "bKash", "Nagad"] },
+  { title: "Planning & Analysis", icon: Workflow, items: ["SRS Documentation", "User Stories", "Project Timelines"] },
+  { title: "Professional Skills", icon: ShieldPlusIcon, items: ["Leadership", "Teamwork", "Adaptability", "Confidential"] },
+  { title: "Computer Science", icon: PcCase, items: ["Data structures", "Algorithms", "Compiler basics"] },
+  { title: "Software Related", icon: MonitorCloud, items: ["Software testing", "Data analysis"] },
+  { title: "Creative Skills", icon: Sprout, items: ["Graphic design", "Photo & video editing", "Figma"] },
+  { title: "Communication", icon: GlobeLock, wide: true, items: ["English", "Bengali", "50+ WPM typing"] },
+];
 
 export default function AdditionalSkillPage() {
   return (
-    <motion.div variants={item}>
-      <Card className="rounded-2xl shadow-md">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold">
-            Additional Skills <CirclePlus className="inline-block ml-2 mb-1 h-5 w-5 text-primary" />
-          </CardTitle>
-        </CardHeader>
+    <div className="mt-24 md:mt-32">
+      <Reveal>
+        <h3 className="title-lg">Additional skills.</h3>
+        <p className="mt-2 max-w-2xl text-muted-foreground">
+          Architecture, delivery, and the people skills that get products shipped.
+        </p>
+      </Reveal>
 
-        <CardContent className="space-y-6">
-          <div className=" grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            {
-              [
-                {
-                  title: "Problem Solving",
-                  icon: <Bug className="h-12 w-16 text-primary" />,
-                  items: ["Decision making", "Analytical thinking"],
-                },
-                  {
-                  title: "Backend Architecture",
-                  icon: <Server className="h-12 w-16 text-primary" />,
-                  items: ["Sanctum Auth", "Spatie Role Permissions", "Queue Jobs", "Scheduler", "Real-time Messaging", "Courier API", "Payment Gateway"],
-                },
-                {
-                  title: "Deployment & DevOps",
-                  icon: <CloudUpload className="h-12 w-16 text-primary" />,
-                  items: ["cPanel", "CyberPanel", "Vercel", "Server updates"],
-                },
-                {
-                  title: "Integrations",
-                  icon: <Plug className="h-12 w-16 text-primary" />,
-                  items: ["Steadfast", "Pathao", "bKash", "Nagad"],
-                },
-                {
-                  title: "Planning & Analysis",
-                  icon: <Workflow className="h-12 w-16 text-primary" />,
-                  items: ["SRS Documentation", "User Stories", "Project Timelines"],
-                },
-                {
-                  title: "Professional Skills",
-                  icon: <ShieldPlusIcon className="h-12 w-16 text-primary" />,
-                  items: ["Leadership", "Teamwork", "Adaptability", "confidential"],
-                },
-                {
-                  title: "Computer Science",
-                  icon: <PcCase className="h-12 w-16 text-primary" />,
-                  items: ["Data structures", "Algorithms", "Compiler basics"],
-                },
-                {
-                  title: "Software Related",
-                  icon: <MonitorCloud className="h-12 w-16 text-primary" />,
-                  items: ["Software testing", "Data analysis"],
-                },
-                {
-                  title: "Creative Skills",
-                  icon: <Sprout className="h-12 w-16 text-primary" />,
-                  items: ["Graphic design", "Photo & video editing", "Figma"],
-                },
-                {
-                  title: "Communication",
-                  icon: <GlobeLock className="h-12 w-16 text-primary" />,
-                  items: ["English", "Bengali", "50+ WPM typing"],
-                },
-              
-
-              ].map((group) => (
-                <Card
-              
-                  key={group.title}
-                  className="rounded-xl border bg-slate-100/40 hover:bg-slate-200/60 dark:bg-white/5 dark:hover:bg-white/10 dark:border-white/10 transition"
-                >
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-1 text-sm font-semibold text-foreground">
-                      {/* 
-                     */}
-                      <div className="flex flex-col ">
-                        <div className=" h-20 w-40 flex items-center">
-                          {group.icon}
-
-                        </div>
-                        <div className="my-2">
-                          <h2 className="scroll-m-20 text-xl font-semibold tracking-tight">{group.title}</h2>
-                        </div>
-                      </div>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex flex-wrap gap-2">
-                    {group.items.map((skill) => (
-                      <Badge key={skill} className="rounded-full bg-violet-200/20 dark:bg-violet-500/15 dark:text-violet-200 dark:border-violet-500/30" variant={"outline"}>
-                        {skill}
-                      </Badge>
-                    ))}
-                  </CardContent>
-                </Card>
-              ))}
-          </div>
-
-        </CardContent>
-      </Card>
-    </motion.div>
+      <ul className="mt-8 grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-4">
+        {groups.map((group, i) => (
+          <Reveal as="li" key={group.title} delay={(i % 4) * 70} className={group.wide ? "sm:col-span-2" : undefined}>
+            <div className="group h-full rounded-3xl bg-card p-6">
+              <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-link/10 text-link transition-transform duration-500 ease-spring group-hover:scale-110 group-hover:-rotate-6">
+                <group.icon className="size-7"aria-hidden="true" />
+              </span>
+              <h4 className="mt-5 text-[1.0625rem] font-semibold tracking-[-0.015em]">{group.title}</h4>
+              <ul className="mt-3 flex flex-wrap gap-1.5">
+                {group.items.map((skill) => (
+                  <li
+                    key={skill}
+                    className="rounded-full bg-background px-2.5 py-1 text-xs font-medium text-foreground/80 ring-1 ring-hairline"
+                  >
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        ))}
+      </ul>
+    </div>
   );
 }

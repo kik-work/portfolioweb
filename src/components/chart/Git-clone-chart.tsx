@@ -8,8 +8,6 @@ import {
     CardTitle,
     CardDescription,
 } from "@/components/ui/card"
-import { Badge } from "../ui/badge"
-import { TypographyH1 } from "../ui/typography"
 import { GitBranch, GitCommitHorizontal } from "lucide-react"
 
 type Day = {
@@ -111,7 +109,7 @@ export function GitHubContributionChart() {
 
     if (loading) {
         return (
-            <Card className="py-6">
+            <Card className="py-7">
                 <CardContent className="text-sm text-muted-foreground">
                     Loading GitHub contributions…
                 </CardContent>
@@ -155,41 +153,35 @@ export function GitHubContributionChart() {
     const dayLabels = ["Mon", "Wed", "Fri"]
 
     return (
-        <>    <Card>
-            <CardHeader className="flex flex-col items-stretch border-b p-0! sm:flex-row">
-                <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-3 sm:pb-0">
+        <Card className="gap-4 pt-0 pb-6">
+            <CardHeader className="flex flex-col items-stretch border-b border-hairline p-0! sm:flex-row">
+                <div className="flex flex-1 flex-col justify-center gap-1 px-7 pt-7 pb-4 sm:pb-6">
                     <CardTitle className="flex items-center gap-1">
-                        GitHub Commits Contribution. <GitBranch className="h-4 w-4 text-primary"/>
+                        GitHub Commits Contribution <GitBranch className="h-4 w-4 text-link" aria-hidden="true"/>
                     </CardTitle>
                     <CardDescription>
                         Live data from GitHub GraphQL API
                     </CardDescription>
                     <div className="mb-1">
                         <span className="text-xs text-muted-foreground">github username:</span>
-                        <Badge
-                            variant="outline"
-                            className="cursor-pointer"
-                            onClick={() => window.open("https://github.com/kik-work", "_blank")}
-                        >
-                            kik-work
-                        </Badge>
+                        <a href="https://github.com/kik-work" target="_blank" rel="noopener noreferrer" className="ml-1.5 inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium text-link hover:bg-foreground/[0.05]">kik-work</a>
                     </div>
 
                 </div>
 
                 <div className="flex">
-                    <div className="flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-t-0 sm:border-l sm:px-8 sm:py-6">
+                    <div className="flex flex-1 flex-col justify-center gap-1 border-t border-hairline px-7 py-5 text-left sm:border-t-0 sm:border-l sm:px-8 sm:py-6">
                         <span className="text-muted-foreground text-xs flex items-center gap-1">
-                            Total Commits <GitCommitHorizontal className="h-4 w-4 text-primary"/>
+                            Total Commits <GitCommitHorizontal className="h-4 w-4 text-link" aria-hidden="true"/>
                         </span>
-                        <span className="text-lg leading-none font-bold sm:text-3xl">
-                            <TypographyH1 className="text-primary">{totalCommits.toLocaleString()}</TypographyH1>
+                        <span className="leading-none">
+                            <span className="text-spectrum text-4xl font-bold tracking-[-0.04em]">{totalCommits.toLocaleString()}</span>
                         </span>
                         <span className="text-xs text-muted-foreground">in the last year</span>
                     </div>
                 </div>
             </CardHeader>
-            <CardContent className="overflow-x-auto">
+            <CardContent className="overflow-x-auto px-7 pt-2 no-scrollbar">
                 {/* Month labels */}
                 <div className="flex mb-2 ml-10 text-xs text-muted-foreground min-w-max">
                     {weeks.map((week, i) => {
@@ -220,13 +212,13 @@ export function GitHubContributionChart() {
                     </div>
 
                     {/* Weeks container with horizontal scroll on mobile */}
-                    <div className="flex space-x-1 overflow-x-auto min-w-max pb-8">
+                    <div className="flex space-x-1 min-w-max pb-2">
                         {weeks.map((week, i) => (
                             <div key={i} className="flex flex-col space-y-1 shrink-0">
                                 {week.map((day, j) => (
                                     <div
                                         key={i + "-" + j}
-                                        className="w-4 h-4 rounded-xs cursor-pointer"
+                                        className="w-4 h-4 rounded-[4px] transition-transform duration-200 hover:scale-125"
                                         style={{ backgroundColor: getColor(day.commits) }}
                                         title={
                                             day.date
@@ -242,23 +234,22 @@ export function GitHubContributionChart() {
                 </div>
 
 
-            </CardContent>
-
-        </Card> 
-        {/* Legend */}
-            <div className="flex overflow-hidden items-center justify-end gap-1 mt-4 text-xs mb-5">
+            {/* Legend */}
+            <div className="flex items-center justify-end gap-1 mt-4 text-xs">
                 <span className="text-muted-foreground">Less</span>
                 <div className="flex gap-0.5">
                     {chartColors.map((color, i) => (
                         <div
                             key={i}
-                            className="w-4 h-4 rounded-xs"
+                            className="w-4 h-4 rounded-[4px]"
                             style={{ backgroundColor: color }}
                         />
                     ))}
                 </div>
                 <span className="text-muted-foreground">More</span>
-            </div></>
+            </div>
+            </CardContent>
+        </Card>
 
     )
 }

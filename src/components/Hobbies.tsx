@@ -1,7 +1,4 @@
-﻿"use client";
-
-import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
+﻿import type { CSSProperties } from "react";
 
 interface HobbyItem {
   title: string;
@@ -15,7 +12,6 @@ const hobbies: HobbyItem[] = [
   { title: "Badminton", category: "Sports", image: "/badminton.webp" },
   { title: "Carrom", category: "Indoor Games", image: "/carrom.webp" },
   { title: "Chess", category: "Indoor Games", image: "/chess.webp" },
- 
   { title: "National & International Politics", category: "Politics", image: "/international-politics.svg" },
   { title: "Blockchain", category: "Trade Enthusiast", image: "/blockchain.webp" },
   { title: "NFT", category: "Trade Enthusiast", image: "/nft.webp" },
@@ -31,51 +27,34 @@ const grouped = hobbies.reduce<Record<string, HobbyItem[]>>((acc, item) => {
 
 const Hobby = () => {
   return (
-    <section className="w-full pb-20 bg-background">
-      <div className="w-full max-w-6xl mx-auto px-4 space-y-14">
-        {/* Header */}
-      
-
-        {/* Categories */}
-        <div className="space-y-12">
-          {Object.entries(grouped).map(([category, items], idx) => (
-            <motion.div
-              key={category}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.05 }}
-              className="rounded-2xl border bg-muted/30"
-            >
-              {/* Category Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b bg-muted/40 rounded-t-2xl">
-                <h3 className="text-lg font-semibold">{category}</h3>
-                <Badge variant="outline">{items.length}</Badge>
-              </div>
-
-              {/* Items */}
-              <div className="divide-y">
-                {items.map((item) => (
-                  <div
-                    key={item.title}
-                    className="flex items-center gap-4 px-6 py-4 hover:bg-muted/50 transition"
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-10 h-10 object-contain"
-                    />
-                    <span className="font-medium">{item.title}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <ul className="grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-4">
+      {Object.entries(grouped).map(([category, items], idx) => (
+        <li key={category} className="animate-rise-in" style={{ "--rise-delay": `${idx * 70}ms` } as CSSProperties}>
+          <div className="h-full rounded-3xl bg-card p-2">
+            <div className="flex items-center justify-between px-4 pt-4 pb-3">
+              <h3 className="text-[1.0625rem] font-semibold tracking-[-0.015em]">{category}</h3>
+              <span className="rounded-full bg-background px-2 py-0.5 text-xs font-semibold text-muted-foreground tabular-nums">
+                {items.length}
+              </span>
+            </div>
+            <ul>
+              {items.map((item) => (
+                <li
+                  key={item.title}
+                  className="flex items-center gap-3 rounded-2xl px-3 py-2.5 transition-colors duration-300 hover:bg-background"
+                >
+                  <span className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1 ring-1 ring-black/5">
+                    <img src={item.image} alt="" className="size-full object-contain" loading="lazy" width={40} height={40} />
+                  </span>
+                  <span className="text-[0.9375rem] leading-snug font-medium">{item.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 };
 
 export default Hobby;
-
