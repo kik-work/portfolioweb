@@ -103,6 +103,13 @@
   --chart-3-github: #0a84ff;
   --chart-4-github: #0066cc;
   --chart-5-github: #003e7a;
+
+  /* Violet scale for the GitHub heatmap + visitors chart */
+  --heat-1: #ddd6fe;
+  --heat-2: #a78bfa;
+  --heat-3: #7c3aed;
+  --heat-4: #4c1d95;
+  --chart-accent: #7c3aed;
 }
 
 .dark {
@@ -150,6 +157,12 @@
   --chart-3-github: #0a84ff;
   --chart-4-github: #66b2ff;
   --chart-5-github: #b3d7ff;
+
+  --heat-1: #3b2478;
+  --heat-2: #6d3fd6;
+  --heat-3: #a78bfa;
+  --heat-4: #ddd6fe;
+  --chart-accent: #a78bfa;
 }
 
 /* ============================================================

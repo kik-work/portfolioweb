@@ -134,7 +134,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
                 {prev >= 0 && (
                   <span
                     key={`out-${prev}-${ticks}`}
-                    className="word-out text-foreground[grid-area:1/1] whitespace-nowrap"
+                    className="word-out text-foreground [grid-area:1/1] whitespace-nowrap"
                     onAnimationEnd={clearPrev}
                   >
                     {roles[prev].title}
