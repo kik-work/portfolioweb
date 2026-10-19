@@ -18,7 +18,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TypographyH1 } from "@/components/ui/typography";
 import { Eye, Users } from "lucide-react";
 
 type DayData = {
@@ -138,40 +137,36 @@ export function VisitorChart() {
   const maxCumulative = chartData[chartData.length - 1].cumulative;
 
   return (
-    <Card className="flex flex-col">
-      <CardHeader className="flex flex-col items-stretch border-b p-0! sm:flex-row">
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-3 sm:pb-0">
+    <Card className="flex flex-col gap-4 pt-0 pb-6">
+      <CardHeader className="flex flex-col items-stretch border-b border-hairline p-0! sm:flex-row">
+        <div className="flex flex-1 flex-col justify-center gap-1 px-7 pt-7 pb-4 sm:pb-6">
           <CardTitle className="flex items-center gap-1">
             Portfolio Visitors
-            <Users className="h-4 w-4 ml-1 text-primary" />
+            <Users className="h-4 w-4 ml-1 text-link" aria-hidden="true" />
           </CardTitle>
           <CardDescription>Cumulative visitors — last 30 days (hover for daily breakdown)</CardDescription>
         </div>
 
         {/* Stats */}
-        <div className="flex divide-x">
+        <div className="flex divide-x divide-hairline border-t border-hairline sm:border-t-0 sm:border-l">
           <div className="flex flex-col justify-center gap-1 px-6 py-4 sm:px-8 sm:py-6">
             <span className="text-muted-foreground text-xs flex items-center gap-1">
               <Users className="h-3 w-3" /> Visitors
             </span>
-            <TypographyH1 className="text-primary text-lg sm:text-3xl leading-none font-bold">
-              {data.visitors.toLocaleString()}
-            </TypographyH1>
+            <span className="text-spectrum text-3xl sm:text-4xl leading-none font-bold tracking-[-0.04em]">{data.visitors.toLocaleString()}</span>
             <span className="text-xs text-muted-foreground">last 30 days</span>
           </div>
           <div className="flex flex-col justify-center gap-1 px-6 py-4 sm:px-8 sm:py-6">
             <span className="text-muted-foreground text-xs flex items-center gap-1">
               <Eye className="h-3 w-3" /> Page Views
             </span>
-            <TypographyH1 className="text-primary text-lg sm:text-3xl leading-none font-bold">
-              {data.total.toLocaleString()}
-            </TypographyH1>
+            <span className="text-spectrum text-3xl sm:text-4xl leading-none font-bold tracking-[-0.04em]">{data.total.toLocaleString()}</span>
             <span className="text-xs text-muted-foreground">last 30 days</span>
           </div>
         </div>
       </CardHeader>
 
-      <CardContent className="pt-6 pb-4">
+      <CardContent className="pt-4 pb-2 px-4 md:px-7">
         <ResponsiveContainer width="100%" height={180}>
           <AreaChart
             data={chartData}
@@ -210,6 +205,7 @@ export function VisitorChart() {
               name="Total Visitors"
               stroke="var(--primary)"
               strokeWidth={2.5}
+              isAnimationActive
               fill="url(#growthGrad)"
               dot={false}
               activeDot={{ r: 5, fill: "var(--primary)", stroke: "var(--card)", strokeWidth: 2 }}

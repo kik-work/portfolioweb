@@ -2,24 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
     <!-- Page Title -->
     <title>Khairul Islam Kakon | Software Engineer Portfolio</title>
+
+    <!-- Apply the saved / OS theme before first paint (hash allow-listed in vercel.json CSP) -->
+    <script>(function(){try{var t=localStorage.getItem("theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;var r=document.documentElement;r.classList.toggle("dark",d);r.style.colorScheme=d?"dark":"light"}catch(e){}})()</script>
 
     <!-- SEO -->
     <meta name="description" content="Portfolio of Khairul Islam Kakon — Software Engineer specializing in React, Next.js, Laravel, and Node.js. View projects, experience, and skills." />
     <meta name="keywords" content="Khairul Islam Kakon, Software Engineer Portfolio, KIK, Software Engineer, React, Next.js, Laravel, Node.js, Full Stack Developer, Bangladesh" />
     <meta name="author" content="Khairul Islam Kakon" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://kikportfolio.vercel.app/" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 
     <!-- Google Search Console ownership verification -->
     <meta name="google-site-verification" content="6bAHT0jfrZgdnRcN9pK_0CoEVKbia4my7NFWfPY3jiM" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Khairul Islam Kakon" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="Khairul Islam Kakon | Software Engineer Portfolio" />
     <meta property="og:description" content="Software Engineer building modern web apps with React, Next.js, Laravel, and Node.js." />
     <meta property="og:image" content="https://kikportfolio.vercel.app/kakon_og.jpg" />
+    <meta property="og:image:alt" content="Khairul Islam Kakon, Software Engineer" />
     <meta property="og:url" content="https://kikportfolio.vercel.app/" />
 
     <!-- Twitter Card -->
@@ -31,20 +42,46 @@
     <link rel="icon" type="image/webp" sizes="32x32" href="/kikLogoIcon.webp" />
     <link rel="icon" type="image/webp" sizes="48x48" href="/kikLogoIcon.webp" />
     <link rel="icon" type="image/webp" sizes="96x96" href="/kikLogoIcon.webp" />
+    <link rel="apple-touch-icon" href="/kikLogoIcon.png" />
 
-    <!-- Preload above-the-fold hero image for faster LCP -->
+    <!-- Preload above-the-fold hero image for faster LCP (must match the <img> srcset/sizes) -->
     <link
       rel="preload"
       as="image"
       type="image/webp"
       href="/kakon_new_pp-640.webp"
-      imagesrcset="/kakon_new_pp-320.webp 320w, /kakon_new_pp-480.webp 480w, /kakon_new_pp-640.webp 640w"
-      imagesizes="256px"
+      imagesrcset="/kakon_new_pp-320.webp 320w, /kakon_new_pp-480.webp 480w, /kakon_new_pp-640.webp 640w, /kakon_new_pp-960.webp 960w"
+      imagesizes="(min-width: 768px) 416px, 88vw"
       fetchpriority="high"
     />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Khairul Islam Kakon",
+        "alternateName": "Kakon",
+        "url": "https://kikportfolio.vercel.app/",
+        "image": "https://kikportfolio.vercel.app/kakon_og.jpg",
+        "jobTitle": "Software Engineer",
+        "worksFor": { "@type": "Organization", "name": "Softtech Solution Ltd", "url": "https://softtechsolutionltd.com/" },
+        "alumniOf": { "@type": "CollegeOrUniversity", "name": "American International University-Bangladesh", "url": "https://www.aiub.edu/" },
+        "address": { "@type": "PostalAddress", "addressLocality": "Dhaka", "addressCountry": "BD" },
+        "email": "mailto:kakon.aiubcse@gmail.com",
+        "knowsAbout": ["React", "Next.js", "Laravel", "Node.js", "TypeScript", "PostgreSQL", "Full Stack Development"],
+        "sameAs": [
+          "https://github.com/kik-work",
+          "https://www.linkedin.com/in/khairul-islam-kakon-12618222a/",
+          "https://www.youtube.com/@kikKakon",
+          "https://www.facebook.com/share/17XSYL6Q7R/?mibextid=wwXIfr"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>Khairul Islam Kakon — Software Engineer. Please enable JavaScript to view this portfolio.</noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

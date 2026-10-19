@@ -516,7 +516,7 @@ export const CVChatModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </DialogClose>
         </DialogHeader>
 
-        <DialogDescription className="text-xs text-slate-500">
+        <DialogDescription className="text-xs text-muted-foreground">
           Ask me anything about Kakon's background, skills, or projects.
         </DialogDescription>
 
@@ -528,7 +528,7 @@ export const CVChatModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
           {loading && (
             <div className="flex justify-start mb-3">
-              <Badge className="bg-primary text-background px-4 py-2 rounded-2xl animate-pulse">
+              <Badge className="bg-primary text-primary-foreground px-4 py-2 rounded-2xl animate-pulse">
                 Typing...
               </Badge>
             </div>

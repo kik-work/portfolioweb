@@ -21,7 +21,7 @@ import { CodeXml } from "lucide-react";
 export const description = "A radial chart displaying skill ratings";
 
 const chartData = [
-  { skill: "", rating: 10, fill: "var(--card-foreground)" },
+  { skill: "", rating: 10, fill: "var(--border)" },
   { skill: "JavaScript", rating: 8.7, fill: "var(--chart-1-github)" },
   { skill: "PHP", rating: 8, fill: "var(--chart-2-github)" },
   { skill: "C++", rating: 7, fill: "var(--chart-3-github)" },
@@ -47,11 +47,11 @@ const chartSummary =
 
 export function ChartRadialSimple() {
   return (
-    <Card className="flex flex-col">
+    <Card className="h-full flex flex-col py-7 md:py-8">
       <CardHeader className="items-center pb-0">
         <CardTitle className="flex items-center">
           Programming Language Rating{" "}
-          <CodeXml className="inline-block h-4 w-4 ml-2 text-primary" />
+          <CodeXml className="inline-block h-4 w-4 ml-2 text-link" aria-hidden="true" />
         </CardTitle>
         <CardDescription>
           Self predictions on programming language skills

@@ -1,54 +1,19 @@
-﻿"use client";
-
-import {  useState } from "react";
-import { motion } from "framer-motion";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/tabs";
-import {
-  TypographyH1,
-  TypographyH3,
-  TypographyP,
-  TypographyP2,
-} from "@/components/ui/typography";
-import {
-  BookOpen,
-  BookText,
-  Building,
-  CircleArrowOutUpRight,
-  Clock,
-  GraduationCap,
-  MapPin,
-  SquareStar,
-  University,
-} from "lucide-react";
-
-/* ---------- Animation variants â€” only for card entrance ---------- */
-const container = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.12 } },
-};
-const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
+import { ArrowUpRight } from "lucide-react";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionHeader } from "@/components/ui/section-header";
+import { cn } from "@/lib/utils";
 
 const educationData = [
   {
     degree: "BSc in Computer Science & Engineering",
     institute: "American International University of Bangladesh",
+    shortName: "AIUB",
     location: "Kuratoli, Khilkhet",
     year: "Spring 2020-2024",
     major: "Software Engineering",
-    result: "CGPA 3.66/4.00",
+    resultLabel: "CGPA",
+    score: "3.66",
+    outOf: "4.00",
     logo: "/aiub.webp",
     website: "https://www.aiub.edu/",
     level: "University",
@@ -56,10 +21,13 @@ const educationData = [
   {
     degree: "Higher Secondary Certificate (HSC)",
     institute: "Sherpur Government College",
+    shortName: "Sherpur Govt. College",
     location: "Sherpur, Mymensingh, Bangladesh",
     year: "2017-2019",
     major: "Science",
-    result: "GPA 4.00 / 5.00",
+    resultLabel: "GPA",
+    score: "4.00",
+    outOf: "5.00",
     logo: "/sgc.webp",
     website: "https://sherpurgovtcollege.edu.bd/",
     level: "College",
@@ -67,167 +35,114 @@ const educationData = [
   {
     degree: "Secondary School Certificate (SSC)",
     institute: "Jangaldi High School",
+    shortName: "Jangaldi High School",
     location: "Sherpur, Mymensingh, Bangladesh",
     year: "2016-2017",
     major: "Science",
-    result: "GPA 5.00 / 5.00",
+    resultLabel: "GPA",
+    score: "5.00",
+    outOf: "5.00",
     logo: "/jangaldi.webp",
     website: "https://locator.eduportalbd.com/institutes/?ins=113829",
     level: "School",
   },
 ];
 
-function EducationCards({ level }: { level: string }) {
-  const filtered = educationData.filter((e) => e.level === level);
-
-  return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      animate="show"
-      className="flex justify-center w-full gap-8"
-    >
-      {filtered.map((edu) => (
-        <motion.div key={edu.degree} variants={item} className="w-full">
-          <Card className="h-full rounded-2xl shadow-md hover:-translate-y-1 transition-transform">
-            <CardHeader>
-              <CardTitle>
-                <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">{edu.degree}</h2>
-              </CardTitle>
-              <TypographyH3 className="text-sm text-muted-foreground">
-                <Clock className="inline-block h-4 w-4 mb-1 mr-1 text-primary" />
-                {edu.year}
-              </TypographyH3>
-              <TypographyH3 className="text-sm text-muted-foreground">
-                <Building className="inline-block h-4 w-4 mb-1 mr-1 text-primary" />
-                {edu.institute}
-              </TypographyH3>
-            </CardHeader>
-
-            <CardContent className="flex flex-col md:flex-row items-start justify-between space-y-3">
-              <div className="flex flex-col items-start">
-                <TypographyP2 className="text-sm text-muted-foreground">
-                  <MapPin className="inline-block h-4 w-4 mb-1 text-primary" />{" "}
-                  {edu.location}
-                </TypographyP2>
-                <TypographyP2 className="text-sm text-muted-foreground">
-                  <GraduationCap className="inline-block h-4 w-4 mb-1 text-primary" />{" "}
-                  Major: {edu.major}
-                </TypographyP2>
-                <TypographyP2 className="text-sm font-medium">
-                  <SquareStar className="inline-block h-4 w-4 mb-1 text-primary" />{" "}
-                  {edu.result}
-                </TypographyP2>
-              </div>
-
-              <div className="flex flex-col items-center space-y-2 justify-center">
-                <img
-                  src={edu.logo}
-                  alt={edu.institute}
-                  className="h-20 w-20 object-contain"
-                  loading="lazy"
-                  width={80}
-                  height={80}
-                />
-                <CardFooter className="justify-center">
-                  {edu.website !== "#" && (
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="sm"
-                      className="w-full sm:w-fit gap-2 rounded-lg transition hover:bg-primary hover:text-primary-foreground"
-                    >
-                      <a
-                        href={edu.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Visit Institution{" "}
-                        <CircleArrowOutUpRight />
-                      </a>
-                    </Button>
-                  )}
-                </CardFooter>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}
-
 export default function EducationPage() {
-  const [tab, setTab] = useState("University");
-
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10">
-      {/* Header â€” CSS fade-in, no framer needed for a static title */}
-      <div className="text-center space-y-3 mb-14 animate-fade-in-up">
-        <TypographyH1>
-          My <span className="text-primary">Education</span>
-        </TypographyH1>
-        <TypographyP className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-          Academic journey segmented by education level.
-        </TypographyP>
-      </div>
+    <div className="shell py-24 md:py-32">
+      <SectionHeader
+        id="section-education-title"
+        title="Education."
+        subtitle="My academic journey."
+      />
 
-      {/* Tabs */}
-      <Tabs value={tab} onValueChange={setTab} className="w-full">
-        <div className="flex justify-start px-1 border-b border-muted/50 dark:border-muted/30 pb-2">
-          <TabsList className="rounded-2xl px-2 bg-muted/40 dark:bg-muted/20">
-            <TabsTrigger
-              value="University"
-              className="rounded-md px-3 py-1.5 text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              University
-              <University className="inline-block ml-2 h-4 w-4" />
-            </TabsTrigger>
-            <TabsTrigger
-              value="College"
-              className="rounded-md px-3 py-1.5 text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              College
-              <BookText className="inline-block ml-2 h-4 w-4" />
-            </TabsTrigger>
-            <TabsTrigger
-              value="School"
-              className="rounded-md px-3 py-1.5 text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              School
-              <BookOpen className="inline-block ml-2 h-4 w-4" />
-            </TabsTrigger>
-          </TabsList>
-        </div>
+      <ul className="mt-12 grid gap-3 md:mt-16 md:gap-5 lg:grid-cols-2">
+        {educationData.map((edu, i) => {
+          const featured = i === 0;
+          return (
+            <Reveal as="li" key={edu.degree} delay={i * 90} className={cn(featured && "lg:col-span-2")}>
+              <article
+                className={cn(
+                  "flex h-full flex-col rounded-3xl bg-card p-7 md:p-9",
+                  featured && "lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-12"
+                )}
+              >
+                <div>
+                  <div className="flex size-16 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 ring-1 ring-black/5">
+                    <img src={edu.logo} alt="" className="size-full object-contain" loading="lazy" width={64} height={64} />
+                  </div>
+                  <p className="mt-7 text-sm font-medium text-muted-foreground tabular-nums">
+                    <span className="font-semibold text-violet">{edu.level}</span> · {edu.year}
+                  </p>
+                  <h3 className={cn("mt-1.5 font-semibold tracking-[-0.025em]", featured ? "title-lg md:text-[2rem]" : "title-lg")}>
+                    {edu.degree}
+                  </h3>
+                  <p className="mt-1.5 text-foreground/80">{edu.institute}</p>
 
-        <div className="mt-3 w-full">
-          <TabsContent value="University">
-            <EducationCards level="University" />
-          </TabsContent>
-          <TabsContent value="College">
-            <EducationCards level="College" />
-          </TabsContent>
-          <TabsContent value="School">
-            <EducationCards level="School" />
-          </TabsContent>
-        </div>
-      </Tabs>
+                  <dl className="mt-6 grid grid-cols-2 gap-4 text-[0.9375rem]">
+                    <div>
+                      <dt className="text-sm text-muted-foreground">Major</dt>
+                      <dd className="mt-0.5 font-medium">{edu.major}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm text-muted-foreground">Location</dt>
+                      <dd className="mt-0.5 font-medium">{edu.location}</dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div className={cn("mt-auto flex items-end justify-between gap-4 pt-8", featured && "lg:flex-col lg:items-end lg:pt-0")}>
+                  <p className={cn(featured && "lg:text-right")}>
+                    <span className="block text-sm font-medium text-muted-foreground">{edu.resultLabel}</span>
+                    <span className="flex items-baseline whitespace-nowrap">
+                      <span className="text-spectrum text-[2.25rem] leading-none font-bold tracking-[-0.05em] sm:text-[3rem] md:text-[3.5rem]">
+                        {edu.score}
+                      </span>
+                      <span className="ml-1 text-sm font-medium text-muted-foreground sm:text-lg">/ {edu.outOf}</span>
+                    </span>
+                  </p>
+                  <a
+                    href={edu.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex shrink-0 items-center gap-0.5 text-sm font-medium text-violet sm:text-[0.9375rem] underline-offset-4 hover:underline"
+                  >
+                    Visit {edu.shortName}
+                    <ArrowUpRight
+                      className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      aria-hidden="true"
+                    />
+                  </a>
+                </div>
+              </article>
+            </Reveal>
+          );
+        })}
+      </ul>
 
       {/* Certificate */}
-      <div className="space-y-6 mt-14 animate-fade-in-up">
-        <h2 className="text-3xl font-semibold text-center">Certificates</h2>
-        <Card className="rounded-2xl overflow-hidden shadow-md hover:-translate-y-1 transition-transform">
-          <img
-            src="/cisco-1.webp"
-            alt="Cisco Certificate"
-            className="w-full object-cover"
-            loading="lazy"
-            width={1200}
-            height={850}
-          />
-        </Card>
-      </div>
-    </section>
+      <Reveal className="mt-20 md:mt-28">
+        <h3 className="title-lg">Certificates.</h3>
+        <figure className="group mt-6 overflow-hidden rounded-3xl bg-card">
+          <div className="overflow-hidden">
+            <img
+              src="/cisco-1-1400.webp"
+              srcSet="/cisco-1-800.webp 800w, /cisco-1-1400.webp 1400w, /cisco-1.webp 2584w"
+              sizes="(min-width: 1536px) 1376px, (min-width: 1280px) 1216px, (min-width: 1120px) 1056px, calc(100vw - 2.5rem)"
+              alt="Cisco Networking Academy certificate awarded to Khairul Islam Kakon for IT Essentials: PC Hardware and Software"
+              className="h-auto w-full transition-transform duration-[1.2s] ease-out-expo group-hover:scale-[1.02]"
+              loading="lazy"
+              width={2584}
+              height={1750}
+            />
+          </div>
+          <figcaption className="px-6 py-4 text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">IT Essentials: PC Hardware and Software</span> · Cisco Networking
+            Academy · Jul 2020
+          </figcaption>
+        </figure>
+      </Reveal>
+    </div>
   );
 }
-

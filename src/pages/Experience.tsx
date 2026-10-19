@@ -1,21 +1,6 @@
-﻿"use client";
-
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  TypographyH1,
-  TypographyH2,
-  TypographyP,
-} from "@/components/ui/typography";
-import {
-  BriefcaseBusiness,
-  Building2,
-  Clock6,
-  NotepadText,
-  TrendingUp,
-} from "lucide-react";
+﻿import { ArrowUpRight } from "lucide-react";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionHeader } from "@/components/ui/section-header";
 
 const experiences = [
   {
@@ -63,20 +48,6 @@ const experiences = [
     type: "Full Time",
   },
   {
-    role: "Backend Intern",
-    company: "Pressply LLC",
-    period: "Jan 2024 - May 2024",
-    highlights: [
-      "REST API development with Express",
-      "PostgreSQL & Prisma ORM",
-      "Stripe payment integration",
-      "Scalable e-commerce backend",
-    ],
-    logo: "/pressply.webp",
-    link: "https://pressply.com/",
-    type: "Internship",
-  },
-  {
     role: "Backend Development Intern",
     company: "Taskirsview",
     period: "Jan 2025 - Feb 2025",
@@ -90,159 +61,115 @@ const experiences = [
     link: "https://t.ly/gup-v/",
     type: "Internship",
   },
+  {
+    role: "Backend Intern",
+    company: "Pressply LLC",
+    period: "Jan 2024 - May 2024",
+    highlights: [
+      "REST API development with Express",
+      "PostgreSQL & Prisma ORM",
+      "Stripe payment integration",
+      "Scalable e-commerce backend",
+    ],
+    logo: "/pressply.webp",
+    link: "https://pressply.com/",
+    type: "Internship",
+  },
 ];
 
 export default function ExperiencePage() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const activeExp = experiences[activeIndex];
-
   return (
-    <main className="min-h-screen bg-background text-foreground py-10">
-      {/* HEADER - CSS fade-in, no framer needed */}
-      <section className="container mx-auto px-6 text-center animate-fade-in-up">
-        <TypographyH1>
-          My <span className="text-primary">Experience</span>
-        </TypographyH1>
-        <TypographyP className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-          A snapshot of my professional journey and hands-on experience in
-          software development.
-        </TypographyP>
-      </section>
+    <div className="shell py-24 md:py-32">
+      <SectionHeader
+        id="section-experience-title"
+        title="Experience."
+        subtitle="A snapshot of my professional journey."
+      />
 
-      {/* TABS LAYOUT */}
-      <section className="container mx-auto px-6 mt-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-10">
-          {/* LEFT TABS */}
-          <div className="flex lg:flex-col gap-3 overflow-x-auto md:overflow-visible">
-            {experiences.map((exp, index) => {
-              const isActive = index === activeIndex;
-              return (
-                <button
-                  key={`${exp.company}-${exp.period}`}
-                  onClick={() => setActiveIndex(index)}
-                  className={`
-                    text-left rounded-xl border transition-all duration-300
-                    px-4 py-3 min-w-[220px] md:min-w-0
-                    ${
-                      isActive
-                        ? "bg-primary text-primary-foreground border-primary shadow-md"
-                        : "bg-background border-border hover:bg-muted"
-                    }
-                  `}
-                >
-                  <p className="font-semibold text-sm md:text-base">
-                    {exp.role}{" "}
-                    <BriefcaseBusiness
-                      className={`inline-block ml-1 h-4 w-4 ${
-                        isActive ? "text-primary-foreground" : "text-primary"
-                      }`}
-                    />
-                  </p>
-                  <p
-                    className={`text-xs mt-1 ${
-                      isActive
-                        ? "text-primary-foreground"
-                        : "text-muted-foreground"
-                    }`}
+      <ol className="relative mt-14 md:mt-20">
+        {/* Timeline rail; the inner fill tracks scroll where supported */}
+        <span aria-hidden="true" className="absolute top-2 bottom-2 left-[7px] w-px bg-border md:left-[231px]">
+          <span className="rail-fill absolute inset-0 bg-[image:linear-gradient(to_bottom,var(--link),#8e5cff)]" />
+        </span>
+
+        {experiences.map((exp) => {
+          const current = exp.period.includes("Present");
+          return (
+            <Reveal
+              as="li"
+              key={`${exp.company}-${exp.period}`}
+              delay={60}
+              className="relative grid gap-4 pb-12 pl-9 last:pb-0 md:grid-cols-[208px_minmax(0,1fr)] md:gap-12 md:pl-0"
+            >
+              {/* Rail dot */}
+              <span
+                aria-hidden="true"
+                className={`absolute top-1.5 left-0 size-[15px] rounded-full border-[3px] border-surface-alt md:left-[224px] ${
+                  current ? "live-dot bg-success" : "bg-violet"
+                }`}
+              />
+
+              <div className="md:pt-0.5">
+                <p className="text-sm font-semibold tracking-[-0.01em] text-foreground tabular-nums">{exp.period}</p>
+                <p className="mt-1.5 flex items-center gap-2 text-sm text-muted-foreground">
+                  {exp.type}
+                  {current && (
+                    <span className="inline-flex items-center rounded-full bg-success/12 px-2 py-0.5 text-xs font-semibold text-success">
+                      Current
+                    </span>
+                  )}
+                </p>
+              </div>
+
+              <article className="rounded-3xl bg-card p-6 md:p-8">
+                <div className="flex items-start gap-4 md:gap-5">
+                  <a
+                    href={exp.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 ring-1 ring-black/5 transition-transform duration-500 ease-spring hover:scale-105 md:size-16"
                   >
-                    {exp.company}
-                  </p>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* RIGHT CONTENT */}
-          <div>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Card className="rounded-2xl border border-border shadow-lg">
-                  <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div>
-                      <TypographyH2 className="text-xl md:text-2xl">
-                        {activeExp.role}
-                      </TypographyH2>
-                      <TypographyP className="text-muted-foreground mt-1 flex flex-col md:flex-row items-start lg:items-center gap-4">
-                        <Building2 className="h-5 w-5 text-primary" />
-                        <Badge variant="outline">
-                          <a
-                            href={activeExp.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1"
-                          >
-                            {activeExp.company}
-                          </a>
-                        </Badge>
-                        <span className="flex items-center gap-1">
-                          <Clock6 className="h-5 w-5 text-primary" />
-                          {activeExp.period}
-                        </span>
-                      </TypographyP>
-                    </div>
-                    <Badge
-                      variant="outline"
-                      className="w-fit text-primary dark:text-primary-foreground"
+                    <img
+                      src={exp.logo}
+                      alt=""
+                      className="size-full object-contain"
+                      loading="lazy"
+                      width={64}
+                      height={64}
+                    />
+                  </a>
+                  <div className="min-w-0">
+                    <h3 className="title-lg">{exp.role}</h3>
+                    <a
+                      href={exp.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group mt-1 inline-flex items-center gap-0.5 text-[1.0625rem] font-medium text-violet underline-offset-4 hover:underline"
                     >
-                      {activeExp.type}{" "}
-                      <TrendingUp className="inline-block h-4 w-4" />
-                    </Badge>
-                  </CardHeader>
+                      {exp.company}
+                      <ArrowUpRight
+                        className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        aria-hidden="true"
+                      />
+                    </a>
+                  </div>
+                </div>
 
-                  <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    {/* Responsibilities */}
-                    <div>
-                      <TypographyP className="mb-3 flex items-center gap-2 font-medium">
-                        <NotepadText className="h-5 w-5 text-primary" />
-                        Key Responsibilities
-                      </TypographyP>
-                      <ul className="space-y-2 ml-3">
-                        {activeExp.highlights.map((highlight, i) => (
-                          <li
-                            key={i}
-                            className="grid grid-cols-[10px_1fr] gap-3 text-sm text-muted-foreground"
-                          >
-                            <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                            <span className="leading-relaxed">{highlight}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Logo - lazy loaded */}
-                    <div className="flex justify-center md:justify-end items-center">
-                      <a
-                        href={activeExp.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex justify-center"
-                      >
-                        <img
-                          src={activeExp.logo}
-                          alt={activeExp.company}
-                          className="h-42 w-42 object-contain rounded-xl border border-border p-3 bg-background dark:bg-white hover:-translate-y-1 hover:shadow-md transition-transform"
-                          loading="lazy"
-                          width={168}
-                          height={168}
-                        />
-                      </a>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-      </section>
-    </main>
+                <ul className="mt-6 grid gap-2.5 text-[0.9375rem] leading-relaxed text-foreground/80 md:pl-[84px]">
+                  {exp.highlights.map((highlight) => (
+                    <li key={highlight} className="flex gap-3">
+                      <span aria-hidden="true" className="mt-[0.65em] size-1.5 shrink-0 rounded-full bg-violet" />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </Reveal>
+          );
+        })}
+      </ol>
+    </div>
   );
 }
-
-
