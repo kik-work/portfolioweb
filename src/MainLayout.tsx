@@ -145,7 +145,8 @@ function MainLayoutPage() {
               <section
                 key={tab}
                 id={TabSectionIds[tab]}
-                aria-labelledby={tab === TabContainers[0] ? "hero-title" : `${TabSectionIds[tab]}-title`}
+                // Static label: lazy sections have no heading in the DOM yet, so aria-labelledby would dangle.
+                aria-label={tab}
                 // Offset scrollIntoView by the sticky tab bar.
                 className={`scroll-mt-14 ${sectionSurface[tab] ?? ""}`}
               >

@@ -43,14 +43,14 @@ const roles = [
     icon: FolderCode,
     description:
       "Building efficient and scalable software solutions by applying engineering principles and best practices.",
-    skills: ["Laravel", "Next.js", "System Architect", "DevOps"],
+    skills: ["Data Engineering", "OOP & Data Structures", "System Architect"],
   },
   {
     title: "Full Stack Developer",
     icon: Globe,
     description:
       "Modern web applications using both front-end and back-end technologies to deliver seamless user experiences.",
-    skills: ["React", "Next.js", "Laravel", "Node.js", "TypeScript", "PostgreSQL"],
+    skills: [ "Next.js", "Laravel", "MySQL", "DevOps"],
   },
   {
     title: "Tech Enthusiast",
@@ -75,7 +75,7 @@ const stats = [
   { label: "Education", value: "3.66", caption: "CGPA in CSE at AIUB" },
 ];
 
-const ROTATE_MS = 3600;
+const ROTATE_MS = 3000;
 const MAX_CYCLES = 3;
 
 /** Cycles through the roles a few times, pausing while hovered. */
@@ -105,7 +105,6 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
   const [paused, setPaused] = useState(false);
   const { index, prev, ticks, clearPrev } = useRoleCycle(paused);
   const role = roles[index];
-  const RoleIcon = role.icon;
   // Skip the word animation on first paint so the hero is never mid-fade (LCP).
   const animateWord = ticks > 0;
 
@@ -137,17 +136,17 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
                     className="word-out text-foreground [grid-area:1/1] whitespace-nowrap"
                     onAnimationEnd={clearPrev}
                   >
-                    {roles[prev].title}
+                    {roles[prev].title}.
                   </span>
                 )}
                 <span
                   key={`in-${index}-${ticks}`}
                   className={cn("text-foreground [grid-area:1/1] whitespace-nowrap", animateWord && "word-in")}
                 >
-                  {role.title}
+                  {role.title}.
                 </span>
               </span>
-              <span className="sr-only">Software Engineer, Full Stack Developer and Tech Enthusiast</span>.
+              <span className="sr-only">{roles.map((r) => r.title).join(", ")}</span>
             </span>
             <span className="mt-2 block text-base leading-relaxed font-normal tracking-normal text-muted-foreground md:text-[1.0625rem]">
               Practical experience across multiple roles, committed to continuous learning and impactful
@@ -158,7 +157,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
           <div className="intro mt-9 flex flex-wrap gap-4" style={delay(260)}>
             <Button
               size="lg"
-              className={cn(CTA_SHAPE, "bg-[oklch(0.541_0.281_293.009)] text-[oklch(0.969_0.016_293.756)] hover:bg-[oklch(0.541_0.281_293.009)]/90 dark:bg-[oklch(0.606_0.25_292.717)]")}
+              className={cn(CTA_SHAPE, "bg-[oklch(0.541_0.281_293.009)] text-white hover:bg-[oklch(0.541_0.281_293.009)]/90")}
               onClick={() => scrollToSectionId(TabSectionIds["Projects"])}
             >
               <Presentation /> View Projects
@@ -233,19 +232,32 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
 
           {/* Role card: sits beside the portrait on desktop, below it on mobile */}
           <div className="relative mt-4 rounded-[1.5rem] bg-background/90 p-4 shadow-float ring-1 ring-foreground/5 backdrop-blur-xl backdrop-saturate-150 md:absolute md:-right-2 md:-bottom-14 md:mt-0 md:w-80 lg:-right-14 lg:w-[26rem]">
-            <div key={role.title} className={animateWord ? "word-in" : undefined}>
-              <p className="flex items-center gap-2 text-[0.9375rem] font-semibold tracking-[-0.015em]">
-                <RoleIcon className="size-4 text-link" aria-hidden="true" />
-                {role.title}
-              </p>
-              <p className="mt-1 line-clamp-3 text-[0.8125rem] leading-snug text-foreground/80">{role.description}</p>
-              <ul className="mt-2.5 flex flex-wrap gap-1.5" aria-label={`${role.title} skills`}>
-                {role.skills.slice(0, 4).map((skill) => (
-                  <li key={skill} className="rounded-full bg-foreground/[0.07] px-2.5 py-0.5 text-xs font-medium">
-                    {skill}
-                  </li>
-                ))}
-              </ul>
+            {/* All roles share one grid cell so the card keeps the height of the tallest: no layout shift on swap */}
+            <div className="grid">
+              {roles.map((r, i) => {
+                const Icon = r.icon;
+                const active = i === index;
+                return (
+                  <div
+                    key={r.title}
+                    aria-hidden={!active}
+                    className={cn("[grid-area:1/1]", !active && "invisible", active && animateWord && "word-in")}
+                  >
+                    <p className="flex items-center gap-2 text-[0.9375rem] font-semibold tracking-[-0.015em]">
+                      <Icon className="size-4 text-link" aria-hidden="true" />
+                      {r.title}
+                    </p>
+                    <p className="mt-1 line-clamp-3 text-[0.8125rem] leading-snug text-foreground/80">{r.description}</p>
+                    <ul className="mt-2.5 flex flex-wrap gap-1.5" aria-label={`${r.title} skills`}>
+                      {r.skills.slice(0, 4).map((skill) => (
+                        <li key={skill} className="rounded-full bg-foreground/[0.07] px-2.5 py-0.5 text-xs font-medium">
+                          {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

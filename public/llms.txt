@@ -1,0 +1,19 @@
+# Khairul Islam Kakon — Software Engineer Portfolio
+
+> Portfolio of Khairul Islam Kakon, a Dhaka-based software engineer working with React, Next.js, Laravel and Node.js. The site is a single-page app with sections for experience, projects, skills, education, about and contact.
+
+## Main pages
+
+- [Portfolio home](https://kikportfolio.vercel.app/): Hero, key numbers, career and GitHub activity charts.
+- [Experience](https://kikportfolio.vercel.app/#section-experience): Work history across companies.
+- [Projects](https://kikportfolio.vercel.app/#section-projects): Live project showcase.
+- [Skills](https://kikportfolio.vercel.app/#section-skills): Technology stack and tools.
+- [Education](https://kikportfolio.vercel.app/#section-education): CSE degree at AIUB.
+- [Contact](https://kikportfolio.vercel.app/#section-contact): Ways to reach Khairul.
+
+## Resources
+
+- [CV (PDF)](https://kikportfolio.vercel.app/khairul_islam_kakon_CV.pdf): Current curriculum vitae.
+- [Sitemap](https://kikportfolio.vercel.app/sitemap.xml): Sitemap for crawlers.
+- [GitHub](https://github.com/kik-work): Source code and open projects.
+- [LinkedIn](https://www.linkedin.com/in/khairul-islam-kakon-12618222a/): Professional profile.
