@@ -71,7 +71,7 @@ const socials = [
 const stats = [
   { label: "Experience", value: "1.10+", caption: "Years building production software" },
   { label: "Teams", value: "5", caption: "Companies I've shipped with" },
-  { label: "Projects", value: "8", caption: "Live builds in the showcase" },
+  { label: "Projects", value: "9", caption: "Live builds in the showcase" },
   { label: "Education", value: "3.66", caption: "CGPA in CSE at AIUB" },
 ];
 
@@ -273,7 +273,7 @@ export default function HomePage({ setActiveTab: _setActiveTab }: HomePageProps)
               <div className="flex h-full min-h-32 flex-col justify-between rounded-3xl bg-card p-4 sm:p-5 lg:min-h-44 lg:p-7">
                 <p className="text-xs font-medium text-muted-foreground sm:text-sm">{s.label}</p>
                 <p className="mt-4 lg:mt-8">
-                  <span className="text-spectrum block w-fit text-[clamp(1.5rem,0.9rem+3vw,2.25rem)] leading-none font-bold tracking-[-0.045em] lg:text-[clamp(2.5rem,1.9rem+2.4vw,3.75rem)]">
+                  <span className="text-spectrum block w-fit py-[0.06em] pr-[0.1em] text-[clamp(1.5rem,0.9rem+3vw,2.25rem)] leading-none font-bold tracking-[-0.045em] lg:text-[clamp(2.5rem,1.9rem+2.4vw,3.75rem)]">
                     {s.value}
                   </span>
                   <span className="mt-1.5 block min-h-[2.75em] text-xs leading-snug text-foreground/80 sm:text-sm lg:mt-2 lg:min-h-0 lg:text-[0.9375rem]">{s.caption}</span>

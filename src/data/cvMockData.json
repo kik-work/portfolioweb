@@ -138,7 +138,7 @@
       "description": "Bilingual (English/Bangla) website for a doctor's chamber with services, a 4-step appointment booking flow, testimonials, and WhatsApp/phone/email/map contact. Designed and built entirely by me.",
       "tech": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
       "link": "https://drmomitahealthcare.vercel.app/",
-      "type": "personal"
+      "type": "client"
     },
     {
       "id": 1,

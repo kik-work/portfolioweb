@@ -10,8 +10,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Bot, Send, X } from "lucide-react";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import type { BotPayload, WhoAmIPayload, WelcomePayload } from "./ChatBubble";
 
@@ -27,7 +25,7 @@ interface Message {
 }
 
 const badges = [
-  "Who are you?",
+  "About",
   "Experience",
   "Skills",
   "Projects",
@@ -48,7 +46,7 @@ function buildResponse(input: string): string | BotPayload {
     q.includes("about you") ||
     q.includes("introduce") ||
     q.includes("tell me about") ||
-    q === "who are you?"
+    q === "about"
   ) {
     return {
       type: "whoami",
@@ -498,75 +496,85 @@ export const CVChatModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <Dialog open onOpenChange={onClose}>
       <DialogContent
+        showCloseButton={false}
         className="fixed bottom-4 mr-1 md:right-4 left-auto top-auto translate-x-0 translate-y-0 w-full max-w-md
-        h-[70vh] rounded-2xl flex flex-col bg-background dark:bg-background shadow-xl [&>button]:hidden"
+        h-[min(40rem,80dvh)] flex flex-col gap-0 overflow-hidden rounded-3xl border-hairline bg-background p-0 shadow-float"
       >
         {/* Header */}
-        <DialogHeader className="flex flex-row justify-between items-center border-b border-muted">
-          <DialogTitle className="flex items-center gap-2" asChild>
-            <div className="flex items-center gap-2">
-              <span className="scroll-m-20 text-xl font-semibold tracking-tight">
-                CV Chat Assistant
-              </span>
-              <Bot className="text-primary" />
-            </div>
-          </DialogTitle>
-          <DialogClose>
-            <X className="h-4 w-4 cursor-pointer text-destructive" />
+        <DialogHeader className="flex-row items-center gap-3 border-b border-hairline px-5 py-4 text-left">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-link/10 text-link">
+            <Bot className="size-5" aria-hidden="true" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <DialogTitle className="text-[1.0625rem] leading-tight font-semibold tracking-[-0.015em]">
+              CV Chat Assistant
+            </DialogTitle>
+            <DialogDescription className="mt-0.5 text-xs leading-snug">
+              Ask me anything about Kakon's background, skills, or projects.
+            </DialogDescription>
+          </div>
+          <DialogClose
+            aria-label="Close chat"
+            className="flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <X className="size-4" aria-hidden="true" />
           </DialogClose>
         </DialogHeader>
 
-        <DialogDescription className="text-xs text-muted-foreground">
-          Ask me anything about Kakon's background, skills, or projects.
-        </DialogDescription>
-
         {/* Messages */}
-        <div ref={scrollRef} className="flex-1 overflow-y-auto mb-2 px-2">
+        <div ref={scrollRef} role="log" aria-live="polite" className="flex-1 overflow-y-auto px-5 py-4">
           {messages.map((msg, idx) => (
             <ChatBubble key={idx} message={msg.text} sender={msg.sender} />
           ))}
 
           {loading && (
-            <div className="flex justify-start mb-3">
-              <Badge className="bg-primary text-primary-foreground px-4 py-2 rounded-2xl animate-pulse">
-                Typing...
-              </Badge>
+            <div className="mb-3 flex justify-start" role="status" aria-label="Assistant is typing">
+              <div className="flex items-center gap-1 rounded-[1.375rem] rounded-bl-md bg-card px-4 py-3.5">
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    className="size-1.5 animate-bounce rounded-full bg-muted-foreground"
+                    style={{ animationDelay: `${i * 150}ms` }}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>
 
-        {/* Badges */}
-        <div className="flex overflow-x-auto pb-4 gap-2 mb-2 no-scrollbar">
+        {/* Quick topics */}
+        <div className="no-scrollbar flex gap-2 overflow-x-auto px-5 pt-1 pb-3 [mask-image:linear-gradient(to_right,#000_calc(100%-1.5rem),transparent)]">
           {badges.map((b) => (
-            <button key={b} onClick={() => handleSend(b)} className="rounded-full shrink-0">
-              <Badge
-                variant="outline"
-                className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
-              >
-                {b}
-              </Badge>
+            <button
+              key={b}
+              type="button"
+              onClick={() => handleSend(b)}
+              className="shrink-0 rounded-full bg-card px-3.5 py-1.5 text-sm font-medium text-foreground transition-[background-color,scale] hover:bg-secondary active:scale-95"
+            >
+              {b}
             </button>
           ))}
         </div>
 
         {/* Input */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 px-5 pb-5">
           <Input
-            className="flex-1 rounded-xl"
+            aria-label="Message"
+            className="h-11 flex-1 rounded-full border-transparent bg-card px-5 text-base"
             placeholder="Ask about skills, projects, experience…"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
           />
-          <Button
-            variant="outline"
-            size="icon"
+          <button
+            type="button"
             onClick={() => handleSend()}
+            disabled={!input.trim()}
             aria-label="Send message"
-            className="rounded-2xl border-primary hover:bg-primary hover:text-primary-foreground"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-[background-color,opacity,scale] hover:bg-primary-hover active:scale-95 disabled:pointer-events-none disabled:opacity-40"
           >
-            <Send className="h-4 w-4" />
-          </Button>
+            <Send className="size-4" aria-hidden="true" />
+          </button>
         </div>
       </DialogContent>
     </Dialog>

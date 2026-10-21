@@ -98,7 +98,7 @@ function linkify(text: string): React.ReactNode {
         href={part}
         target="_blank"
         rel="noopener noreferrer"
-        className="underline text-primary break-all hover:opacity-75"
+        className="underline text-link break-all hover:opacity-75"
       >
         {part}
       </a>
@@ -120,15 +120,15 @@ const levelColor: Record<SkillLevel, string> = {
 
 function WelcomeCard() {
   return (
-    <div className="rounded-xl border border-border bg-background/60 dark:bg-white/5 p-3 space-y-3">
+    <div className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-3">
       {/* Avatar + name */}
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/15 text-lg">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-link/10 text-lg">
           🤖
         </div>
         <div>
           <p className="font-semibold text-sm leading-tight">CV Assistant</p>
-          <p className="text-[11px] text-primary font-medium">Kakon's Portfolio Bot</p>
+          <p className="text-[11px] text-link font-medium">Kakon's Portfolio Bot</p>
         </div>
       </div>
 
@@ -146,7 +146,7 @@ function WelcomeCard() {
           {["Experience", "Skills", "Projects", "Education", "Contact"].map((t) => (
             <span
               key={t}
-              className="rounded-full bg-primary/10 text-primary px-2.5 py-0.5 text-[11px] font-medium"
+              className="rounded-full bg-link/10 text-link px-2.5 py-0.5 text-[11px] font-medium"
             >
               {t}
             </span>
@@ -159,11 +159,11 @@ function WelcomeCard() {
 
 function WhoAmICard({ payload }: { payload: WhoAmIPayload }) {
   return (
-    <div className="rounded-xl border border-border bg-background/60 dark:bg-white/5 p-3 space-y-3">
+    <div className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-3">
       {/* Name + title */}
       <div className="space-y-0.5">
         <p className="font-bold text-base leading-tight">{payload.name}</p>
-        <p className="text-xs text-primary font-medium">{payload.title}</p>
+        <p className="text-xs text-link font-medium">{payload.title}</p>
         <p className="text-[11px] text-muted-foreground">📍 {payload.location}</p>
       </div>
 
@@ -179,7 +179,7 @@ function WhoAmICard({ payload }: { payload: WhoAmIPayload }) {
           {payload.highlights.map((h) => (
             <span
               key={h}
-              className="rounded-full bg-primary/10 text-primary px-2.5 py-0.5 text-[11px] font-medium"
+              className="rounded-full bg-link/10 text-link px-2.5 py-0.5 text-[11px] font-medium"
             >
               {h}
             </span>
@@ -191,7 +191,7 @@ function WhoAmICard({ payload }: { payload: WhoAmIPayload }) {
       <div className="flex flex-wrap gap-2 pt-0.5">
         <a
           href={`mailto:${payload.email}`}
-          className="text-[11px] text-primary underline hover:opacity-75"
+          className="text-[11px] text-link underline hover:opacity-75"
         >
           📧 {payload.email}
         </a>
@@ -199,7 +199,7 @@ function WhoAmICard({ payload }: { payload: WhoAmIPayload }) {
           href={payload.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[11px] text-primary underline hover:opacity-75"
+          className="text-[11px] text-link underline hover:opacity-75"
         >
           🐙 GitHub
         </a>
@@ -207,7 +207,7 @@ function WhoAmICard({ payload }: { payload: WhoAmIPayload }) {
           href={payload.portfolio}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[11px] text-primary underline hover:opacity-75"
+          className="text-[11px] text-link underline hover:opacity-75"
         >
           🌐 Portfolio
         </a>
@@ -248,12 +248,12 @@ function ExperienceCard({ payload }: { payload: ExperiencePayload }) {
       {payload.jobs.map((job, i) => (
         <div
           key={i}
-          className="rounded-xl border border-border bg-background/60 dark:bg-white/5 p-3 space-y-2"
+          className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-2"
         >
           <div className="flex items-start justify-between gap-2 flex-wrap">
             <div>
               <p className="font-semibold text-sm leading-tight">{job.role}</p>
-              <p className="text-xs text-primary font-medium mt-0.5">{job.company}</p>
+              <p className="text-xs text-link font-medium mt-0.5">{job.company}</p>
             </div>
             <span className="text-[10px] bg-muted text-muted-foreground rounded-full px-2 py-0.5 shrink-0 font-medium">
               {job.period}
@@ -279,7 +279,7 @@ function EducationCard({ payload }: { payload: EducationPayload }) {
       {payload.entries.map((e, i) => (
         <div
           key={i}
-          className="rounded-xl border border-border bg-background/60 dark:bg-white/5 p-3 space-y-2"
+          className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-2"
         >
           <div className="flex items-start justify-between gap-2 flex-wrap">
             <p className="font-semibold text-sm leading-tight">{e.degree}</p>
@@ -287,7 +287,7 @@ function EducationCard({ payload }: { payload: EducationPayload }) {
               CGPA {e.cgpa}
             </span>
           </div>
-          <p className="text-xs text-primary font-medium">{e.university}</p>
+          <p className="text-xs text-link font-medium">{e.university}</p>
           <div className="flex flex-wrap gap-2 pt-1">
             <span className="rounded-full bg-muted text-muted-foreground px-2 py-0.5 text-[11px] font-medium">
               📚 {e.major}
@@ -308,7 +308,7 @@ function ProjectsCard({ payload }: { payload: ProjectsPayload }) {
       {payload.items.map((p, i) => (
         <div
           key={i}
-          className="rounded-xl border border-border bg-background/60 dark:bg-white/5 p-3 space-y-1.5"
+          className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-1.5"
         >
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <span className="font-semibold text-sm leading-tight">{p.title}</span>
@@ -337,7 +337,7 @@ function ProjectsCard({ payload }: { payload: ProjectsPayload }) {
             href={p.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block text-xs text-primary underline hover:opacity-75 break-all pt-0.5"
+            className="inline-block text-xs text-link underline hover:opacity-75 break-all pt-0.5"
           >
             {p.link}
           </a>
@@ -356,7 +356,7 @@ function ContactCard({ payload }: { payload: ContactPayload }) {
     { icon: "🌐", label: "Portfolio", value: payload.portfolio, href: payload.portfolio },
   ];
   return (
-    <div className="rounded-xl border border-border bg-background/60 dark:bg-white/5 p-3 space-y-2">
+    <div className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-2">
       <p className="font-semibold text-sm">📬 {payload.name}</p>
       <div className="space-y-1.5">
         {rows.map((r) => (
@@ -368,7 +368,7 @@ function ContactCard({ payload }: { payload: ContactPayload }) {
               href={r.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary underline hover:opacity-75 break-all"
+              className="text-link underline hover:opacity-75 break-all"
             >
               {r.value}
             </a>
@@ -464,11 +464,11 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message, sender }) => {
     <div className={`flex ${isBot ? "justify-start" : "justify-end"} mb-3`}>
       <div
         className={`
-          max-w-[90%] px-4 py-3 rounded-2xl text-sm
+          max-w-[90%] px-4 py-3 rounded-[1.375rem] text-sm
           ${
             isBot
-              ? "bg-muted text-foreground rounded-bl-none"
-              : "bg-primary text-primary-foreground rounded-br-none"
+              ? "bg-card text-foreground rounded-bl-md"
+              : "bg-primary text-primary-foreground rounded-br-md"
           }
         `}
       >

@@ -96,7 +96,7 @@ export default function EducationPage() {
                   <p className={cn(featured && "lg:text-right")}>
                     <span className="block text-sm font-medium text-muted-foreground">{edu.resultLabel}</span>
                     <span className="flex items-baseline whitespace-nowrap">
-                      <span className="text-spectrum text-[2.25rem] leading-none font-bold tracking-[-0.05em] sm:text-[3rem] md:text-[3.5rem]">
+                      <span className="text-spectrum pr-[0.08em] text-[2.25rem] leading-none font-bold tracking-[-0.05em] sm:text-[3rem] md:text-[3.5rem]">
                         {edu.score}
                       </span>
                       <span className="ml-1 text-sm font-medium text-muted-foreground sm:text-lg">/ {edu.outOf}</span>

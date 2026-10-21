@@ -200,9 +200,11 @@
 }
 
 /* Thin, neutral scrollbars — macOS feel */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--foreground) 25%, transparent) transparent;
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--foreground) 25%, transparent) transparent;
+  }
 }
 ::-webkit-scrollbar {
   width: 10px;

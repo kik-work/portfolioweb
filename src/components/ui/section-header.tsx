@@ -19,7 +19,7 @@ export function SectionHeader({ id, title, subtitle, eyebrow, className, childre
       {eyebrow && <p className="eyebrow mb-3 text-link">{eyebrow}</p>}
       <h2 id={id} className="headline text-balance">
         <span className="text-violet">{title}</span>
-        {subtitle && <span className="font-normal text-muted-foreground"> {subtitle}</span>}
+        {subtitle && <span className="text-[0.75em] font-normal text-muted-foreground"> {subtitle}</span>}
       </h2>
       {children}
     </Reveal>

@@ -8,11 +8,20 @@ import { SectionHeader } from "@/components/ui/section-header";
 /**
  * Display order. List project ids here: first three show first, then the rest in order.
  * Ids not listed go to the end. ids: 1 SNF, 2 EWF, 3 Info Strainer, 4 Booking,
- * 5 E-Shop, 6 E-Commerce, 7 Dr. Momita, 8 KIK QR Card
+ * 5 E-Shop, 6 E-Commerce, 7 Dr. Momita, 8 KIK QR Card, 9 Lukaz Shop
  */
-const PROJECT_ORDER = [1, 2, 7, 8, 5, 3, 6, 4 ];
+const PROJECT_ORDER = [1, 2, 9, 7, 8, 5, 3, 6, 4 ];
 
-const allProjects = [
+interface ProjectData {
+  id: number;
+  name: string;
+  /** Omit until the demo video exists; card shows a placeholder and hides "Watch". */
+  video?: string;
+  description: string;
+  demo: string;
+}
+
+const allProjects: ProjectData[] = [
   {
     id: 7,
     name: "Dr. Momita Healthcare",
@@ -69,6 +78,14 @@ const allProjects = [
     description: "A modern QR scan–based web application for customizing, previewing, and purchasing cards.",
     demo: "https://kikqrcard.netlify.app/",
   },
+  {
+    id: 9,
+    name: "Lukaz Shop",
+    video: "/videos/lukazshop.mp4", // add once recorded
+    description:
+      "Implemented UI updates, backend bug fixes, and new features across key application modules",
+    demo: "https://lukazshop.com/",
+  },
 ];
 
 const rank = (id: number) => {
@@ -77,7 +94,7 @@ const rank = (id: number) => {
 };
 const projects = [...allProjects].sort((a, b) => rank(a.id) - rank(b.id));
 
-type Project = (typeof projects)[0];
+type Project = ProjectData;
 type OpenVideo = { src: string; name: string };
 
 const prefersReducedMotion = () =>
@@ -124,7 +141,7 @@ const ProjectCard = memo(function ProjectCard({ project, index, onOpenVideo }: P
     <li ref={cardRef} className="relative w-[min(84vw,24rem)] shrink-0 snap-start md:w-[30rem]">
       <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-card">
         <div className="relative aspect-video overflow-hidden bg-muted">
-          {mounted && (
+          {mounted && project.video && (
             <video
               ref={videoRef}
               muted
@@ -141,16 +158,23 @@ const ProjectCard = memo(function ProjectCard({ project, index, onOpenVideo }: P
               <source src={project.video} type="video/mp4" />
             </video>
           )}
-          {!ready && <div aria-hidden="true" className="shimmer absolute inset-0" />}
-
-          <button
-            type="button"
-            onClick={() => onOpenVideo({ src: project.video, name: project.name })}
-            className="absolute right-3 bottom-3 inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-full bg-black/65 px-3.5 text-sm font-medium text-white backdrop-blur-md transition-[background-color,scale] duration-300 hover:bg-black/80 active:scale-95"
-          >
-            <Play className="size-3.5 fill-current" aria-hidden="true" />
-            Watch<span className="sr-only"> {project.name} demo video</span>
-          </button>
+          {project.video ? (
+            <>
+              {!ready && <div aria-hidden="true" className="shimmer absolute inset-0" />}
+              <button
+                type="button"
+                onClick={() => onOpenVideo({ src: project.video!, name: project.name })}
+                className="absolute right-3 bottom-3 inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-full bg-black/65 px-3.5 text-sm font-medium text-white backdrop-blur-md transition-[background-color,scale] duration-300 hover:bg-black/80 active:scale-95"
+              >
+                <Play className="size-3.5 fill-current" aria-hidden="true" />
+                Watch<span className="sr-only"> {project.name} demo video</span>
+              </button>
+            </>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-sm font-medium text-muted-foreground">
+              Demo video coming soon
+            </div>
+          )}
         </div>
 
         <div className="flex flex-1 flex-col p-6 md:p-7">

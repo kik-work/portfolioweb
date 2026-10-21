@@ -111,7 +111,7 @@ const AboutPage = () => {
       <SectionHeader
         id="section-about-title"
         eyebrow="About"
-        title="Khairul Islam (Kakon)."
+        title="Kakon, Khairul Islam."
         subtitle="Software Engineer."
       />
 
