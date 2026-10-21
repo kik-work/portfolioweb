@@ -5,16 +5,19 @@
     "name": "Khairul Islam Kakon",
     "phone": "+88 01923089370",
     "email": "kakon.aiubcse@gmail.com",
-    "linkedin": "https://t.ly/9mS-v",
+    "linkedin": "https://www.linkedin.com/in/khairul-islam-kakon-12618222a/",
     "portfolio": "https://is.gd/Z3au4a",
-    "github": "https://t.ly/2ENJq"
+    "github": "https://github.com/kik-work"
   },
 
   "experience": [
     {
       "role": "Software Engineer",
       "company": "Softtech Solution Ltd",
-      "period": "September 2026 – Present",
+      "period": "Sep 2026 – Present",
+      "type": "Full Time",
+      "current": true,
+      "link": "https://softtechsolutionltd.com/",
       "details": [
         "Build and maintain e-commerce platforms with Laravel and Next.js",
         "Fix bugs and deliver new features and modules for live projects",
@@ -25,7 +28,10 @@
     {
       "role": "Junior Software Engineer",
       "company": "Nidus Lab",
-      "period": "January 2026 – August 2026",
+      "period": "Jan 2026 – Aug 2026",
+      "type": "Full Time",
+      "current": false,
+      "link": "https://www.niduslab.com/",
       "details": [
         "Develop, test, and maintain Laravel-based backend applications",
         "Build modern Next.js + TypeScript frontend interfaces",
@@ -37,7 +43,10 @@
     {
       "role": "Junior Software Engineer",
       "company": "Alor Feri Limited",
-      "period": "August 2025 – December 2025",
+      "period": "Aug 2025 – Dec 2025",
+      "type": "Full Time",
+      "current": false,
+      "link": "https://www.alorferi.com/",
       "details": [
         "System analysis and architecture planning",
         "Full-stack feature development",
@@ -49,7 +58,10 @@
     {
       "role": "Backend Development Intern",
       "company": "Taskirsview",
-      "period": "January 2025 – February 2025",
+      "period": "Jan 2025 – Feb 2025",
+      "type": "Internship",
+      "current": false,
+      "link": "https://t.ly/gup-v/",
       "details": [
         "Server-side logic implementation",
         "Database design and optimization",
@@ -60,7 +72,10 @@
     {
       "role": "Backend Intern",
       "company": "Pressply LLC",
-      "period": "January 2024 – May 2024",
+      "period": "Jan 2024 – May 2024",
+      "type": "Internship",
+      "current": false,
+      "link": "https://pressply.com/",
       "details": [
         "REST API development with Express",
         "PostgreSQL and Prisma ORM",
@@ -72,11 +87,45 @@
 
   "education": [
     {
-      "degree": "BSc in Computer Science and Engineering",
-      "university": "American International University-Bangladesh (AIUB)",
-      "session": "Spring 2024",
+      "degree": "BSc in Computer Science & Engineering",
+      "institute": "American International University-Bangladesh (AIUB)",
+      "level": "University",
+      "period": "Spring 2020 – 2024",
       "major": "Software Engineering",
-      "cgpa": "3.66/4.00"
+      "location": "Kuratoli, Khilkhet, Dhaka",
+      "resultLabel": "CGPA",
+      "score": "3.66",
+      "outOf": "4.00"
+    },
+    {
+      "degree": "Higher Secondary Certificate (HSC)",
+      "institute": "Sherpur Government College",
+      "level": "College",
+      "period": "2017 – 2019",
+      "major": "Science",
+      "location": "Sherpur, Mymensingh",
+      "resultLabel": "GPA",
+      "score": "4.00",
+      "outOf": "5.00"
+    },
+    {
+      "degree": "Secondary School Certificate (SSC)",
+      "institute": "Jangaldi High School",
+      "level": "School",
+      "period": "2016 – 2017",
+      "major": "Science",
+      "location": "Sherpur, Mymensingh",
+      "resultLabel": "GPA",
+      "score": "5.00",
+      "outOf": "5.00"
+    }
+  ],
+
+  "certificates": [
+    {
+      "name": "IT Essentials: PC Hardware and Software",
+      "issuer": "Cisco Networking Academy",
+      "date": "Jul 2020"
     }
   ],
 
@@ -101,12 +150,14 @@
       { "name": "Node.js", "level": "Advanced" },
       { "name": "Firebase", "level": "Advanced" },
       { "name": "TanStack Query", "level": "Advanced" },
-      { "name": "Redux", "level": "Intermediate" },
-      { "name": "Prisma", "level": "Intermediate" },
-      { "name": "Stripe", "level": "Intermediate" },
-      { "name": "Bkash Payment", "level": "Intermediate" },
       { "name": "Tailwind CSS", "level": "Advanced" },
-      { "name": "Shadcn UI", "level": "Advanced" }
+      { "name": "Shadcn UI", "level": "Advanced" },
+      { "name": "Stripe", "level": "Advanced" },
+      { "name": "bKash", "level": "Advanced" },
+      { "name": "Pathao", "level": "Advanced" },
+      { "name": "Steadfast", "level": "Advanced" },
+      { "name": "Redux", "level": "Intermediate" },
+      { "name": "Prisma", "level": "Intermediate" }
     ],
     "databases": [
       { "name": "PostgreSQL", "level": "Advanced" },
@@ -118,92 +169,107 @@
     "tools": [
       { "name": "VS Code", "level": "Advanced" },
       { "name": "Git & Git Bash", "level": "Advanced" },
+      { "name": "Vercel", "level": "Advanced" },
       { "name": "Postman", "level": "Intermediate" },
       { "name": "Visual Studio", "level": "Intermediate" },
+      { "name": "cPanel", "level": "Intermediate" },
+      { "name": "CyberPanel", "level": "Intermediate" },
       { "name": "Figma", "level": "Intermediate" }
     ],
-    "additional": {
-      "backendArchitecture": ["Sanctum Auth", "Spatie Role Permissions", "Queue Jobs", "Scheduler", "Real-time Messaging"],
-      "softSkills": ["Leadership", "Teamwork", "Adaptability", "Analytical thinking", "Decision making"],
-      "planning": ["SRS Documentation", "User Stories", "Project Timelines"],
-      "creative": ["Graphic design", "Photo & video editing", "Figma"],
-      "communication": ["English", "Bengali", "50+ WPM typing"]
-    }
+    "additional": [
+      { "title": "Backend Architecture", "items": ["Sanctum Auth", "Spatie Role Permissions", "Queue Jobs", "Scheduler", "Real-time Messaging", "Courier API", "Payment Gateway"] },
+      { "title": "Deployment & DevOps", "items": ["cPanel", "CyberPanel", "Vercel", "Server updates"] },
+      { "title": "Integrations", "items": ["Steadfast", "Pathao", "bKash", "Nagad"] },
+      { "title": "Problem Solving", "items": ["Decision making", "Analytical thinking"] },
+      { "title": "Planning & Analysis", "items": ["SRS Documentation", "User Stories", "Project Timelines"] },
+      { "title": "Professional Skills", "items": ["Leadership", "Teamwork", "Adaptability", "Confidential"] },
+      { "title": "Computer Science", "items": ["Data structures", "Algorithms", "Compiler basics"] },
+      { "title": "Software Related", "items": ["Software testing", "Data analysis"] },
+      { "title": "Creative Skills", "items": ["Graphic design", "Photo & video editing", "Figma"] },
+      { "title": "Communication", "items": ["English", "Bengali", "50+ WPM typing"] }
+    ]
   },
 
   "projects": [
     {
-      "id": 8,
-      "title": "Dr. Momita Healthcare",
-      "description": "Bilingual (English/Bangla) website for a doctor's chamber with services, a 4-step appointment booking flow, testimonials, and WhatsApp/phone/email/map contact. Designed and built entirely by me.",
-      "tech": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
-      "link": "https://drmomitahealthcare.vercel.app/",
-      "type": "client"
-    },
-    {
       "id": 1,
       "title": "SN Foundation (SNF)",
-      "description": "Orphan sponsorship management platform with recurring donation tracking and real-time messaging between sponsors and coordinators.",
-      "tech": ["Laravel", "Next.js", "TypeScript", "MySQL", "Real-time Messaging"],
+      "description": "Orphan sponsorship management with recurring donations and real-time messaging between sponsors and coordinators.",
+      "tags": ["Laravel", "Next.js", "TypeScript", "MySQL", "Real-time Messaging"],
       "link": "https://snfoundations.org/",
       "type": "client"
     },
     {
       "id": 2,
       "title": "Expro Welfare Foundation (EWF)",
-      "description": "Membership and pension package enrollment system with installment payment tracking and document management for a welfare organization.",
-      "tech": ["Laravel", "Next.js", "TypeScript", "MySQL"],
+      "description": "Membership and pension package enrollment with installment payment tracking and document management for a welfare organization.",
+      "tags": ["Laravel", "Next.js", "TypeScript", "MySQL"],
       "link": "https://ewfbd.org/",
       "type": "client"
     },
     {
-      "id": 3,
-      "title": "Info Strainer",
-      "description": "Desktop application built with C# for structured information validation and filtering.",
-      "tech": ["C#", "Visual Studio"],
-      "link": "https://github.com/kakon-aiubcse/info-strainer",
-      "type": "personal"
+      "id": 9,
+      "title": "Lukaz Shop",
+      "description": "Implemented UI updates, backend bug fixes, and new features across key application modules.",
+      "tags": ["UI updates", "Bug fixes", "New features"],
+      "link": "https://lukazshop.com/",
+      "type": "client"
     },
     {
-      "id": 4,
-      "title": "Booking Management App",
-      "description": "Web app for managing bookings and invoices with receipt generation, built with Next.js and Firebase.",
-      "tech": ["Next.js", "Firebase", "Firestore"],
-      "link": "https://bookingapppersonal.netlify.app/",
+      "id": 7,
+      "title": "Dr. Momita Healthcare",
+      "description": "Bilingual (English/Bangla) website for a doctor's chamber with services, a 4-step appointment booking flow, testimonials, and WhatsApp/phone/email/map contact. Designed and built entirely by me.",
+      "tags": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
+      "link": "https://drmomitahealthcare.vercel.app/",
+      "type": "client"
+    },
+    {
+      "id": 8,
+      "title": "KIK QR Card",
+      "description": "Modern QR scan-based web application for customizing, previewing, and purchasing digital business cards.",
+      "tags": ["Next.js", "TypeScript", "Tailwind CSS"],
+      "link": "https://kikqrcard.netlify.app/",
       "type": "personal"
     },
     {
       "id": 5,
       "title": "E-Shop Management",
-      "description": "Product buy/sell tracking and inventory management system with Express.js backend and Next.js frontend.",
-      "tech": ["Next.js", "Express.js", "Node.js"],
+      "description": "Product buy/sell tracking and inventory management system with an Express.js backend and Next.js frontend.",
+      "tags": ["Next.js", "Express.js", "Node.js"],
       "link": "https://github.com/kakon-aiubcse/Eshopmanagementweb",
+      "type": "personal"
+    },
+    {
+      "id": 3,
+      "title": "Info Strainer",
+      "description": "Desktop application built with C# for structured information validation and filtering.",
+      "tags": ["C#", "Visual Studio"],
+      "link": "https://github.com/kakon-aiubcse/info-strainer",
       "type": "personal"
     },
     {
       "id": 6,
       "title": "E-Commerce Project",
       "description": "Full e-commerce platform with Stripe payment integration and product management.",
-      "tech": ["React.js", "Stripe", "Node.js"],
+      "tags": ["React.js", "Stripe", "Node.js"],
       "link": "https://ecommerceproject-kikservercoder.netlify.app/",
       "type": "personal"
     },
     {
-      "id": 7,
-      "title": "KIK QR Card",
-      "description": "Modern QR scan-based web application for customizing, previewing, and purchasing digital business cards.",
-      "tech": ["Next.js", "TypeScript", "Tailwind CSS"],
-      "link": "https://kikqrcard.netlify.app/",
+      "id": 4,
+      "title": "Booking Management App",
+      "description": "Web app for managing bookings and invoices with receipt generation, built with Next.js and Firebase.",
+      "tags": ["Next.js", "Firebase", "Firestore"],
+      "link": "https://bookingapppersonal.netlify.app/",
       "type": "personal"
     }
   ],
 
   "faq": {
-    "whoAreYou": "__WHO__",
-    "currentJob": "I'm currently a Software Engineer at Softtech Solution Ltd (since September 2026), building e-commerce platforms with Laravel and Next.js. Total experience: 1.10+ years.",
-    "strengths": "My strongest areas are Laravel (backend architecture, API design, Sanctum auth, Spatie roles), Next.js/React for frontend, and MySQL/PostgreSQL for databases. I'm also comfortable with real-time features and payment gateway integrations (Stripe, Bkash).",
+    "currentJob": "I'm currently a Software Engineer at Softtech Solution Ltd (since September 2026), building e-commerce platforms with Laravel and Next.js, shipping features for live projects, deploying to cPanel, CyberPanel and Vercel, and integrating courier APIs (Steadfast, Pathao) and payment gateways (bKash, Nagad). Total experience: 1.10+ years.",
+    "strengths": "My strongest areas are Laravel (backend architecture, API design, Sanctum auth, Spatie roles, queues and schedulers), Next.js/React for frontend, and MySQL/PostgreSQL for databases. I'm also comfortable with real-time features, deployment, and payment/courier integrations (Stripe, bKash, Nagad, Steadfast, Pathao).",
     "availability": "I'm currently employed at Softtech Solution Ltd. Feel free to reach out via email at kakon.aiubcse@gmail.com for collaboration or opportunities.",
     "preferredStack": "I prefer Laravel + Next.js + TypeScript + PostgreSQL/MySQL as my primary stack for full-stack web development.",
-    "clientProjects": "Two of my major client projects are SN Foundation (orphan sponsorship platform) and Expro Welfare Foundation (membership & pension management system). Both are live and in production."
+    "clientProjects": "Live client work includes SN Foundation (orphan sponsorship platform), Expro Welfare Foundation (membership & pension management), Lukaz Shop (UI updates, backend fixes and new modules), and Dr. Momita Healthcare (bilingual doctor website with appointment booking)."
   }
 }

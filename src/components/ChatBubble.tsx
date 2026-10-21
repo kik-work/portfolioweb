@@ -1,4 +1,23 @@
 import React from "react";
+import {
+  ArrowUpRight,
+  Award,
+  Briefcase,
+  CalendarDays,
+  CodeXml,
+  FolderGit2,
+  Github,
+  Globe,
+  GraduationCap,
+  Layers,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
 /*  Payload types (exported so CVChatModal can use them)               */
@@ -7,48 +26,62 @@ export type SkillLevel = "Advanced" | "Intermediate" | "Basic";
 
 export interface SkillChip {
   name: string;
-  level: SkillLevel;
+  /** Omitted for unrated groups such as soft skills. */
+  level?: SkillLevel;
 }
 
-export interface TechStackPayload {
+interface PayloadBase {
+  /** Short lead-in sentence shown above the card(s). */
+  intro?: string;
+}
+
+export interface TechStackPayload extends PayloadBase {
   type: "techstack";
   sections: { label: string; items: SkillChip[] }[];
 }
 
-export interface ExperiencePayload {
+export interface ExperiencePayload extends PayloadBase {
   type: "experience";
   jobs: {
     role: string;
     company: string;
     period: string;
+    type?: string;
+    current?: boolean;
+    link?: string;
     details: string[];
   }[];
 }
 
-export interface EducationPayload {
+export interface EducationPayload extends PayloadBase {
   type: "education";
   entries: {
     degree: string;
-    university: string;
-    session: string;
+    institute: string;
+    level: string;
+    period: string;
     major: string;
-    cgpa: string;
+    location: string;
+    resultLabel: string;
+    score: string;
+    outOf: string;
   }[];
+  certificates?: { name: string; issuer: string; date: string }[];
 }
 
-export interface ProjectsPayload {
+export interface ProjectsPayload extends PayloadBase {
   type: "projects";
   items: {
     id?: number;
     title: string;
     description: string;
-    tech: string[];
+    tags: string[];
     link: string;
     type: string;
   }[];
 }
 
-export interface ContactPayload {
+export interface ContactPayload extends PayloadBase {
   type: "contact";
   name: string;
   email: string;
@@ -62,7 +95,7 @@ export interface WelcomePayload {
   type: "welcome";
 }
 
-export interface WhoAmIPayload {
+export interface WhoAmIPayload extends PayloadBase {
   type: "whoami";
   name: string;
   title: string;
@@ -85,20 +118,49 @@ export type BotPayload =
   | ContactPayload;
 
 /* ------------------------------------------------------------------ */
-/*  Helpers                                                             */
+/*  Shared bits                                                         */
 /* ------------------------------------------------------------------ */
+const card = "rounded-2xl bg-card p-4 ring-1 ring-hairline";
+const eyebrow = "text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground";
+const pill = "inline-flex items-center gap-1 rounded-full bg-background px-2.5 py-1 text-xs font-medium ring-1 ring-hairline";
+const linkPill = `${pill} text-foreground transition-colors hover:bg-secondary`;
+
+const levelDot: Record<SkillLevel, string> = {
+  Advanced: "bg-success",
+  Intermediate: "bg-link",
+  Basic: "bg-muted-foreground/50",
+};
+
+function host(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+/** Spectrum-ringed assistant avatar, shared with the typing indicator. */
+export function BotAvatar({ className = "size-7" }: { className?: string }) {
+  return (
+    <span className={cn("relative mt-0.5 flex shrink-0 overflow-hidden rounded-full p-[1.5px]", className)}>
+      <span aria-hidden="true" className="spectrum-glow absolute -inset-1/2" />
+      <span className="relative flex size-full items-center justify-center rounded-full bg-background text-foreground">
+        <Sparkles className="size-[55%]" aria-hidden="true" />
+      </span>
+    </span>
+  );
+}
 
 function linkify(text: string): React.ReactNode {
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-  const parts = text.split(urlRegex);
-  return parts.map((part, i) =>
-    urlRegex.test(part) ? (
+  // split() with a capture group puts the URLs at the odd indexes.
+  return text.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
+    i % 2 === 1 ? (
       <a
         key={i}
         href={part}
         target="_blank"
         rel="noopener noreferrer"
-        className="underline text-link break-all hover:opacity-75"
+        className="break-all text-link underline underline-offset-2 hover:opacity-75"
       >
         {part}
       </a>
@@ -108,166 +170,191 @@ function linkify(text: string): React.ReactNode {
   );
 }
 
-const levelColor: Record<SkillLevel, string> = {
-  Advanced:     "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
-  Intermediate: "bg-sky-500/15 text-sky-700 dark:text-sky-300",
-  Basic:        "bg-muted text-muted-foreground",
-};
-
 /* ------------------------------------------------------------------ */
 /*  Structured renderers                                               */
 /* ------------------------------------------------------------------ */
+const WELCOME_PROMPTS: { icon: LucideIcon; label: string; ask: string }[] = [
+  { icon: CodeXml, label: "Skills", ask: "Tell me about skills" },
+  { icon: Briefcase, label: "Experience", ask: "Work experience" },
+  { icon: FolderGit2, label: "Projects", ask: "Show projects" },
+  { icon: GraduationCap, label: "Education", ask: "Education" },
+  { icon: Layers, label: "Tech stack", ask: "Tech stack" },
+  { icon: Mail, label: "Contact", ask: "Contact" },
+];
 
-function WelcomeCard() {
+function WelcomeCard({ onAsk }: { onAsk?: (q: string) => void }) {
   return (
-    <div className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-3">
-      {/* Avatar + name */}
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-link/10 text-lg">
-          🤖
-        </div>
-        <div>
-          <p className="font-semibold text-sm leading-tight">CV Assistant</p>
-          <p className="text-[11px] text-link font-medium">Kakon's Portfolio Bot</p>
-        </div>
-      </div>
-
-      {/* Greeting */}
-      <p className="text-xs leading-relaxed opacity-80">
-        Hi! 👋 Ask me anything about Kakon's experience, skills, or projects.
-      </p>
-
-      {/* Quick topics */}
-      <div>
-        <p className="text-[10px] font-semibold uppercase tracking-widest opacity-40 mb-1.5">
-          Quick topics
+    <div className="space-y-3">
+      <div className={card}>
+        <p className="text-[1.0625rem] font-semibold tracking-[-0.02em]">
+          Hi, I'm <span className="text-spectrum">Kakon's CV assistant.</span>
         </p>
-        <div className="flex flex-wrap gap-1.5">
-          {["Experience", "Skills", "Projects", "Education", "Contact"].map((t) => (
-            <span
-              key={t}
-              className="rounded-full bg-link/10 text-link px-2.5 py-0.5 text-[11px] font-medium"
-            >
-              {t}
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+          Ask about skills, projects, experience, education, or how to get in touch. Pick a topic to start.
+        </p>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {WELCOME_PROMPTS.map(({ icon: Icon, label, ask }) => (
+          <button
+            key={label}
+            type="button"
+            onClick={() => onAsk?.(ask)}
+            className="group flex items-center gap-2.5 rounded-xl bg-card px-3 py-2.5 text-left text-sm font-medium ring-1 ring-hairline transition-[background-color,scale] hover:bg-secondary active:scale-[0.97]"
+          >
+            <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-link/10 text-link transition-transform duration-300 ease-spring group-hover:scale-110">
+              <Icon className="size-4" aria-hidden="true" />
             </span>
-          ))}
-        </div>
+            {label}
+          </button>
+        ))}
       </div>
     </div>
   );
 }
 
 function WhoAmICard({ payload }: { payload: WhoAmIPayload }) {
+  const initials = payload.name
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("");
   return (
-    <div className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-3">
-      {/* Name + title */}
-      <div className="space-y-0.5">
-        <p className="font-bold text-base leading-tight">{payload.name}</p>
-        <p className="text-xs text-link font-medium">{payload.title}</p>
-        <p className="text-[11px] text-muted-foreground">📍 {payload.location}</p>
-      </div>
-
-      {/* Summary */}
-      <p className="text-xs leading-relaxed opacity-80">{payload.summary}</p>
-
-      {/* Specialises in */}
-      <div>
-        <p className="text-[10px] font-semibold uppercase tracking-widest opacity-40 mb-1.5">
-          Specialises in
+    <div className="overflow-hidden rounded-2xl bg-card ring-1 ring-hairline">
+      <div aria-hidden="true" className="h-14 bg-[image:var(--spectrum)]" />
+      <div className="px-4 pb-4">
+        <span className="-mt-7 flex size-14 items-center justify-center rounded-full bg-foreground text-lg font-bold tracking-tight text-background ring-4 ring-card">
+          {initials}
+        </span>
+        <p className="mt-2.5 text-[1.0625rem] leading-tight font-semibold tracking-[-0.02em]">{payload.name}</p>
+        <p className="mt-0.5 text-sm font-medium text-link">{payload.title}</p>
+        <p className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+          <span className="inline-flex items-center gap-1">
+            <MapPin className="size-3.5" aria-hidden="true" />
+            {payload.location}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Briefcase className="size-3.5" aria-hidden="true" />
+            {payload.company}
+          </span>
         </p>
-        <div className="flex flex-wrap gap-1.5">
+
+        <p className="mt-3 text-[0.8125rem] leading-relaxed text-foreground/80">{payload.summary}</p>
+
+        <div className="mt-3 flex flex-wrap gap-1.5">
           {payload.highlights.map((h) => (
-            <span
-              key={h}
-              className="rounded-full bg-link/10 text-link px-2.5 py-0.5 text-[11px] font-medium"
-            >
+            <span key={h} className="rounded-full bg-link/10 px-2.5 py-1 text-xs font-medium text-link">
               {h}
             </span>
           ))}
         </div>
-      </div>
 
-      {/* Links */}
-      <div className="flex flex-wrap gap-2 pt-0.5">
-        <a
-          href={`mailto:${payload.email}`}
-          className="text-[11px] text-link underline hover:opacity-75"
-        >
-          📧 {payload.email}
-        </a>
-        <a
-          href={payload.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[11px] text-link underline hover:opacity-75"
-        >
-          🐙 GitHub
-        </a>
-        <a
-          href={payload.portfolio}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[11px] text-link underline hover:opacity-75"
-        >
-          🌐 Portfolio
-        </a>
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          <a href={`mailto:${payload.email}`} className={linkPill}>
+            <Mail className="size-3.5" aria-hidden="true" />
+            Email
+          </a>
+          <a href={payload.github} target="_blank" rel="noopener noreferrer" className={linkPill}>
+            <Github className="size-3.5" aria-hidden="true" />
+            GitHub
+          </a>
+          <a href={payload.portfolio} target="_blank" rel="noopener noreferrer" className={linkPill}>
+            <Globe className="size-3.5" aria-hidden="true" />
+            Portfolio
+          </a>
+        </div>
       </div>
     </div>
   );
 }
 
 function TechStackCard({ payload }: { payload: TechStackPayload }) {
+  const rated = payload.sections.some((s) => s.items.some((i) => i.level));
   return (
-    <div className="space-y-4">
+    <div className="space-y-2.5">
       {payload.sections.map((section) => (
-        <div key={section.label}>
-          <p className="text-[11px] font-semibold uppercase tracking-widest opacity-50 mb-2">
-            {section.label}
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {section.items.map((item) => (
-              <span
-                key={item.name}
-                className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${levelColor[item.level]}`}
-              >
-                {item.name}
-                <span className="opacity-50 text-[10px] font-normal">{item.level[0]}</span>
-              </span>
-            ))}
+        <section key={section.label} className={card}>
+          <div className="mb-2.5 flex items-center justify-between">
+            <h4 className={eyebrow}>{section.label}</h4>
+            <span className="text-[11px] font-medium text-muted-foreground tabular-nums">{section.items.length}</span>
           </div>
-        </div>
+          <ul className="flex flex-wrap gap-1.5">
+            {section.items.map((item) => (
+              <li key={item.name} className={pill} title={item.level}>
+                {item.level && (
+                  <span aria-hidden="true" className={`size-1.5 rounded-full ${levelDot[item.level]}`} />
+                )}
+                {item.name}
+                {item.level && <span className="sr-only"> ({item.level})</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
       ))}
-      <p className="text-[10px] opacity-40 pt-1">A = Advanced · I = Intermediate · B = Basic</p>
+      {rated && (
+        <p className="flex flex-wrap items-center gap-x-3.5 gap-y-1 px-1 text-[11px] text-muted-foreground">
+          {(Object.keys(levelDot) as SkillLevel[]).map((level) => (
+            <span key={level} className="inline-flex items-center gap-1.5">
+              <span aria-hidden="true" className={`size-1.5 rounded-full ${levelDot[level]}`} />
+              {level}
+            </span>
+          ))}
+        </p>
+      )}
     </div>
   );
 }
 
 function ExperienceCard({ payload }: { payload: ExperiencePayload }) {
   return (
-    <div className="space-y-3">
-      {payload.jobs.map((job, i) => (
-        <div
-          key={i}
-          className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-2"
-        >
-          <div className="flex items-start justify-between gap-2 flex-wrap">
-            <div>
-              <p className="font-semibold text-sm leading-tight">{job.role}</p>
-              <p className="text-xs text-link font-medium mt-0.5">{job.company}</p>
+    <div className="space-y-2.5">
+      {payload.jobs.map((job) => (
+        <article key={`${job.company}-${job.period}`} className={card}>
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h4 className="text-[0.9375rem] leading-snug font-semibold tracking-[-0.01em]">{job.role}</h4>
+              {job.link ? (
+                <a
+                  href={job.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group mt-0.5 inline-flex items-center gap-0.5 text-sm font-medium text-violet underline-offset-4 hover:underline"
+                >
+                  {job.company}
+                  <ArrowUpRight
+                    className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    aria-hidden="true"
+                  />
+                </a>
+              ) : (
+                <p className="mt-0.5 text-sm font-medium text-violet">{job.company}</p>
+              )}
             </div>
-            <span className="text-[10px] bg-muted text-muted-foreground rounded-full px-2 py-0.5 shrink-0 font-medium">
+            {job.current && (
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-success/12 px-2 py-0.5 text-[11px] font-semibold text-success">
+                <span aria-hidden="true" className="live-dot size-1.5 rounded-full bg-success" />
+                Current
+              </span>
+            )}
+          </div>
+
+          <p className="mt-2.5 flex flex-wrap items-center gap-1.5">
+            <span className={pill}>
+              <CalendarDays className="size-3.5 text-muted-foreground" aria-hidden="true" />
               {job.period}
             </span>
-          </div>
-          <ul className="space-y-1">
-            {job.details.map((d, di) => (
-              <li key={di} className="flex gap-2 items-start text-xs opacity-80 leading-snug">
-                <span className="mt-1.5 h-1 w-1 rounded-full bg-current shrink-0 opacity-60" />
-                {d}
+            {job.type && <span className={pill}>{job.type}</span>}
+          </p>
+
+          <ul className="mt-3 grid gap-1.5 text-[0.8125rem] leading-snug text-foreground/80">
+            {job.details.map((d) => (
+              <li key={d} className="flex gap-2.5">
+                <span aria-hidden="true" className="mt-[0.45em] size-1.5 shrink-0 rounded-full bg-violet" />
+                <span>{d}</span>
               </li>
             ))}
           </ul>
-        </div>
+        </article>
       ))}
     </div>
   );
@@ -275,28 +362,50 @@ function ExperienceCard({ payload }: { payload: ExperiencePayload }) {
 
 function EducationCard({ payload }: { payload: EducationPayload }) {
   return (
-    <div className="space-y-3">
-      {payload.entries.map((e, i) => (
-        <div
-          key={i}
-          className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-2"
-        >
-          <div className="flex items-start justify-between gap-2 flex-wrap">
-            <p className="font-semibold text-sm leading-tight">{e.degree}</p>
-            <span className="text-[10px] bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 rounded-full px-2 py-0.5 shrink-0 font-medium">
-              CGPA {e.cgpa}
-            </span>
+    <div className="space-y-2.5">
+      {payload.entries.map((e) => (
+        <article key={e.degree} className={`${card} flex items-end justify-between gap-3`}>
+          <div className="min-w-0">
+            <p className="text-xs font-medium text-muted-foreground tabular-nums">
+              <span className="font-semibold text-violet">{e.level}</span> · {e.period}
+            </p>
+            <h4 className="mt-1 text-[0.9375rem] leading-snug font-semibold tracking-[-0.01em]">{e.degree}</h4>
+            <p className="mt-0.5 text-[0.8125rem] text-foreground/80">{e.institute}</p>
+            <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-1">
+                <GraduationCap className="size-3.5" aria-hidden="true" />
+                {e.major}
+              </span>
+              <span className="inline-flex items-center gap-1">
+                <MapPin className="size-3.5" aria-hidden="true" />
+                {e.location}
+              </span>
+            </p>
           </div>
-          <p className="text-xs text-link font-medium">{e.university}</p>
-          <div className="flex flex-wrap gap-2 pt-1">
-            <span className="rounded-full bg-muted text-muted-foreground px-2 py-0.5 text-[11px] font-medium">
-              📚 {e.major}
+          <p className="shrink-0 text-right">
+            <span className="block text-[11px] font-medium text-muted-foreground">{e.resultLabel}</span>
+            <span className="flex items-baseline whitespace-nowrap">
+              <span className="text-spectrum pr-[0.06em] text-[1.75rem] leading-none font-bold tracking-[-0.04em]">
+                {e.score}
+              </span>
+              <span className="ml-0.5 text-xs font-medium text-muted-foreground">/ {e.outOf}</span>
             </span>
-            <span className="rounded-full bg-muted text-muted-foreground px-2 py-0.5 text-[11px] font-medium">
-              📅 {e.session}
-            </span>
+          </p>
+        </article>
+      ))}
+
+      {payload.certificates?.map((c) => (
+        <article key={c.name} className={`${card} flex items-center gap-3`}>
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-violet/10 text-violet">
+            <Award className="size-[1.125rem]" aria-hidden="true" />
+          </span>
+          <div className="min-w-0">
+            <h4 className="text-sm leading-snug font-semibold tracking-[-0.01em]">{c.name}</h4>
+            <p className="text-xs text-muted-foreground">
+              {c.issuer} · {c.date}
+            </p>
           </div>
-        </div>
+        </article>
       ))}
     </div>
   );
@@ -304,77 +413,81 @@ function EducationCard({ payload }: { payload: EducationPayload }) {
 
 function ProjectsCard({ payload }: { payload: ProjectsPayload }) {
   return (
-    <div className="space-y-3">
-      {payload.items.map((p, i) => (
-        <div
-          key={i}
-          className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-1.5"
-        >
-          <div className="flex items-center justify-between gap-2 flex-wrap">
-            <span className="font-semibold text-sm leading-tight">{p.title}</span>
+    <div className="space-y-2.5">
+      {payload.items.map((p) => (
+        <article key={p.title} className={card}>
+          <div className="flex items-start justify-between gap-3">
+            <h4 className="text-[0.9375rem] leading-snug font-semibold tracking-[-0.01em]">{p.title}</h4>
             <span
-              className={`rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${
-                p.type === "client"
-                  ? "bg-violet-500/15 text-violet-600 dark:text-violet-300"
-                  : "bg-sky-500/15 text-sky-600 dark:text-sky-300"
+              className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-[0.06em] uppercase ${
+                p.type === "client" ? "bg-violet/12 text-violet" : "bg-link/10 text-link"
               }`}
             >
               {p.type}
             </span>
           </div>
-          <p className="text-xs opacity-70 leading-snug">{p.description}</p>
-          <div className="flex flex-wrap gap-1 pt-0.5">
-            {p.tech.map((t) => (
-              <span
-                key={t}
-                className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
+          <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted-foreground">{p.description}</p>
+          {p.tags.length > 0 && (
+            <ul className="mt-2.5 flex flex-wrap gap-1.5">
+              {p.tags.map((t) => (
+                <li key={t} className={pill}>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          )}
           <a
             href={p.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block text-xs text-link underline hover:opacity-75 break-all pt-0.5"
+            className="group mt-3 inline-flex items-center gap-0.5 text-sm font-medium text-violet underline-offset-4 hover:underline"
           >
-            {p.link}
+            {host(p.link)}
+            <ArrowUpRight
+              className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              aria-hidden="true"
+            />
           </a>
-        </div>
+        </article>
       ))}
     </div>
   );
 }
 
 function ContactCard({ payload }: { payload: ContactPayload }) {
-  const rows = [
-    { icon: "📧", label: "Email",     value: payload.email,     href: `mailto:${payload.email}` },
-    { icon: "📞", label: "Phone",     value: payload.phone,     href: `tel:${payload.phone}` },
-    { icon: "💼", label: "LinkedIn",  value: payload.linkedin,  href: payload.linkedin },
-    { icon: "🐙", label: "GitHub",    value: payload.github,    href: payload.github },
-    { icon: "🌐", label: "Portfolio", value: payload.portfolio, href: payload.portfolio },
+  const rows: { icon: LucideIcon; label: string; value: string; href: string }[] = [
+    { icon: Mail, label: "Email", value: payload.email, href: `mailto:${payload.email}` },
+    { icon: Phone, label: "Phone", value: payload.phone, href: `tel:${payload.phone.replace(/\s/g, "")}` },
+    { icon: Linkedin, label: "LinkedIn", value: "Khairul Islam Kakon", href: payload.linkedin },
+    { icon: Github, label: "GitHub", value: payload.github.replace(/^https?:\/\/(www\.)?/, ""), href: payload.github },
+    { icon: Globe, label: "Portfolio", value: host(payload.portfolio), href: payload.portfolio },
   ];
   return (
-    <div className="rounded-2xl bg-background p-3 ring-1 ring-hairline space-y-2">
-      <p className="font-semibold text-sm">📬 {payload.name}</p>
-      <div className="space-y-1.5">
-        {rows.map((r) => (
-          <div key={r.label} className="flex items-center gap-2 text-xs">
-            <span className="shrink-0 w-20 opacity-50 font-medium">
-              {r.icon} {r.label}
-            </span>
+    <div className={`${card} p-2`}>
+      <ul>
+        {rows.map(({ icon: Icon, label, value, href }) => (
+          <li key={label}>
             <a
-              href={r.href}
-              target="_blank"
+              href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
               rel="noopener noreferrer"
-              className="text-link underline hover:opacity-75 break-all"
+              className="group flex items-center gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-background"
             >
-              {r.value}
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-link/10 text-link">
+                <Icon className="size-[1.125rem]" aria-hidden="true" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[11px] font-medium text-muted-foreground">{label}</span>
+                <span className="block truncate text-sm font-medium">{value}</span>
+              </span>
+              <ArrowUpRight
+                className="size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100"
+                aria-hidden="true"
+              />
             </a>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }
@@ -390,7 +503,7 @@ function renderPlainText(message: string): React.ReactNode {
   const flushBullets = () => {
     if (bulletBuffer.length > 0) {
       nodes.push(
-        <ul key={`ul-${nodes.length}`} className="space-y-1 ml-0.5 mt-1">
+        <ul key={`ul-${nodes.length}`} className="mt-1 space-y-1">
           {bulletBuffer}
         </ul>
       );
@@ -399,13 +512,11 @@ function renderPlainText(message: string): React.ReactNode {
   };
 
   lines.forEach((line, idx) => {
-    const isBullet = line.startsWith("  •") || line.startsWith("• ");
-    if (isBullet) {
-      const text = line.replace(/^\s*•\s*/, "");
+    if (/^\s*•\s/.test(line)) {
       bulletBuffer.push(
-        <li key={idx} className="flex gap-2 items-start leading-snug">
-          <span className="mt-1.5 h-1 w-1 rounded-full bg-current shrink-0 opacity-60" />
-          <span>{linkify(text)}</span>
+        <li key={idx} className="flex items-start gap-2.5 leading-snug">
+          <span aria-hidden="true" className="mt-[0.5em] size-1.5 shrink-0 rounded-full bg-link" />
+          <span>{linkify(line.replace(/^\s*•\s*/, ""))}</span>
         </li>
       );
     } else if (line.trim() === "") {
@@ -414,7 +525,7 @@ function renderPlainText(message: string): React.ReactNode {
     } else {
       flushBullets();
       nodes.push(
-        <p key={idx} className="leading-snug">
+        <p key={idx} className="leading-relaxed">
           {linkify(line)}
         </p>
       );
@@ -428,10 +539,10 @@ function renderPlainText(message: string): React.ReactNode {
 /* ------------------------------------------------------------------ */
 /*  Dispatch structured payloads                                        */
 /* ------------------------------------------------------------------ */
-function renderPayload(payload: BotPayload): React.ReactNode {
+function renderPayload(payload: BotPayload, onAsk?: (q: string) => void): React.ReactNode {
   switch (payload.type) {
     case "welcome":
-      return <WelcomeCard />;
+      return <WelcomeCard onAsk={onAsk} />;
     case "whoami":
       return <WhoAmICard payload={payload} />;
     case "techstack":
@@ -455,29 +566,38 @@ function renderPayload(payload: BotPayload): React.ReactNode {
 interface ChatBubbleProps {
   message: string | BotPayload;
   sender: "user" | "bot";
+  /** Lets cards (e.g. the welcome topics) send a question on the visitor's behalf. */
+  onAsk?: (question: string) => void;
 }
 
-export const ChatBubble: React.FC<ChatBubbleProps> = ({ message, sender }) => {
-  const isBot = sender === "bot";
+export const ChatBubble: React.FC<ChatBubbleProps> = ({ message, sender, onAsk }) => {
+  if (sender === "user") {
+    return (
+      <div className="animate-rise-in mb-4 flex justify-end">
+        <p className="max-w-[85%] rounded-[1.25rem] rounded-br-md bg-[image:linear-gradient(135deg,var(--primary),#6e3cf0)] px-4 py-2.5 text-sm leading-snug break-words text-white shadow-sm">
+          {message as string}
+        </p>
+      </div>
+    );
+  }
+
+  const payload = typeof message === "string" ? null : message;
+  const intro = payload && "intro" in payload ? payload.intro : undefined;
 
   return (
-    <div className={`flex ${isBot ? "justify-start" : "justify-end"} mb-3`}>
-      <div
-        className={`
-          max-w-[90%] px-4 py-3 rounded-[1.375rem] text-sm
-          ${
-            isBot
-              ? "bg-card text-foreground rounded-bl-md"
-              : "bg-primary text-primary-foreground rounded-br-md"
-          }
-        `}
-      >
-        {isBot
-          ? typeof message === "string"
-            ? renderPlainText(message)
-            : renderPayload(message as BotPayload)
-          : <p className="leading-snug">{message as string}</p>
-        }
+    <div className="animate-rise-in mb-4 flex items-start gap-2.5">
+      <BotAvatar />
+      <div className="min-w-0 flex-1">
+        {payload ? (
+          <>
+            {intro && <p className="mb-2 px-0.5 text-sm leading-snug text-foreground/80">{intro}</p>}
+            {renderPayload(payload, onAsk)}
+          </>
+        ) : (
+          <div className="w-fit max-w-full rounded-[1.25rem] rounded-tl-md bg-card px-3.5 py-2.5 text-sm ring-1 ring-hairline">
+            {renderPlainText(message as string)}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -70,8 +70,8 @@ const socials = [
 
 const stats = [
   { label: "Experience", value: "1.10+", caption: "Years building production software" },
-  { label: "Teams", value: "5", caption: "Companies I've shipped with" },
-  { label: "Projects", value: "9", caption: "Live builds in the showcase" },
+  { label: "Teams", value: "05", caption: "Companies I've shipped with" },
+  { label: "Projects", value: "09", caption: "Live builds in the showcase" },
   { label: "Education", value: "3.66", caption: "CGPA in CSE at AIUB" },
 ];
 

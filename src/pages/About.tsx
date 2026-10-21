@@ -67,7 +67,7 @@ const ACTIVITIES: ActivityItem[] = [
     role: "Wicket Keeper Batsman & Vice Captain (2024)",
     image: "/cricket1-800.webp",
     srcSet: "/cricket1-480.webp 480w, /cricket1-800.webp 800w",
-    description: "Played 3 APL seasons, playing for CS Cougars and ending up playing for CS Chasers team.",
+    description: "Played 3 APL seasons, played for CS Cougars and ended up playing for CS Chasers team.",
   },
   {
     title: "AIUB Football World Cup 2023",
