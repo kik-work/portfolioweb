@@ -27,6 +27,20 @@
     },
     {
       "role": "Junior Software Engineer",
+      "company": "Tech Nex Solve",
+      "period": "Aug 2026 – Present",
+      "type": "Contract",
+      "current": true,
+      "link": "https://www.technexsolve.com/",
+      "details": [
+        "Work on software and technology projects on a contract basis",
+        "Take on modules and features assigned per project requirements",
+        "Deliver assigned work end to end for client projects",
+        "Work remotely and join project meetings when required"
+      ]
+    },
+    {
+      "role": "Junior Software Engineer",
       "company": "Nidus Lab",
       "period": "Jan 2026 – Aug 2026",
       "type": "Full Time",
@@ -266,7 +280,7 @@
   ],
 
   "faq": {
-    "currentJob": "I'm currently a Software Engineer at Softtech Solution Ltd (since September 2026), building e-commerce platforms with Laravel and Next.js, shipping features for live projects, deploying to cPanel, CyberPanel and Vercel, and integrating courier APIs (Steadfast, Pathao) and payment gateways (bKash, Nagad). Total experience: 1.10+ years.",
+    "currentJob": "I'm currently a Software Engineer at Softtech Solution Ltd (since September 2026), building e-commerce platforms with Laravel and Next.js, shipping features for live projects, deploying to cPanel, CyberPanel and Vercel, and integrating courier APIs (Steadfast, Pathao) and payment gateways (bKash, Nagad). I also work as a Junior Software Engineer at Tech Nex Solve on a contract basis (since August 2026). Total experience: 1.10+ years.",
     "strengths": "My strongest areas are Laravel (backend architecture, API design, Sanctum auth, Spatie roles, queues and schedulers), Next.js/React for frontend, and MySQL/PostgreSQL for databases. I'm also comfortable with real-time features, deployment, and payment/courier integrations (Stripe, bKash, Nagad, Steadfast, Pathao).",
     "availability": "I'm currently employed at Softtech Solution Ltd. Feel free to reach out via email at kakon.aiubcse@gmail.com for collaboration or opportunities.",
     "preferredStack": "I prefer Laravel + Next.js + TypeScript + PostgreSQL/MySQL as my primary stack for full-stack web development.",

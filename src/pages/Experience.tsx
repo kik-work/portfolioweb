@@ -19,6 +19,20 @@ const experiences = [
   },
   {
     role: "Jr. Software Engineer",
+    company: "Tech Nex Solve",
+    period: "Aug 2026 - Present",
+    highlights: [
+      "Work on software and technology projects on a contract basis.",
+      "Take on modules and features assigned per project requirements.",
+      "Deliver assigned work end to end for client projects.",
+      "Work remotely and join project meetings when required.",
+    ],
+    logo: "/technexsolve.png",
+    link: "https://www.technexsolve.com/",
+    type: "Contract",
+  },
+  {
+    role: "Jr. Software Engineer",
     company: "Nidus Lab",
     period: "Jan 2026 - Aug 2026",
     highlights: [
